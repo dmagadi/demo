@@ -3,7 +3,9 @@
  * and open the template in the editor.
  */
 package oop;
+
 import java.util.Scanner;
+
 /**
  *
  * @author dmagadi
@@ -33,7 +35,7 @@ class BicycleDemo {
             }else{
                 System.out.println("Bike 2 is winning in lap " + lap );
             }
-            //String input = new Scanner(System.in).nextLine();
+            String input = new Scanner(System.in).nextLine();
         }
 
     }
