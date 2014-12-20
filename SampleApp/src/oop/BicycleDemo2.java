@@ -34,16 +34,13 @@ class BicycleDemo2 {
         Integer num = new Scanner(System.in).nextInt();
         
         for(int i = 0 ; i < num ; i ++){
-            Bicycle  bike = new Bicycle();
+            Bicycle  bike = new Bicycle(i+1);
             bicycles.add(bike);
         }
         
         System.out.println("Enter the number of laps you want in the race? ");
         
         Integer laps = new Scanner(System.in).nextInt();
-  
-
-        
         
         
         for(int lap = 1 ; lap <= laps; lap++ ){
@@ -58,18 +55,24 @@ class BicycleDemo2 {
                     winningBike = bike;
                 }else{
                     // compare winningBike and the current bike if current bike is winning set the current bike to winningBike
+                    if(bike.compare(winningBike) > 0){
+                        winningBike = bike;
+                    }
                 }
+             
                 
             }
-            
+            System.out.print("Winning bike for the lap is "  );
+                winningBike.printId();
             // get the winning bikes id and print that bike with that id won the race
             
+                
             String input = new Scanner(System.in).nextLine();
         }
 
     }
     
     private static int getRandomSpeed(){
-        return (int)(Math.random() * 10);
+        return (int)(Math.random() * 100);
     }
 }

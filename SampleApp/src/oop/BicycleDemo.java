@@ -15,8 +15,8 @@ class BicycleDemo {
 
         // Create two different 
         // Bicycle objects
-        Bicycle bike1 = new Bicycle();
-        Bicycle bike2 = new Bicycle();
+        Bicycle bike1 = new Bicycle(1);
+        Bicycle bike2 = new Bicycle(2);
 
         
         
