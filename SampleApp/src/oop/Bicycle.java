@@ -9,6 +9,11 @@ package oop;
  * @author dmagadi
  */
 class Bicycle {
+    
+    public  static int NUMBER_OF_INSTANCES = 0;
+    
+    
+    
     private int bikeId = -1 ;
     
     private int cadence = 0;
@@ -19,7 +24,7 @@ class Bicycle {
     }
 
     public Bicycle(int bikeId) {
-        
+        System.out.println("Number of instances " + ++NUMBER_OF_INSTANCES);
         if(bikeId <= 0 ){
             throw new RuntimeException("Need valid bike id");
         }
@@ -47,11 +52,14 @@ class Bicycle {
          speed = speed + increment;   
     }
 
-    void applyBrakes(int decrement) {
+    void applyBrakes(final int decrement) {
          speed = speed - decrement;
+         
+         
+         
     }
     
-    public int compare(Bicycle anotherBike){
+    public int compare( Bicycle anotherBike){
         return this.getSpeed() - anotherBike.getSpeed();
     }
 

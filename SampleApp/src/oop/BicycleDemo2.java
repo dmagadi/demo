@@ -13,6 +13,10 @@ import java.util.Scanner;
  */
 class BicycleDemo2 {
     public static void main(String[] args) {
+        
+        
+        
+                
 
         // Create two different 
         // Bicycle objects
@@ -49,6 +53,9 @@ class BicycleDemo2 {
             Bicycle  winningBike = null;
             
             for(Bicycle bike : bicycles){
+                
+                
+                
                 bike.speedUp(getRandomSpeed());
                 bike.printStates();
                 if(winningBike == null){
