@@ -9,11 +9,12 @@ package com.google.godil.aamir1;
  *
  * @author Aamir
  */
-public class ContactDemo {
+public class Test {
     
     public static void main(String[] args) {
         
-        System.out.println("ContactDemo");
+        Contact Aslam = new Contact("Aslam", "Godil", "5302632478", "9167835816", "5302733377", "5410", "Via Milano Ct.", "Granite Bay", "CA", 95746);
+            Aslam.printContact();
         
     }
     
