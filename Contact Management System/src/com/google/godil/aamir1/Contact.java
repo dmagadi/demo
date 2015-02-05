@@ -51,20 +51,12 @@ public class Contact {
         this.work = work;
     }
 
-    public int getHouse_number() {
-        return house_number;
+    public String getAddress() {
+        return address;
     }
 
-    public void setHouse_number(int house_number) {
-        this.house_number = house_number;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCity() {
@@ -88,11 +80,11 @@ public class Contact {
     }
 
     public void setZipcode(String zipCode) throws ValidationException {
-        
-        if(!isFormatted(zipCode)){
+
+        if (!isFormatted(zipCode)) {
             throw new ValidationException("Zip code not formatted correctly");
         }
-        
+
         this.zipcode = zipCode;
     }
 
@@ -101,40 +93,36 @@ public class Contact {
     private String cell;
     private String home;
     private String work;
-    private int house_number;
-    private String street;
+    private String address;
     private String city;
     private String state;
     private String zipcode;
 
-    public Contact(String first_name, String last_name, String cell, String home, 
-            String work, int house_number, String street, String city, 
+    public Contact(String first_name, String last_name, String cell, String home,
+            String work, String address, String city,
             String state, String zipcode) throws ValidationException {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.cell = cell;
-        this.home = home;
-        this.work = work;
-        this.house_number = house_number;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        //this.zipcode = zipcode;
-        
+        setFirst_name(first_name);
+        setLast_name(last_name);
+        setCell(cell);
+        setHome(home);
+        setWork(work);
+        setAddress(address);
+        setCity(city);
+        setState(state);
         setZipcode(zipcode);
-        
     }
 
     void printContact() {
 
-        System.out.println(first_name + " " + last_name + "\n Cell: " + cell + "\n Home: " + home + "\n Work: " + work);
-        System.out.println(house_number + " " + street + "\n" + city + "," + state + "," + zipcode);
+        System.out.println(first_name + " " + last_name + "\n Cell: " + cell
+                + "\n Home: " + home + "\n Work: " + work);
+        System.out.println(address + "\n" + city + "," + state + "," + zipcode);
 
     }
 
     private boolean isFormatted(String zipCode) {
-        
-        if(zipCode == null || zipCode.isEmpty() || zipCode.length() != 10){
+
+        if (zipCode == null || zipCode.isEmpty() || zipCode.length() > 10) {
             return false;
         }
         return true;

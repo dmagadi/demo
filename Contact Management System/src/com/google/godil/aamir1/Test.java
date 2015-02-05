@@ -16,7 +16,8 @@ public class Test {
         Contact aslam;
         try {
             aslam = new Contact("Aslam", "Godil", "5302632478", "9167835816",
-                    "5302733377", 5410, "Via Milano Ct.", "Granite Bay", "CA", "95746");
+                    "5302733377", "5410 Via Milano Ct.", "Granite Bay ", "CA ", 
+                    "95746");
             
             
             aslam.printContact();
