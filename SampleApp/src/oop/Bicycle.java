@@ -8,7 +8,7 @@ package oop;
  *
  * @author dmagadi
  */
-class Bicycle {
+public class Bicycle {
     
     public  static int NUMBER_OF_INSTANCES = 0;
     

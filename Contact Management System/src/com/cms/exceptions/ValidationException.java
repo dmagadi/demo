@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.godil.aamir1;
+package com.cms.exceptions;
 
 /**
  *
@@ -11,7 +11,7 @@ package com.google.godil.aamir1;
  */
 public class ValidationException extends Exception{
 
-    ValidationException(String message) {
+    public ValidationException(String message) {
         
         super(message);
     }

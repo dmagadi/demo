@@ -3,13 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.godil.aamir1;
+package com.cms.data;
+
+import com.cms.exceptions.ValidationException;
 
 /**
  *
  * @author Aamir
  */
 public class Contact {
+
+    public Contact() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public String getFirst_name() {
         return first_name;
@@ -112,7 +118,7 @@ public class Contact {
         setZipcode(zipcode);
     }
 
-    void printContact() {
+    public void printContact() {
 
         System.out.println(first_name + " " + last_name + "\n Cell: " + cell
                 + "\n Home: " + home + "\n Work: " + work);
