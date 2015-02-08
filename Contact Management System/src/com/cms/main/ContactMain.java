@@ -46,9 +46,7 @@ public class ContactMain {
 
     }
 
-    private static void displayAllContacts() {
 
-    }
 
     
 
@@ -59,6 +57,8 @@ public class ContactMain {
                 
                 // creating the class and calling the method in one line
                 new AddContactHandler().handle();
+                break;
+            case 6:
                 break;
             default:
                 System.out.println("Please enter a valid option.");
