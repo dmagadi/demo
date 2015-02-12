@@ -183,19 +183,19 @@ public class Contact {
                     return true;
                 }
             case "cell":
-                if (fieldName == null || fieldName.isEmpty()) {
+                if (fieldName == null || fieldName.isEmpty() || fieldName.length() > 10) {
                     return false;
                 } else {
                     return true;
                 }
             case "home":
-                if (fieldName == null || fieldName.isEmpty()) {
+                if (fieldName == null || fieldName.isEmpty() || fieldName.length() > 10) {
                     return false;
                 } else {
                     return true;
                 }
             case "work":
-                if (fieldName == null || fieldName.isEmpty()) {
+                if (fieldName == null || fieldName.isEmpty() || fieldName.length() > 10) {
                     return false;
                 } else {
                     return true;
