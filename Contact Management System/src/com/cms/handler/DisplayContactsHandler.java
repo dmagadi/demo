@@ -5,21 +5,24 @@
  */
 package com.cms.handler;
 
-import java.lang.*;
-import java.util.Scanner;
 import com.cms.data.Contact;
 import com.cms.main.IHandle;
 import java.util.ArrayList;
 
 /**
  *
- * @author Aamir
+ * @author dmagadi
  */
-public class DeleteContactHandler implements IHandle{
+public class DisplayContactsHandler implements IHandle {
+
+    public DisplayContactsHandler() {
+    }
 
     @Override
     public void handle(ArrayList<Contact> contacts) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(Contact contact: contacts) {
+            contact.printContact();
+        }
     }
-
+    
 }

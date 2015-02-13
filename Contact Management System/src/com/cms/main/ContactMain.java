@@ -5,8 +5,11 @@ package com.cms.main;
  * and open the template in the editor.
  */
 
+import com.cms.data.Contact;
 import com.cms.handler.AddContactHandler;
+import com.cms.handler.DisplayContactsHandler;
 import static java.lang.System.out;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,6 +20,8 @@ import java.util.Scanner;
 public class ContactMain {
 
     static Scanner input = new Scanner(System.in);
+    
+    private final static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
         short option = 0;
@@ -44,12 +49,17 @@ public class ContactMain {
     }
 
     private static void handleOption(short option) {
+        
+        IHandle handler = null;
+        
         switch (option) {
             
             case 1:
+               handler = new DisplayContactsHandler();
+                break;
             case 2:
                 // creating the class and calling the method in one line
-                new AddContactHandler().handle();
+                handler = new AddContactHandler();
                 break;
             case 3:
             case 4:
@@ -58,6 +68,10 @@ public class ContactMain {
                 break;
             default:
                 System.out.println("Please enter a valid option.");
+        }
+        
+        if(handler != null){
+            handler.handle(contacts);
         }
     }
 

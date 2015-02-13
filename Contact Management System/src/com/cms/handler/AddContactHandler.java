@@ -7,13 +7,17 @@ package com.cms.handler;
 
 import com.cms.data.Contact;
 import com.cms.exceptions.ValidationException;
+import com.cms.main.IHandle;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author dmagadi
  */
-public class AddContactHandler {
+public class AddContactHandler implements IHandle{
 
     private String first_name;
     private String last_name;
@@ -24,9 +28,19 @@ public class AddContactHandler {
     private String city;
     private String state;
     private String zipcode;
+    
+    private ArrayList<Contact> contacts = null;
 
-    public void handle() {
-        
+    @Override
+    public void handle(ArrayList<Contact> contacts) {
+        try {
+            //Set the contacts to field contacts.
+            this.contacts = contacts;
+            addContact();
+        } catch (ValidationException ex) {
+
+        }
+
     }
 
     private void addContact()
@@ -51,6 +65,8 @@ public class AddContactHandler {
         contact.setWork(getNonBlankString("Enter work phone number."));
 
         contact.setCell(getNonBlankString("Enter cell phone number."));
+        
+        contacts.add(contact);
 
     }
 
@@ -60,7 +76,7 @@ public class AddContactHandler {
             System.out.println(message);
             input = new Scanner(System.in).nextLine();
 
-        } while (input.trim().length() > 0);
+        } while (input.trim().length() <= 0);
 
         return input.trim();
     }

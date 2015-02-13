@@ -141,25 +141,17 @@ public class Contact {
     private String state;
     private String zipcode;
 
-    /*    public Contact(String first_name, String last_name, String cell, String home,
-     String work, String address, String city,
-     String state, String zipcode) throws ValidationException {
-     setFirst_name(first_name);
-     setLast_name(last_name);
-     setCell(cell);
-     setHome(home);
-     setWork(work);
-     setAddress(address);
-     setCity(city);
-     setState(state);
-     setZipcode(zipcode);
-     }*/
+
     public void printContact() {
 
         System.out.println(first_name + " " + last_name + "\n Cell: " + cell
                 + "\n Home: " + home + "\n Work: " + work);
         System.out.println(address + "\n" + city + "," + state + "," + zipcode);
 
+    }
+    
+    private boolean isValidLength(String field, int length ){
+        return true;
     }
 
     private boolean isFormatted(String field, String fieldName) {
