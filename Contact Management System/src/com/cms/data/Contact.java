@@ -141,17 +141,12 @@ public class Contact {
     private String state;
     private String zipcode;
 
-
     public void printContact() {
 
         System.out.println(first_name + " " + last_name + "\n Cell: " + cell
                 + "\n Home: " + home + "\n Work: " + work);
         System.out.println(address + "\n" + city + "," + state + "," + zipcode);
 
-    }
-    
-    private boolean isValidLength(String field, int length ){
-        return true;
     }
 
     private boolean isFormatted(String field, String fieldName) {

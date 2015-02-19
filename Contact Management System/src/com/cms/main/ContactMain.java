@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class ContactMain {
 
     static Scanner input = new Scanner(System.in);
-    
+
     private final static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -49,13 +49,13 @@ public class ContactMain {
     }
 
     private static void handleOption(short option) {
-        
+
         IHandle handler = null;
-        
+
         switch (option) {
-            
+
             case 1:
-               handler = new DisplayContactsHandler();
+                handler = new DisplayContactsHandler();
                 break;
             case 2:
                 // creating the class and calling the method in one line
@@ -69,8 +69,8 @@ public class ContactMain {
             default:
                 System.out.println("Please enter a valid option.");
         }
-        
-        if(handler != null){
+
+        if (handler != null) {
             handler.handle(contacts);
         }
     }

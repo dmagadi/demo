@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author dmagadi
  */
 public interface IHandle {
-     public void handle(ArrayList<Contact> contacts);
-    
+
+    public void handle(ArrayList<Contact> contacts);
+
 }
