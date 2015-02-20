@@ -10,6 +10,7 @@ import com.cms.main.IHandle;
 import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,13 +18,37 @@ import java.util.Scanner;
  * @author Aamir
  */
 public class SearchContactHandler implements IHandle {
+    private List<Contact> searchedContacts = null;
 
+    public List<Contact> getSearchedContacts() {
+        return searchedContacts;
+    }
     @Override
     public void handle(ArrayList<Contact> contacts) {
 
+        short selectedInput = getFirstOrLastNameSearch();
+        
+        
+        switch (selectedInput) {
+            case 1:
+                searchedContacts = new SearchUtils().firstNameSearch(contacts);
+                break;
+            case 2:
+                searchedContacts = new SearchUtils().lastNameSearch(contacts);
+                break;
+            case 3:
+                System.out.println("Cancelled.");
+                break;
+            default:
+                break;
+
+        }
+        if(searchedContacts != null)
+            printContacts();
+
     }
 
-    protected static short getFirstOrLastNameSearch() {
+    protected short getFirstOrLastNameSearch() {
         short input = 0;
         do {
             out.println("Do you want to search by first or last name?");
@@ -35,17 +60,19 @@ public class SearchContactHandler implements IHandle {
                 System.err.println("Please enter a valid option.");
                 continue;
             }
-        } while (input != 1 || input != 2 || input != 3);
+        } while (input < 1 && input >3);
 
         return input;
 
     }
-    
-    protected static Contact firstNameSearch(ArrayList<Contact> contacts) {
+
+    private void printContacts() {
+        
+        int index = 1;
+        for(Contact contact :  searchedContacts){
+            System.out.println(index++ + " - "+  contact.getFirst_name() + " " + contact.getLast_name());
+        }
         
     }
-    
-    protected static Contact lastNameSearch(ArrayList<Contact> contacts) {
-        
-    }
+
 }

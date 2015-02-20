@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author dmagadi
  */
-public class AddContactHandler implements IHandle{
+public class AddContactHandler implements IHandle {
 
     private String first_name;
     private String last_name;
@@ -28,7 +28,7 @@ public class AddContactHandler implements IHandle{
     private String city;
     private String state;
     private String zipcode;
-    
+
     private ArrayList<Contact> contacts = null;
 
     @Override
@@ -36,6 +36,7 @@ public class AddContactHandler implements IHandle{
         try {
             //Set the contacts to field contacts.
             this.contacts = contacts;
+
             addContact();
         } catch (ValidationException ex) {
 
@@ -65,7 +66,7 @@ public class AddContactHandler implements IHandle{
         contact.setWork(getNonBlankString("Enter work phone number."));
 
         contact.setCell(getNonBlankString("Enter cell phone number."));
-        
+
         contacts.add(contact);
 
     }

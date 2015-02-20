@@ -7,7 +7,9 @@ package com.cms.main;
 
 import com.cms.data.Contact;
 import com.cms.handler.AddContactHandler;
+import com.cms.handler.DeleteContactHandler;
 import com.cms.handler.DisplayContactsHandler;
+import com.cms.handler.SearchContactHandler;
 import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -62,8 +64,14 @@ public class ContactMain {
                 handler = new AddContactHandler();
                 break;
             case 3:
+                handler = new DeleteContactHandler();
+                break;
             case 4:
+                break;
             case 5:
+                handler = new SearchContactHandler();
+                break;
+
             case 6:
                 break;
             default:

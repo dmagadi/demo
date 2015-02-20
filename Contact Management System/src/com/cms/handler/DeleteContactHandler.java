@@ -8,6 +8,7 @@ package com.cms.handler;
 import com.cms.data.Contact;
 import com.cms.main.IHandle;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -22,26 +23,56 @@ public class DeleteContactHandler implements IHandle {
     }
 
     public void deleteContact(ArrayList<Contact> contacts) {
-        Contact SearchedContact;
-        switch (SearchContactHandler.getFirstOrLastNameSearch()) {
-            case 1:
-                SearchedContact = SearchContactHandler.firstNameSearch(contacts);
-            case 2:
-                SearchedContact = SearchContactHandler.lastNameSearch(contacts);
-            case 3:
-                System.out.println("Cancelled.");
-            default:
-                break;
+        System.out.println("Please search the contact to delete.");
 
+        SearchContactHandler searchContactHandler = new SearchContactHandler();
+        searchContactHandler.handle(contacts);
+
+        if (searchContactHandler.getSearchedContacts() != null && !searchContactHandler.getSearchedContacts().isEmpty()) {
+            System.out.println("Please select a number to delete.");
+            int selectedIndex = -1;
+            
+            do {
+             selectedIndex = getNumberInput();
+            
+            }while(selectedIndex >= contacts.size() || selectedIndex < 0 );
+            
+            confirmDelete();
+            
+            Contact contactToDelete = searchContactHandler.getSearchedContacts().get(selectedIndex);
+            
+            deleleFromContacts(contactToDelete,contacts);
         }
+
     }
 
     public void confirmDelete() {
         System.out.println("Are you sure do you want to delete this contact?\nEnter Y/N.");
         try {
-            char confirmation = new Scanner(System.in).next();
-            } catch (Exception e) {
+            String confirmation = new Scanner(System.in).nextLine();
+        } catch (Exception e) {
         }
+    }
+
+    private int getNumberInput() {
+        int input = -1;
+        
+        
+        try {
+                input = new Scanner(System.in).nextShort();
+            } catch (InputMismatchException e) {
+                System.err.println("Please enter a valid option.");
+                
+            }
+        
+        
+        return input;
+        
+    }
+
+    private void deleleFromContacts(Contact contactToDelete, ArrayList<Contact> contacts) {
+        
+        contacts.remove(contactToDelete);
     }
 
 }
