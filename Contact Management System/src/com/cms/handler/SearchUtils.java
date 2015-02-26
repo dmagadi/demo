@@ -8,6 +8,7 @@ package com.cms.handler;
 import com.cms.data.Contact;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -15,13 +16,29 @@ import java.util.List;
  */
 public class SearchUtils {
     
-        protected  List<Contact> firstNameSearch(ArrayList<Contact> contacts) {
+        protected List<Contact> firstNameSearch(ArrayList<Contact> contacts) {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Search for a contact.");
+            String search = input.nextLine();
+            for(Contact contact: contacts) {
+                short i = 0;
+                if(contact.getFirst_name().contains(search.trim())) {
+                    System.out.println(++i + " - " + contact.getFirst_name() + " " + contact.getLast_name());
+                }
+            }
             return contacts;
-        
     }
     
-    protected  List<Contact> lastNameSearch(ArrayList<Contact> contacts) {
-        
+    protected List<Contact> lastNameSearch(ArrayList<Contact> contacts) {
+        Scanner input = new Scanner(System.in);
+            System.out.println("Search for a contact.");
+            String search = input.nextLine();
+            for(Contact contact: contacts) {
+                short i = 0;
+                if(contact.getFirst_name().contains(search.trim())) {
+                    System.out.println(++i + " - " + contact.getFirst_name() + " " + contact.getLast_name());
+                }
+            }
         return contacts;
     }
     

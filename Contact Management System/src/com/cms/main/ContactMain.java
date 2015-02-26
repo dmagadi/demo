@@ -71,7 +71,6 @@ public class ContactMain {
             case 5:
                 handler = new SearchContactHandler();
                 break;
-
             case 6:
                 break;
             default:
