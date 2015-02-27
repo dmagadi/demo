@@ -43,8 +43,8 @@ public class SearchContactHandler implements IHandle {
                 break;
 
         }
-        if(searchedContacts != null)
-            printContacts();
+        //if(searchedContacts != null)
+          //  printContacts();
 
     }
 

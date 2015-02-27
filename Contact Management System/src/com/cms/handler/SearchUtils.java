@@ -17,29 +17,33 @@ import java.util.Scanner;
 public class SearchUtils {
     
         protected List<Contact> firstNameSearch(ArrayList<Contact> contacts) {
+            List<Contact> searchedContacts = new ArrayList<>();
             Scanner input = new Scanner(System.in);
             System.out.println("Search for a contact.");
             String search = input.nextLine();
             for(Contact contact: contacts) {
                 short i = 0;
-                if(contact.getFirst_name().contains(search.trim())) {
+                if(contact.getFirst_name().toLowerCase().contains(search.trim().toLowerCase())) {
                     System.out.println(++i + " - " + contact.getFirst_name() + " " + contact.getLast_name());
+                    searchedContacts.add(contact);
                 }
             }
-            return contacts;
+            return searchedContacts;
     }
     
     protected List<Contact> lastNameSearch(ArrayList<Contact> contacts) {
+        List<Contact> searchedContacts = new ArrayList<>();
         Scanner input = new Scanner(System.in);
             System.out.println("Search for a contact.");
             String search = input.nextLine();
             for(Contact contact: contacts) {
                 short i = 0;
-                if(contact.getFirst_name().contains(search.trim())) {
+                if(contact.getLast_name().toLowerCase().contains(search.trim().toLowerCase())) {
                     System.out.println(++i + " - " + contact.getFirst_name() + " " + contact.getLast_name());
+                    searchedContacts.add(contact);
                 }
             }
-        return contacts;
+        return searchedContacts;
     }
     
 }

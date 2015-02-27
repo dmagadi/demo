@@ -37,21 +37,27 @@ public class DeleteContactHandler implements IHandle {
             
             }while(selectedIndex >= contacts.size() || selectedIndex < 0 );
             
-            confirmDelete();
+            if(confirmDelete()){
             
             Contact contactToDelete = searchContactHandler.getSearchedContacts().get(selectedIndex);
             
             deleleFromContacts(contactToDelete,contacts);
+            }
         }
 
     }
 
-    public void confirmDelete() {
-        System.out.println("Are you sure do you want to delete this contact?\nEnter Y/N.");
-        try {
-            String confirmation = new Scanner(System.in).nextLine();
-        } catch (Exception e) {
-        }
+    public Boolean confirmDelete() {
+        String yesOrNo;
+        do {
+            System.out.println("Are you sure do you want to delete this contact?\nEnter Y/N.");
+             yesOrNo = new Scanner(System.in).nextLine();
+            
+            }while(!yesOrNo.equalsIgnoreCase("y") || !yesOrNo.equalsIgnoreCase("n"));
+        
+       
+        
+        return (yesOrNo.equalsIgnoreCase("y"))?true:false;
     }
 
     private int getNumberInput() {
