@@ -9,6 +9,7 @@ import com.cms.data.Contact;
 import com.cms.handler.AddContactHandler;
 import com.cms.handler.DeleteContactHandler;
 import com.cms.handler.DisplayContactsHandler;
+import com.cms.handler.EditContactHandler;
 import com.cms.handler.SearchContactHandler;
 import static java.lang.System.out;
 import java.util.ArrayList;
@@ -60,13 +61,13 @@ public class ContactMain {
                 handler = new DisplayContactsHandler();
                 break;
             case 2:
-                // creating the class and calling the method in one line
                 handler = new AddContactHandler();
                 break;
             case 3:
                 handler = new DeleteContactHandler();
                 break;
             case 4:
+                handler = new EditContactHandler();
                 break;
             case 5:
                 handler = new SearchContactHandler();
