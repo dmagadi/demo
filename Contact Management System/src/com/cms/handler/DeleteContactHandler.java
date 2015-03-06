@@ -53,7 +53,7 @@ public class DeleteContactHandler implements IHandle {
             System.out.println("Are you sure do you want to delete this contact?\nEnter Y/N.");
              yesOrNo = new Scanner(System.in).nextLine();
             
-            }while(!yesOrNo.equalsIgnoreCase("y") || !yesOrNo.equalsIgnoreCase("n"));
+            }while(!yesOrNo.equalsIgnoreCase("y") && !yesOrNo.equalsIgnoreCase("n"));
         
        
         
@@ -72,7 +72,7 @@ public class DeleteContactHandler implements IHandle {
             }
         
         
-        return input;
+        return input - 1;
         
     }
 

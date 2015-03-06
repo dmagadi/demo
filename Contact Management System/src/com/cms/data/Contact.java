@@ -149,6 +149,23 @@ public class Contact {
 
     }
 
+    public String getText() {
+
+        return first_name + ";" + last_name + ";" + cell
+                + ";" + home + ";" + work + ";" + address + ";" + city + ";" + state + ";" + zipcode;
+
+    }
+    
+    public void fromText(String line){
+        String[] columns = line.split(";");
+        
+        first_name = columns[0];
+        last_name = columns[1];
+        
+        // Todo fill the rest
+        
+    }
+
     private boolean isFormatted(String field, String fieldName) {
         switch (field) {
             case "zipCode":

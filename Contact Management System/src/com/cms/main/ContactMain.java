@@ -11,10 +11,21 @@ import com.cms.handler.DeleteContactHandler;
 import com.cms.handler.DisplayContactsHandler;
 import com.cms.handler.EditContactHandler;
 import com.cms.handler.SearchContactHandler;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,6 +40,8 @@ public class ContactMain {
     public static void main(String[] args) {
         short option = 0;
         do {
+            readContacts();
+
             displayHomeScreen();
             try {
                 option = new Scanner(System.in).nextShort();
@@ -73,6 +86,7 @@ public class ContactMain {
                 handler = new SearchContactHandler();
                 break;
             case 6:
+                saveAllContacts();
                 break;
             default:
                 System.out.println("Please enter a valid option.");
@@ -81,6 +95,56 @@ public class ContactMain {
         if (handler != null) {
             handler.handle(contacts);
         }
+    }
+
+    private static void saveAllContacts() {
+
+        try {
+            // check if file exists
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("cms.data"));
+
+            for (Contact contact : contacts) {
+                writer.write(contact.getText());
+                writer.newLine();
+            }
+            writer.flush();
+            writer.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ContactMain.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ContactMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static void readContacts() {
+        try {
+
+            File file = new File("cms.data");
+
+            if (!file.exists()) {
+                return;
+            }
+            
+            BufferedReader reader = new BufferedReader(new FileReader("cms.data"));
+
+            String line = reader.readLine();
+            do {
+                if (line != null) {
+                    Contact contact = new Contact();
+                    contact.fromText(line);
+                    contacts.add(contact);
+                }
+                
+                line = reader.readLine();
+
+            } while (line != null);
+
+        } catch (Exception ex) {
+            Logger.getLogger(ContactMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
