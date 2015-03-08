@@ -11,12 +11,10 @@ import com.cms.handler.DeleteContactHandler;
 import com.cms.handler.DisplayContactsHandler;
 import com.cms.handler.EditContactHandler;
 import com.cms.handler.SearchContactHandler;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,12 +37,13 @@ public class ContactMain {
 
     public static void main(String[] args) {
         short option = 0;
+        readContacts();
         do {
-            readContacts();
 
             displayHomeScreen();
             try {
                 option = new Scanner(System.in).nextShort();
+                System.out.println("");
             } catch (InputMismatchException e) {
                 System.err.println("Please enter a valid option.");
                 continue;
@@ -53,14 +52,14 @@ public class ContactMain {
 
             handleOption(option);
 
-        } while (option != 6);
+        } while (option != 7);
     }
 
     private static void displayHomeScreen() {
 
         out.println("Enter number to select option.\n\n1 - Display All Contacts."
                 + "\n2 - Add Contact\n3 - Delete Contact\n4 - Edit Contact\n5 - "
-                + "Search Contact\n6 - Exit");
+                + "Search Contact\n6 - Save\n7 - Save and Exit\n");
 
     }
 
@@ -88,6 +87,9 @@ public class ContactMain {
             case 6:
                 saveAllContacts();
                 break;
+            case 7:
+                saveAllContacts();
+                break;
             default:
                 System.out.println("Please enter a valid option.");
         }
@@ -104,7 +106,7 @@ public class ContactMain {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("cms.data"));
 
-            for (Contact contact : contacts) {
+            for (Contact contact: contacts) {
                 writer.write(contact.getText());
                 writer.newLine();
             }

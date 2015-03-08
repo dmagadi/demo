@@ -145,7 +145,7 @@ public class Contact {
 
         System.out.println(first_name + " " + last_name + "\n Cell: " + cell
                 + "\n Home: " + home + "\n Work: " + work);
-        System.out.println(address + "\n" + city + "," + state + "," + zipcode);
+        System.out.println(address + "\n" + city + ", " + state + "," + zipcode + "\n");
 
     }
 
@@ -155,15 +155,21 @@ public class Contact {
                 + ";" + home + ";" + work + ";" + address + ";" + city + ";" + state + ";" + zipcode;
 
     }
-    
-    public void fromText(String line){
+
+    public void fromText(String line) {
         String[] columns = line.split(";");
-        
+
         first_name = columns[0];
         last_name = columns[1];
-        
+        cell = columns[2];
+        home = columns[3];
+        work = columns[4];
+        address = columns[5];
+        city = columns[6];
+        state = columns[7];
+        zipcode = columns[8];
+
         // Todo fill the rest
-        
     }
 
     private boolean isFormatted(String field, String fieldName) {

@@ -31,17 +31,18 @@ public class DeleteContactHandler implements IHandle {
         if (searchContactHandler.getSearchedContacts() != null && !searchContactHandler.getSearchedContacts().isEmpty()) {
             System.out.println("Please select a number to delete.");
             int selectedIndex = -1;
-            
+
             do {
-             selectedIndex = getNumberInput();
-            
-            }while(selectedIndex >= contacts.size() || selectedIndex < 0 );
-            
-            if(confirmDelete()){
-            
-            Contact contactToDelete = searchContactHandler.getSearchedContacts().get(selectedIndex);
-            
-            deleleFromContacts(contactToDelete,contacts);
+                selectedIndex = getNumberInput();
+            } while (selectedIndex >= contacts.size() || selectedIndex < 0);
+
+            selectedIndex--;
+
+            if (confirmDelete()) {
+
+                Contact contactToDelete = searchContactHandler.getSearchedContacts().get(selectedIndex);
+
+                deleteFromContacts(contactToDelete, contacts);
             }
         }
 
@@ -51,33 +52,29 @@ public class DeleteContactHandler implements IHandle {
         String yesOrNo;
         do {
             System.out.println("Are you sure do you want to delete this contact?\nEnter Y/N.");
-             yesOrNo = new Scanner(System.in).nextLine();
-            
-            }while(!yesOrNo.equalsIgnoreCase("y") && !yesOrNo.equalsIgnoreCase("n"));
-        
-       
-        
-        return (yesOrNo.equalsIgnoreCase("y"))?true:false;
+            yesOrNo = new Scanner(System.in).nextLine();
+
+        } while (!yesOrNo.equalsIgnoreCase("y") && !yesOrNo.equalsIgnoreCase("n"));
+
+        return (yesOrNo.equalsIgnoreCase("y")) ? true : false;
     }
 
     private int getNumberInput() {
         int input = -1;
-        
-        
+
         try {
-                input = new Scanner(System.in).nextShort();
-            } catch (InputMismatchException e) {
-                System.err.println("Please enter a valid option.");
-                
-            }
-        
-        
+            input = new Scanner(System.in).nextShort();
+        } catch (InputMismatchException e) {
+            System.err.println("Please enter a valid option.");
+
+        }
+
         return input - 1;
-        
+
     }
 
-    private void deleleFromContacts(Contact contactToDelete, ArrayList<Contact> contacts) {
-        
+    private void deleteFromContacts(Contact contactToDelete, ArrayList<Contact> contacts) {
+
         contacts.remove(contactToDelete);
     }
 

@@ -18,17 +18,18 @@ import java.util.Scanner;
  * @author Aamir
  */
 public class SearchContactHandler implements IHandle {
+
     private List<Contact> searchedContacts = null;
 
     public List<Contact> getSearchedContacts() {
         return searchedContacts;
     }
+
     @Override
     public void handle(ArrayList<Contact> contacts) {
 
         short selectedInput = getFirstOrLastNameSearch();
-        
-        
+
         switch (selectedInput) {
             case 1:
                 searchedContacts = new SearchUtils().firstNameSearch(contacts);
@@ -44,7 +45,7 @@ public class SearchContactHandler implements IHandle {
 
         }
         //if(searchedContacts != null)
-          //  printContacts();
+        //  printContacts();
 
     }
 
@@ -60,19 +61,19 @@ public class SearchContactHandler implements IHandle {
                 System.err.println("Please enter a valid option.");
                 continue;
             }
-        } while (input < 1 && input >3);
+        } while (input < 1 && input > 3);
 
         return input;
 
     }
 
-    private void printContacts() {
-        
-        int index = 1;
-        for(Contact contact :  searchedContacts){
-            System.out.println(index++ + " - "+  contact.getFirst_name() + " " + contact.getLast_name());
-        }
-        
-    }
+//    private void printContacts() {
+//
+//        int index = 1;
+//        for (Contact contact : searchedContacts) {
+//            System.out.println(index++ + " - " + contact.getFirst_name() + " " + contact.getLast_name());
+//        }
+//
+//    }
 
 }
