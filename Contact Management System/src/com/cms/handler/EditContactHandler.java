@@ -48,7 +48,7 @@ public class EditContactHandler implements IHandle {
             return;
         }
         for (Contact contact : contacts) {
-
+            
             System.out.print(contacts.indexOf(contact) + " - ");
             contact.printContact();
         }
