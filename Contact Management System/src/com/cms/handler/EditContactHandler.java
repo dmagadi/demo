@@ -48,8 +48,10 @@ public class EditContactHandler implements IHandle {
             return;
         }
         for (Contact contact : contacts) {
+            int IndexToDisplay = contacts.indexOf(contact);
+            IndexToDisplay++;
             
-            System.out.print(contacts.indexOf(contact) + " - ");
+            System.out.print(IndexToDisplay + " - ");
             contact.printContact();
         }
 
@@ -62,6 +64,7 @@ public class EditContactHandler implements IHandle {
                 selectedContact = -1;
             }
         } while (selectedContact < 0 || selectedContact > contacts.size());
+        selectedContact--;
         System.out.println("Enter new field.");
         switch (FieldToEdit) {
             case 1:
