@@ -16,3 +16,6 @@ hs_err_pid*
 /QA-iPCRWeb/nbproject/private/
 /ForteMailer/nbproject/private/
 /CMSApp/target/
+/CMSApp2/nbproject/private/
+/CMSApp2/build/
+/CMSApp2/dist/

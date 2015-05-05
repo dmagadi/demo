@@ -9,7 +9,7 @@ package cms.app;
  *
  * @author dmagadi
  */
-public class Launcer {
+public class Launcher {
     
         /**
      * @param args the command line arguments

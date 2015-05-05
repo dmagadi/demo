@@ -12,13 +12,14 @@ import org.apache.commons.lang.StringUtils;
  * @author dmagadi
  */
 public class Login extends javax.swing.JFrame {
-    
+
     public Boolean isValidUser = false;
 
     /**
      * Creates new form Login
      */
     public Login() {
+        setTitle("Contact Management System");
         initComponents();
     }
 
@@ -36,12 +37,18 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jBtnLogin = new javax.swing.JButton();
         jTextPassword = new javax.swing.JPasswordField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("User Name:");
 
         jTextUserName.setToolTipText("");
+        jTextUserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextUserNameActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Password:");
 
@@ -51,6 +58,8 @@ public class Login extends javax.swing.JFrame {
                 jBtnLoginActionPerformed(evt);
             }
         });
+
+        jLabel3.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,6 +81,10 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jTextPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                             .addComponent(jTextUserName))))
                 .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,8 +97,11 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtnLogin))
+                .addGap(18, 18, 18)
+                .addComponent(jBtnLogin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -93,26 +109,32 @@ public class Login extends javax.swing.JFrame {
 
     private void jBtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoginActionPerformed
         // TODO add your handling code here:
-        
-        if(StringUtils.isNotBlank(jTextUserName.getText())  
-                ){
-            
-            if(jTextUserName.getText().equalsIgnoreCase("admin")){
+
+        if (StringUtils.isNotBlank(jTextUserName.getText())) {
+
+            if (jTextUserName.getText().equalsIgnoreCase("admin") && jTextPassword.getText().equalsIgnoreCase("admin")) {
                 isValidUser = true;
             }
-            
-            
-            
-            
+
+            if (isValidUser) {
+                jLabel3.setText("Success");
+            } else {
+                jLabel3.setText("Failed");
+            }
+
         }
     }//GEN-LAST:event_jBtnLoginActionPerformed
 
+    private void jTextUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextUserNameActionPerformed
+
+    }//GEN-LAST:event_jTextUserNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField jTextPassword;
     private javax.swing.JTextField jTextUserName;
     // End of variables declaration//GEN-END:variables
