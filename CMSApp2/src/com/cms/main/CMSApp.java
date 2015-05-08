@@ -77,17 +77,17 @@ public class CMSApp extends Application {
         
         Text userText = new Text("Username");
 
-        TextField userTextField = new TextField();
+        final TextField userTextField = new TextField();
         userTextField.setPromptText("Username");
 
         Text passwordText = new Text("Password");
 
-        PasswordField passwordField = new PasswordField();
+        final PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
 
         Button loginButton = new Button("Login");
 
-        Text msg = new Text(230, 190, "");
+        final Text msg = new Text(230, 190, "");
 
         GridPane.setConstraints(userText, 0, 0);
         GridPane.setConstraints(passwordText, 0, 1);
@@ -103,7 +103,7 @@ public class CMSApp extends Application {
         }
 
         Group group = new Group();
-        Scene scene = new Scene(group, 427, 240);
+        final Scene scene = new Scene(group, 427, 240);
         Text text = new Text(20, 20, "Success");
         group.getChildren().addAll(text);
         
@@ -113,7 +113,8 @@ public class CMSApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (userTextField.getText().equals("admin") && passwordField.getText().equals("admin")) {
-                    frame.setScene(scene);
+                    //frame.setScene(scene);
+                    msg.setText("Success");
                 } else {
                     msg.setText("Failed");
                 }
