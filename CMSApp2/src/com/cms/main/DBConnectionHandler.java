@@ -20,12 +20,12 @@ public class DBConnectionHandler {
         try{
         Class.forName("com.mysql.jdbc.Driver");
         conn = DriverManager
-		.getConnection("jdbc:mysql://10.37.129.3:3306/cms","aamir", "password");
+		.getConnection("jdbc:mysql://localhost:3306/cms", "root", "12345");
         }catch(Throwable e){
             throw new RuntimeException(e);
         }
         
-        return null;
+        return conn;
         
     }
     
