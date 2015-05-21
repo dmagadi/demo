@@ -5,10 +5,17 @@
  */
 package com.cms.controller;
 
+import com.cms.scenes.Accessor;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -45,7 +52,14 @@ public class MainScreenController {
     }
 
     @FXML
-    private void onAddContactMenuItem(ActionEvent event) {
+    private void onAddContactMenuItem(ActionEvent event) throws IOException {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Add Contact");
+        Parent addContactBoxLayout = FXMLLoader.load(new Accessor().getURL("AddContactScreenLayout.fxml"));
+        Scene scene = new Scene(addContactBoxLayout, 400, 200);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     @FXML
