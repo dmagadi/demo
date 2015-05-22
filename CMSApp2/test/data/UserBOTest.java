@@ -58,7 +58,7 @@ public class UserBOTest {
     public void testLoginFail() {
         System.out.println("login");
         String userName = "admin";
-        String password = "admins";
+        String password = "admin";
         UserBO instance = new UserBO();
         Boolean expResult = null;
         Boolean result = instance.login(userName, password);
