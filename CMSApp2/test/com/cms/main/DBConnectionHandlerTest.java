@@ -5,6 +5,7 @@
  */
 package com.cms.main;
 
+import data.helper.DBConnectionHandler;
 import java.sql.Connection;
 import java.sql.SQLException;
 import junit.framework.AssertionFailedError;
