@@ -5,6 +5,7 @@
  */
 package data;
 
+import data.model.UserData;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,9 +47,8 @@ public class UserBOTest {
         String userName = "admin";
         String password = "admin";
         UserBO instance = new UserBO();
-        Boolean expResult = null;
-        Boolean result = instance.login(userName, password);
-        assertTrue(result);
+        UserData result = instance.login(userName, password);
+        assertNotNull(result);
         // TODO review the generated test code and remove the default call to fail.
        // fail("The test case is a prototype.");
     }
@@ -61,8 +61,8 @@ public class UserBOTest {
         String password = "admin";
         UserBO instance = new UserBO();
         Boolean expResult = null;
-        Boolean result = instance.login(userName, password);
-        assertFalse(result);
+        UserData result = instance.login(userName, password);
+        assertNull(result);
         // TODO review the generated test code and remove the default call to fail.
        // fail("The test case is a prototype.");
     }

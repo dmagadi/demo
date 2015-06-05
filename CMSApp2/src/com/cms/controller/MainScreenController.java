@@ -6,6 +6,7 @@
 package com.cms.controller;
 
 import com.cms.scenes.Accessor;
+import data.model.UserData;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +23,16 @@ import javafx.stage.Stage;
  * @author Aamir
  */
 public class MainScreenController {
+    private UserData currentUser = null;
+
+    public UserData getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(UserData currentUser) {
+        this.currentUser = currentUser;
+    }
+    
     @FXML
     private MenuBar menuBar;
     @FXML

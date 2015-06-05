@@ -7,6 +7,7 @@ package data;
 
 
 import data.helper.DBConnectionHandler;
+import data.model.UserData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class UserBO {
     
-    public Boolean login(String userName, String password){
+    public UserData login(String userName, String password){
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -37,7 +38,11 @@ public class UserBO {
             
             if(rs.next()){
                 Logger.getLogger(getClass().getName()).info(String.format("User First Name is %s ", rs.getString("FirstName")));
-                return true;
+                UserData user = new UserData();
+                user.setFirstName(rs.getString("FirstName"));
+                user.setLastName(rs.getString("LastName"));
+                user.setIsAdmin(rs.getBoolean("isAdmin"));
+                return user;
             }
             
             
@@ -55,7 +60,7 @@ public class UserBO {
         
         
         
-        return false;
+        return null;
         
     }
     

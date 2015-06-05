@@ -6,6 +6,8 @@
 package com.cms.controller;
 
 import com.cms.scenes.Accessor;
+import data.UserBO;
+import data.model.UserData;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,10 +35,24 @@ public class LoginScreenController {
     @FXML
     public void onLoginButtonPressed() throws IOException {
 
-        if (userInput.getText().equals("admin") && passInput.getText().equals("admin")) {
+        UserBO userBO = new UserBO();
+        UserData user = userBO.login(userInput.getText(), passInput.getText());
+        if (user != null) {
             Stage window = (Stage) userInput.getScene().getWindow();
-            Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
-            Scene mainScene = new Scene(mainSceneLayout, 854, 480);
+           // Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
+            
+            FXMLLoader loader = new FXMLLoader(new Accessor().getURL("MainScreenLayout.fxml"));
+            
+            // Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
+            Scene mainScene = new Scene((Parent) loader.load(), 854, 480);
+            
+            MainScreenController controller = loader.<MainScreenController>getController();
+            
+            controller.setCurrentUser(user);
+            
+            
+            
+
             window.setScene(mainScene);
         } else {
             passInput.setText("");
