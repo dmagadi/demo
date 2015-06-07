@@ -25,7 +25,7 @@ public class DBConnectionHandler {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager
-                    .getConnection("jdbc:mysql://10.211.55.9:3306/cms", "apache", "firechicken");
+                    .getConnection("jdbc:mysql://localhost:3306/cms", "root", "12345");
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

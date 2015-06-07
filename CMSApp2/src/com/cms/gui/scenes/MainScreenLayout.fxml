@@ -4,13 +4,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cms.controller.MainScreenController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cms.gui.controller.MainScreenController">
    <top>
       <VBox prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar fx:id="menuBar" prefHeight="0.0" prefWidth="600.0">
               <menus>
-                <Menu text="_User">
+                <Menu fx:id="userMenu" text="_User" visible="false">
                   <items>
                     <MenuItem fx:id="addUserMenuItem" mnemonicParsing="false" onAction="#onAddUserMenuItemAction" text="Add" />
                         <MenuItem fx:id="editUserMenuItem" mnemonicParsing="false" onAction="#onEditUserMenuItemAction" text="Edit" />

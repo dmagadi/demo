@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cms.controller;
+package com.cms.gui.controller;
 
-import com.cms.scenes.Accessor;
+import com.cms.gui.scenes.Accessor;
 import data.UserBO;
 import data.model.UserData;
 import java.io.IOException;
@@ -33,30 +33,26 @@ public class LoginScreenController {
     Text messageText;
 
     @FXML
-    public void onLoginButtonPressed() throws IOException {
+    public void onLoginButtonPressed() throws IOException, InterruptedException {
 
         UserBO userBO = new UserBO();
         UserData user = userBO.login(userInput.getText(), passInput.getText());
         if (user != null) {
             Stage window = (Stage) userInput.getScene().getWindow();
-           // Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
-            
-            FXMLLoader loader = new FXMLLoader(new Accessor().getURL("MainScreenLayout.fxml"));
-            
             // Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
-            Scene mainScene = new Scene((Parent) loader.load(), 854, 480);
-            
-            MainScreenController controller = loader.<MainScreenController>getController();
-            
-            controller.setCurrentUser(user);
-            
-            
-            
 
+            FXMLLoader loader = new FXMLLoader(new Accessor().getURL("MainScreenLayout.fxml"));
+
+            Scene mainScene = new Scene((Parent) loader.load(), 854, 480);
+
+            MainScreenController controller = loader.<MainScreenController>getController();
+
+            controller.setCurrentUser(user);
+            controller.enableUserMenu();
             window.setScene(mainScene);
         } else {
             passInput.setText("");
-            messageText.setText("Failed to log in");
+            messageText.setVisible(true);
         }
 
     }

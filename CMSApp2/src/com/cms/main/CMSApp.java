@@ -1,6 +1,6 @@
 package com.cms.main;
 
-import com.cms.scenes.Accessor;
+import com.cms.gui.scenes.Accessor;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

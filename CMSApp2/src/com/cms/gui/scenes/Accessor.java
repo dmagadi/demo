@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cms.scenes;
+package com.cms.gui.scenes;
 
 import java.net.URL;
 
