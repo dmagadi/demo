@@ -5,6 +5,8 @@
  */
 package data.model;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author dmagadi
@@ -13,8 +15,44 @@ public class UserData {
     
     private String userName;
     private String firstName;
+
+    public Timestamp getCreatedTS() {
+        return createdTS;
+    }
+
+    public void setCreatedTS(Timestamp createdTS) {
+        this.createdTS = createdTS;
+    }
+
+    public Timestamp getModifiedTS() {
+        return modifiedTS;
+    }
+
+    public void setModifiedTS(Timestamp modifiedTS) {
+        this.modifiedTS = modifiedTS;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
     private String lastName;
     private Boolean isAdmin;
+    private Timestamp createdTS;
+    private Timestamp modifiedTS;
+    private String password;
+    private Integer id;
 
     public String getUserName() {
         return userName;

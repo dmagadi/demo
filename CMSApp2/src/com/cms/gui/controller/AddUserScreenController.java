@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,7 +23,7 @@ import javafx.scene.text.Text;
  *
  * @author Aamir
  */
-public class AddUserScreenController implements Initializable {
+public class AddUserScreenController {
 
     @FXML
     private PasswordField passInput;
@@ -41,14 +42,6 @@ public class AddUserScreenController implements Initializable {
     @FXML
     private CheckBox adminCheckBox;
     private Boolean isValidUser = false;
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
 
     @FXML
     private void onApplyButtonPressed(ActionEvent event) {
@@ -71,8 +64,20 @@ public class AddUserScreenController implements Initializable {
                 adminValue = 0;
             }
             UserBO userBO = new UserBO();
-            userBO.addUser(userInput.getText(), passInput.getText(), firstNameInput.getText(), lastNameInput.getText(), adminValue);
-
+            Boolean userAdded = userBO.addUser(userInput.getText(), passInput.getText(), firstNameInput.getText(), lastNameInput.getText(), adminValue);
+            if (userAdded) {
+                message2.setText("User added");
+                message2.setFill(Color.rgb(0, 255, 0));
+                passInput.clear();
+                confirmPassInput.clear();
+                userInput.clear();
+                firstNameInput.clear();
+                lastNameInput.clear();
+                adminCheckBox.setSelected(false);
+            } else {
+                message2.setText("Unable to add user");
+                message2.setFill(Color.rgb(255, 0, 0));
+            }
         }
 
     }

@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -59,11 +61,11 @@ public class UserBO {
 
     }
 
-    public void addUser(String userName, String password, String firstName, String lastName, int adminValue) {
+    public Boolean addUser(String userName, String password, String firstName, String lastName, int adminValue) {
 
         Connection conn = null;
         PreparedStatement pstmt = null;
-        //Boolean userSuccessfullyAdded = true;
+        Boolean userSuccessfullyAdded = true;
         try {
 
             conn = DBConnectionHandler.getConnectionToDatabase();
@@ -75,14 +77,82 @@ public class UserBO {
             pstmt.execute();
 
         } catch (Exception e) {
-            //userSuccessfullyAdded = false;
+            userSuccessfullyAdded = false;
             throw new RuntimeException(e);
 
         } finally {
             DBConnectionHandler.closePreparedStatement(pstmt);
             DBConnectionHandler.closeConnection(conn);
         }
-        //return userSuccessfullyAdded;
+        return userSuccessfullyAdded;
+    }
+
+    public ObservableList<UserData> getUsers() {
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            conn = DBConnectionHandler.getConnectionToDatabase();
+
+            pstmt = conn.prepareStatement("Select * from users");
+
+            rs = pstmt.executeQuery();
+
+            ObservableList<UserData> userDataList = FXCollections.observableArrayList();
+            while (rs.next()) {
+                UserData user = new UserData();
+                user.setFirstName(rs.getString("FirstName"));
+                user.setLastName(rs.getString("LastName"));
+                user.setIsAdmin(rs.getBoolean("isAdmin"));
+                user.setUserName(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setId(rs.getInt("id"));
+                user.setCreatedTS(rs.getTimestamp("createdts"));
+                user.setModifiedTS(rs.getTimestamp("modifiedts"));
+                userDataList.add(user);
+            }
+
+            return userDataList;
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+
+        } finally {// always close connection/preparedstatment/statement/resultset here 
+            DBConnectionHandler.closeRS(rs);
+            DBConnectionHandler.closePreparedStatement(pstmt);
+            DBConnectionHandler.closeConnection(conn);
+
+        }
+
+        //return null;
+    }
+
+    public void deleteUser(UserData selectedUser) {
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            conn = DBConnectionHandler.getConnectionToDatabase();
+
+            pstmt = conn.prepareStatement("DELETE FROM `cms`.`users` WHERE `id`=?;");
+
+            pstmt.setInt(1, selectedUser.getId());
+
+            pstmt.execute();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            DBConnectionHandler.closePreparedStatement(pstmt);
+            DBConnectionHandler.closeConnection(conn);
+        }
+
     }
 
 }

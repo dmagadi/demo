@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,7 +21,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 /**
  *
@@ -62,15 +60,7 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        window = (Stage) menuBar.getScene().getWindow();
-//        window.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(final WindowEvent event) {
-//                event.consume();
-//                onClose();
-//            }
-//        }
-//        );
+        
     }
 
     public void enableUserMenu() {
@@ -122,12 +112,5 @@ public class MainScreenController implements Initializable {
     @FXML
     private void onAboutMenuItemAction(ActionEvent event) {
     }
-    
-    private void onClose() {
-        
-        
-        
-        window.close();
-    }
-    
+
 }
