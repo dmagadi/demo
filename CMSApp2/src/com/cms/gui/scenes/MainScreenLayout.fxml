@@ -6,22 +6,22 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cms.gui.controller.MainScreenController">
    <top>
-      <VBox prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar fx:id="menuBar" prefHeight="0.0" prefWidth="600.0">
               <menus>
                 <Menu fx:id="userMenu" text="_User" visible="false">
                   <items>
-                    <MenuItem fx:id="addUserMenuItem" mnemonicParsing="false" onAction="#onAddUserMenuItemAction" text="Add" />
-                        <MenuItem fx:id="editUserMenuItem" mnemonicParsing="false" onAction="#onEditUserMenuItemAction" text="Edit" />
-                        <MenuItem fx:id="deleteUserMenuItem" mnemonicParsing="false" onAction="#onDeleteUserMenuItemAction" text="Delete" />
+                    <MenuItem fx:id="addUserMenuItem" mnemonicParsing="false" onAction="#onAddUserMenuItemAction" text="Add..." />
+                        <MenuItem fx:id="editUserMenuItem" mnemonicParsing="false" onAction="#onEditUserMenuItemAction" text="Edit..." />
+                        <MenuItem fx:id="deleteUserMenuItem" mnemonicParsing="false" onAction="#onDeleteUserMenuItemAction" text="Delete..." />
                   </items>
                 </Menu>
                 <Menu text="_Contact">
                   <items>
-                        <MenuItem fx:id="addContactMenuItem" mnemonicParsing="false" onAction="#onAddContactMenuItem" text="Add" />
-                        <MenuItem fx:id="editContactMenuItem" mnemonicParsing="false" onAction="#onEditContactMenuItemAction" text="Edit" />
-                    <MenuItem fx:id="deleteContactMenuItem" mnemonicParsing="false" onAction="#onDeleteContactMenuItemAction" text="Delete" />
+                        <MenuItem fx:id="addContactMenuItem" mnemonicParsing="false" onAction="#onAddContactMenuItem" text="Add..." />
+                        <MenuItem fx:id="editContactMenuItem" mnemonicParsing="false" onAction="#onEditContactMenuItemAction" text="Edit..." />
+                    <MenuItem fx:id="deleteContactMenuItem" mnemonicParsing="false" onAction="#onDeleteContactMenuItemAction" text="Delete..." />
                   </items>
                 </Menu>
                 <Menu text="_Help">

@@ -47,12 +47,13 @@ public class AddUserScreenController {
     private void onApplyButtonPressed(ActionEvent event) {
         message1.setText("");
         message2.setText("");
-        if (!passInput.getText().equals(confirmPassInput.getText())) {
-            isValidUser = false;
-            message1.setText("Password does not match");
-        } else if (passInput.getText().isEmpty() || confirmPassInput.getText().isEmpty() || firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() || userInput.getText().isEmpty()) {
+        if (passInput.getText().isEmpty() || confirmPassInput.getText().isEmpty() || firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() || userInput.getText().isEmpty()) {
+            message2.setFill(Color.rgb(255, 0, 0));
             message2.setText("One or more fields are empty");
             isValidUser = false;
+        } else if (!passInput.getText().equals(confirmPassInput.getText())) {
+            isValidUser = false;
+            message1.setText("Password does not match");
         } else {
             isValidUser = true;
         }

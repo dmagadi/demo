@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cms.gui.controller.EditUserScreenController">
+   <bottom>
+      <HBox prefHeight="8.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onRefreshButtonPressed" text="Refresh" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#onSaveButtonPressed" text="Save" HBox.hgrow="ALWAYS" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="userTableView" editable="true" prefHeight="395.0" prefWidth="600.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <columns>
+                  <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
+                  <TableColumn fx:id="userColumn" prefWidth="75.0" text="username" />
+                  <TableColumn fx:id="passColumn" prefWidth="75.0" text="password" />
+                  <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="FirstName" />
+                  <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="LastName" />
+                  <TableColumn fx:id="createdTSColumn" editable="false" prefWidth="75.0" text="createdts" />
+                  <TableColumn fx:id="modifiedTSColumn" editable="false" prefWidth="75.0" text="modifiedts" />
+                  <TableColumn fx:id="isAdminColumn" prefWidth="75.0" text="isAdmin" />
+               </columns>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TableView>
+            <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Users saved" visible="false" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

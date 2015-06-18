@@ -38,7 +38,6 @@ public class MainScreenController implements Initializable {
         this.currentUser = currentUser;
     }
 
-    Stage window;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -60,7 +59,7 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
     }
 
     public void enableUserMenu() {
@@ -75,14 +74,21 @@ public class MainScreenController implements Initializable {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Add User");
-        Parent addContactBoxLayout = FXMLLoader.load(new Accessor().getURL("AddUserScreenLayout.fxml"));
-        Scene scene = new Scene(addContactBoxLayout, 600, 400);
+        Parent addUserSceneParent = FXMLLoader.load(new Accessor().getURL("AddUserScreenLayout.fxml"));
+        Scene scene = new Scene(addUserSceneParent, 600, 400);
         window.setScene(scene);
         window.showAndWait();
     }
 
     @FXML
-    private void onEditUserMenuItemAction(ActionEvent event) {
+    private void onEditUserMenuItemAction(ActionEvent event) throws IOException {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Edit User");
+        Parent editUserSceneParent = FXMLLoader.load(new Accessor().getURL("EditUserScreenLayout.fxml"));
+        Scene scene = new Scene(editUserSceneParent, 600, 400);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     @FXML
@@ -90,8 +96,8 @@ public class MainScreenController implements Initializable {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Delete User");
-        Parent addContactBoxLayout = FXMLLoader.load(new Accessor().getURL("DeleteUserScreenLayout.fxml"));
-        Scene scene = new Scene(addContactBoxLayout, 600, 400);
+        Parent deleteUserSceneParent = FXMLLoader.load(new Accessor().getURL("DeleteUserScreenLayout.fxml"));
+        Scene scene = new Scene(deleteUserSceneParent, 600, 400);
         stage.setScene(scene);
         stage.showAndWait();
     }
