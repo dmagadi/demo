@@ -19,13 +19,13 @@ import java.util.logging.Logger;
  */
 public class DBConnectionHandler {
 
-    public static Connection getConnectionToDatabase() {
+    public static Connection getConnectionToDatabase(String ip, String user, String password) {
 
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/cms", "root", "12345");
+                    .getConnection("jdbc:mysql://" + ip + "/cms", user, password);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

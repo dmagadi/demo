@@ -20,7 +20,14 @@ import javafx.collections.ObservableList;
  */
 public class UserBO {
 
-    public UserData login(String userName, String password) {
+    String ip;
+    String user;
+    String password;
+
+    public UserData login(String userName, String password, String ip, String serverUser, String serverPassword) {
+        this.ip = ip;
+        this.user = serverUser;
+        this.password = serverPassword;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -28,7 +35,7 @@ public class UserBO {
 
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase();
+            conn = DBConnectionHandler.getConnectionToDatabase(ip, serverUser, serverPassword);
 
             pstmt = conn.prepareStatement("Select * from users where username = ? and password = ?");
 
@@ -68,7 +75,7 @@ public class UserBO {
         Boolean userSuccessfullyAdded = true;
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase();
+            conn = DBConnectionHandler.getConnectionToDatabase(ip, user, password);
             pstmt = conn.prepareStatement("INSERT INTO `cms`.`users` (`username`, `password`, `FirstName`, `LastName`, `createdts`) VALUES (?, ?, ?, ?, now());");
             pstmt.setString(1, userName);
             pstmt.setString(2, password);
@@ -95,7 +102,7 @@ public class UserBO {
 
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase();
+            conn = DBConnectionHandler.getConnectionToDatabase(ip, user, password);
 
             pstmt = conn.prepareStatement("Select * from users");
 
@@ -138,7 +145,7 @@ public class UserBO {
 
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase();
+            conn = DBConnectionHandler.getConnectionToDatabase(ip, user, password);
 
             pstmt = conn.prepareStatement("DELETE FROM `cms`.`users` WHERE `id`=?;");
 

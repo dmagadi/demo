@@ -51,7 +51,7 @@ public class DBConnectionHandlerTest {
         System.out.println("getConnectionToDatabase");
         DBConnectionHandler instance = new DBConnectionHandler();
         //Connection expResult = null;
-        Connection result = instance.getConnectionToDatabase();
+        Connection result = instance.getConnectionToDatabase("localhost:3306", "root", "12345");
         try {
             assertNotNull(result);
         } catch (AssertionFailedError e) {

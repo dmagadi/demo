@@ -47,7 +47,7 @@ public class UserBOTest {
         String userName = "admin";
         String password = "admin";
         UserBO instance = new UserBO();
-        UserData result = instance.login(userName, password);
+        UserData result = instance.login(userName, password, "localhost:3306", "root", "12345");
         assertNotNull(result);
         // TODO review the generated test code and remove the default call to fail.
        // fail("The test case is a prototype.");
@@ -61,7 +61,7 @@ public class UserBOTest {
         String password = "admin";
         UserBO instance = new UserBO();
         Boolean expResult = null;
-        UserData result = instance.login(userName, password);
+        UserData result = instance.login(userName, password, "localhost:3306", "root", "12345");
         assertNull(result);
         // TODO review the generated test code and remove the default call to fail.
        // fail("The test case is a prototype.");
