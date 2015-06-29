@@ -5,8 +5,14 @@
  */
 package com.cms.gui.controller;
 
+import data.file.ReadFileHandler;
+import data.file.WriteToFileHandler;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -21,6 +27,8 @@ import javafx.stage.Stage;
  */
 class LoginSettingsScreenController implements Initializable {
 
+    WriteToFileHandler writeHandler = new WriteToFileHandler();
+    File file = new File("LoginSettings");
     @FXML
     TextField textField;
     @FXML
@@ -30,18 +38,22 @@ class LoginSettingsScreenController implements Initializable {
     private LoginScreenController loginSceneController;
     @FXML
     Text message;
+
     @FXML
     public void onSaveButtonClick() {
-        save();
+        try {
+            save();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginSettingsScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     public void onSetDefaultClick() {
-        textField.setText("localhost:3306");
-        userField.setText("root");
-        passField.setText("12345");
-        save();
+        setDefault();
+
     }
+
     @FXML
     public void onExitButtonClick() {
         exit();
@@ -51,11 +63,24 @@ class LoginSettingsScreenController implements Initializable {
     protected void setReturnScene(Scene scene) {
         this.loginScene = scene;
     }
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (file.exists()) {
+            String[] items = new ReadFileHandler().readFile();
+            textField.setText(items[0]);
+            userField.setText(items[1]);
+            passField.setText(items[2]);
+        } else {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginSettingsScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            setDefault();
 
+        }
     }
 
     protected void passController(LoginScreenController controller) {
@@ -63,11 +88,15 @@ class LoginSettingsScreenController implements Initializable {
         this.loginSceneController = controller;
     }
 
-    private void save() {
+    private void save() throws IOException {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         loginSceneController.setServerIP(textField.getText());
         loginSceneController.setServerUser(userField.getText());
         loginSceneController.setServerPassword(passField.getText());
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        writeHandler.writeToFile(textField.getText(), userField.getText(), passField.getText());
         message.setFill(Color.GREEN);
         message.setText("Saved");
     }
@@ -77,6 +106,19 @@ class LoginSettingsScreenController implements Initializable {
         message.setText("");
         Stage window = (Stage) textField.getScene().getWindow();
         window.setScene(loginScene);
+    }
+
+    private void setDefault() {
+        textField.setText("localhost:3306");
+        userField.setText("root");
+        passField.setText("12345");
+
+        try {
+            save();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginSettingsScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
