@@ -75,7 +75,7 @@ public class UserBO {
         Boolean userSuccessfullyAdded = true;
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase(ip, user, password);
+            conn = DBConnectionHandler.getConnectionToDatabase(this.ip, this.user, this.password);
             pstmt = conn.prepareStatement("INSERT INTO `cms`.`users` (`username`, `password`, `FirstName`, `LastName`, `createdts`) VALUES (?, ?, ?, ?, now());");
             pstmt.setString(1, userName);
             pstmt.setString(2, password);
@@ -102,7 +102,7 @@ public class UserBO {
 
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase(ip, user, password);
+            conn = DBConnectionHandler.getConnectionToDatabase(this.ip, this.user, this.password);
 
             pstmt = conn.prepareStatement("Select * from users");
 
@@ -145,7 +145,7 @@ public class UserBO {
 
         try {
 
-            conn = DBConnectionHandler.getConnectionToDatabase(ip, user, password);
+            conn = DBConnectionHandler.getConnectionToDatabase(this.ip, this.user, this.password);
 
             pstmt = conn.prepareStatement("DELETE FROM `cms`.`users` WHERE `id`=?;");
 

@@ -16,26 +16,27 @@ import java.util.logging.Logger;
  * @author Aamir
  */
 public class ReadFileHandler {
-    
+
     String items[] = new String[3];
     private Scanner s;
-    
+
     public String[] readFile() {
-        
+        int index = 0;
         File f = new File("LoginSettings.txt");
         try {
             s = new Scanner(f);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ReadFileHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(s.hasNext()) {
-            items[0] = s.next();
-            items[1] = s.next();
-            items[2] = s.next();
-            s.close();
-            
+        while (s.hasNext()) {
+
+            items[index++] = s.next();
+            //items[1] = s.next();
+            //items[2] = s.next();
+
         }
+        s.close();
         return items;
     }
-    
+
 }

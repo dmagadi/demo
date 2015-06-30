@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  *
  * @author Aamir
  */
-class LoginSettingsScreenController implements Initializable {
+public class LoginSettingsScreenController implements Initializable {
 
     WriteToFileHandler writeHandler = new WriteToFileHandler();
     File file = new File("LoginSettings");
@@ -71,7 +71,10 @@ class LoginSettingsScreenController implements Initializable {
             String[] items = new ReadFileHandler().readFile();
             textField.setText(items[0]);
             userField.setText(items[1]);
-            passField.setText(items[2]);
+            if(items.length > 2) {
+                passField.setText(items[2]);
+            }
+            
         } else {
             try {
                 file.createNewFile();
