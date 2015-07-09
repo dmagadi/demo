@@ -5,6 +5,7 @@
  */
 package data.helper;
 
+import data.Config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,8 +20,11 @@ import java.util.logging.Logger;
  */
 public class DBConnectionHandler {
 
-    public static Connection getConnectionToDatabase(String ip, String user, String password) {
-
+    public static Connection getConnectionToDatabase() {
+        
+        String ip = Config.getConfig(Config.PropKey.DB_SERVER, "localhost:3306");
+        String user = Config.getConfig(Config.PropKey.DB_USER, "root");
+        String password = Config.getConfig(Config.PropKey.DB_PWD, "12345");
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");

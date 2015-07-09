@@ -5,9 +5,6 @@
  */
 package com.cms.gui.controller;
 
-import data.file.ReadFileHandler;
-import data.file.WriteToFileHandler;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import data.Config;
 
 /**
  *
@@ -27,8 +25,6 @@ import javafx.stage.Stage;
  */
 public class LoginSettingsScreenController implements Initializable {
 
-    WriteToFileHandler writeHandler = new WriteToFileHandler();
-    File file = new File("LoginSettings");
     @FXML
     TextField textField;
     @FXML
@@ -67,23 +63,9 @@ public class LoginSettingsScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        if (file.exists()) {
-            String[] items = new ReadFileHandler().readFile();
-            textField.setText(items[0]);
-            userField.setText(items[1]);
-            if(items.length > 2) {
-                passField.setText(items[2]);
-            }
-            
-        } else {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginSettingsScreenController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            setDefault();
-
-        }
+        textField.setText(Config.getConfig(Config.PropKey.DB_SERVER, "localhost:3306"));
+        userField.setText(Config.getConfig(Config.PropKey.DB_USER, "root"));
+        passField.setText(Config.getConfig(Config.PropKey.DB_PWD, "12345"));
     }
 
     protected void passController(LoginScreenController controller) {
@@ -93,13 +75,9 @@ public class LoginSettingsScreenController implements Initializable {
 
     private void save() throws IOException {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        loginSceneController.setServerIP(textField.getText());
-        loginSceneController.setServerUser(userField.getText());
-        loginSceneController.setServerPassword(passField.getText());
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        writeHandler.writeToFile(textField.getText(), userField.getText(), passField.getText());
+        Config.setConfig(Config.PropKey.DB_SERVER, textField.getText());
+        Config.setConfig(Config.PropKey.DB_USER, userField.getText());
+        Config.setConfig(Config.PropKey.DB_PWD, passField.getText());
         message.setFill(Color.GREEN);
         message.setText("Saved");
     }
