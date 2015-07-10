@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.content.Intent;
+
 
 public class StartActivity extends ActionBarActivity {
 
@@ -24,7 +26,8 @@ public class StartActivity extends ActionBarActivity {
                     public void onClick(View view) {
 
 
-
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
                     }
 
                 }
@@ -35,6 +38,11 @@ public class StartActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         Log.i(TAG, "onStart");
+        // add sqllite driver to project before
+        // open sqllite database
+        // if the db is empty add dummy contacts ...
+
+
     }
 
 
