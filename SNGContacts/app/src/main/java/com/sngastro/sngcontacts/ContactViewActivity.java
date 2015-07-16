@@ -1,59 +1,58 @@
 package com.sngastro.sngcontacts;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.Button;
+import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class ContactViewActivity extends ActionBarActivity {
 
     private static final String TAG = "tag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.contact_view);
+        final ContactInfo contactInfo = (ContactInfo) getIntent().getSerializableExtra("ContactInfo");
+        TextView nameView = (TextView) findViewById(R.id.name);
+        TextView cellView = (TextView) findViewById(R.id.cell);
+        TextView homeView = (TextView) findViewById(R.id.home);
+        TextView emailView = (TextView) findViewById(R.id.email);
+        nameView.setText(contactInfo.getName());
+        cellView.setText(contactInfo.getCell());
+        homeView.setText(contactInfo.getHome());
+        emailView.setText(contactInfo.getEmail());
+        Button cellCallButton = (Button) findViewById(R.id.cellCallButton);
+        cellCallButton.setOnClickListener(new Button.OnClickListener() {
 
-        // create a class ContactData with name, phone number
-
-        // add some dummy contact data objects to array
-
-        // display custom view and display name number and a call button
-
-        final ListView listView = (ListView) findViewById(R.id.contactListView);
-        ArrayList<ContactInfo> contactList = new ArrayList<>();
-
-        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com", "12/28/199-"));
-        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com", "12/14/196-"));
-        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress", "8/29/200-"));
-
-        ListAdapter adapter = new ContactArrayAdapter(this, contactList);
-        listView.setAdapter(adapter);
-         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
-                Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
-                i.putExtra("ContactInfo", contactInfo);
+            public void  onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactInfo.getCell()));
                 startActivity(i);
             }
+
+        });
+        Button homeCallButton = (Button) findViewById(R.id.homeCallButton);
+        homeCallButton.setOnClickListener(new Button.OnClickListener() {
+
+            public void  onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactInfo.getHome()));
+                startActivity(i);
+            }
+
         });
         Log.i(TAG, "onCreate");
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_contact_view, menu);
         return true;
     }
 
