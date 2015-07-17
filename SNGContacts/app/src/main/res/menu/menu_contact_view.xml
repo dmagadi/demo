@@ -2,5 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.sngastro.sngcontacts.ContactViewActivity">
-
+    <item
+        android:id="@+id/action_home"
+        android:title="Contacts"
+        android:icon="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
 </menu>

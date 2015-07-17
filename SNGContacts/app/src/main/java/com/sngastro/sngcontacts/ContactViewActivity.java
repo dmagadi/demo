@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -31,22 +33,38 @@ public class ContactViewActivity extends ActionBarActivity {
         Button cellCallButton = (Button) findViewById(R.id.cellCallButton);
         cellCallButton.setOnClickListener(new Button.OnClickListener() {
 
-            public void  onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactInfo.getCell()));
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactInfo.getCell()));
                 startActivity(i);
+                //finish();
             }
 
         });
         Button homeCallButton = (Button) findViewById(R.id.homeCallButton);
         homeCallButton.setOnClickListener(new Button.OnClickListener() {
 
-            public void  onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactInfo.getHome()));
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactInfo.getHome()));
                 startActivity(i);
             }
 
         });
+
+
         Log.i(TAG, "onCreate");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                finish();
+                return true;
+
+            default:
+                return true;
+        }
     }
 
     @Override
