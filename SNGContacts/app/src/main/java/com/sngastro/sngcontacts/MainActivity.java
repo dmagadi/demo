@@ -31,9 +31,9 @@ public class MainActivity extends ActionBarActivity {
         final ListView listView = (ListView) findViewById(R.id.contactListView);
         ArrayList<ContactInfo> contactList = new ArrayList<>();
 
-        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com", "12/28/199-"));
-        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com", "12/14/196-"));
-        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress", "8/29/200-"));
+        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
+        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
+        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
 
         ListAdapter adapter = new ContactArrayAdapter(this, contactList);
         listView.setAdapter(adapter);

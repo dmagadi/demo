@@ -58,8 +58,8 @@ public class ContactViewActivity extends ActionBarActivity {
                                     public void onClick(DialogInterface dialogInterface, int which) {
 
                                     }
-                                }).
-                                setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                                })
+                                .setPositiveButton("Call", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:1" + contactInfo.getHome()));

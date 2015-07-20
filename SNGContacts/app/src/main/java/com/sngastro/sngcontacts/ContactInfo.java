@@ -11,14 +11,12 @@ public class ContactInfo implements Serializable {
     private String home;
     private String cell;
     private String email;
-    private String DOB;
 
-    public ContactInfo(String name, String home, String cell, String email, String DOB) {
+    public ContactInfo(String name, String home, String cell, String email) {
         setName(name);
         setHome(home);
         setCell(cell);
         setEmail(email);
-        setDOB(DOB);
     }
 
     public String getName() {
@@ -51,14 +49,6 @@ public class ContactInfo implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getDOB() {
-        return DOB;
-    }
-
-    public void setDOB(String DOB) {
-        this.DOB = DOB;
     }
 
 }

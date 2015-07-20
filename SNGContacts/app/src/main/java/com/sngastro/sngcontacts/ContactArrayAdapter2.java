@@ -31,7 +31,6 @@ class ContactArrayAdapter2 extends ArrayAdapter<ContactInfo> {
         TextView homeView = (TextView) view.findViewById(R.id.home);
         TextView cellView = (TextView) view.findViewById(R.id.cell);
         TextView emailView = (TextView) view.findViewById(R.id.email);
-        TextView dobView = (TextView) view.findViewById(R.id.dob);
         Button cellCallButton = (Button) view.findViewById(R.id.cellCallButton);
        cellCallButton.setOnClickListener(new Button.OnClickListener() {
 
@@ -60,7 +59,6 @@ class ContactArrayAdapter2 extends ArrayAdapter<ContactInfo> {
         homeView.setText(contactInfo.getHome());
         cellView.setText(contactInfo.getCell());
         emailView.setText(contactInfo.getEmail());
-        dobView.setText(contactInfo.getDOB());
         return view;
     }
 }
