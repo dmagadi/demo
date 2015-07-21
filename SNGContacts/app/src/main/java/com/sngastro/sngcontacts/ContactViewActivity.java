@@ -31,6 +31,7 @@ public class ContactViewActivity extends ActionBarActivity {
         homeView.setText(contactInfo.getHome());
         emailView.setText(contactInfo.getEmail());
         Button cellCallButton = (Button) findViewById(R.id.cellCallButton);
+
         cellCallButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View v) {
@@ -48,6 +49,7 @@ public class ContactViewActivity extends ActionBarActivity {
                                 startActivity(i);
                             }
                         }).show();
+
                 Button homeCallButton = (Button) findViewById(R.id.homeCallButton);
                 homeCallButton.setOnClickListener(new Button.OnClickListener() {
 
@@ -81,7 +83,7 @@ public class ContactViewActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_home:
                 finish();
                 return true;
