@@ -10,6 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.resting.Resting;
+import com.google.resting.component.impl.ServiceResponse;
+
+import java.io.Console;
 import java.util.ArrayList;
 
 
@@ -35,6 +39,10 @@ public class MainActivity extends ActionBarActivity {
         contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
         contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
 
+        ServiceResponse response = Resting.get("http://192.168.1.145:8888/contacts");
+
+        Log.i(TAG,response.getResponseString());
+
         ListAdapter adapter = new ContactArrayAdapter(this, contactList);
         listView.setAdapter(adapter);
          listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
        // getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 

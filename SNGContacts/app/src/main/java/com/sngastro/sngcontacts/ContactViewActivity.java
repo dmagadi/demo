@@ -50,26 +50,27 @@ public class ContactViewActivity extends ActionBarActivity {
                             }
                         }).show();
 
-                Button homeCallButton = (Button) findViewById(R.id.homeCallButton);
-                homeCallButton.setOnClickListener(new Button.OnClickListener() {
 
-                    public void onClick(View v) {
-                        new AlertDialog.Builder(ContactViewActivity.this).setMessage("Call Number").
-                                setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
+            }
+        });
+        Button homeCallButton = (Button) findViewById(R.id.homeCallButton);
+        homeCallButton.setOnClickListener(new Button.OnClickListener() {
 
-                                    }
-                                })
-                                .setPositiveButton("Call", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:1" + contactInfo.getHome()));
-                                        startActivity(i);
-                                    }
-                                }).show();
-                    }
-                });
+            public void onClick(View v) {
+                new AlertDialog.Builder(ContactViewActivity.this).setMessage("Call Number").
+                        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+
+                            }
+                        })
+                        .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:1" + contactInfo.getHome()));
+                                startActivity(i);
+                            }
+                        }).show();
             }
         });
     }
