@@ -93,4 +93,30 @@ public class ContactViewActivity extends ActionBarActivity {
         }
     }
 
+	public void addContact(View v) {
+	
+        Intent i = new Intent(ContactsContract.Intents.Insert.ACTION);
+        i.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+        i.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getName());
+        i.putExtra(ContactsContract.Intents.Insert.PHONE, contactInfo.getCell())
+        .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+        i.putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, contactInfo.getHome())
+        .putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_HOME);
+        i.putExtra(ContactsContract.Intents.Insert.EMAIL, contactInfo.getEmail())
+        .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME);
+        startActivity(i);
+
+    }
+
+    class ScrollListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+
+
+
+            return true;
+        }
+    }
+
 }
