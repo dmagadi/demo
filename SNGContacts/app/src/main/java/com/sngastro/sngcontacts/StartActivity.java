@@ -2,12 +2,12 @@ package com.sngastro.sngcontacts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
-public class StartActivity extends ActionBarActivity {
+public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 

@@ -7,7 +7,13 @@ package Server;
 
 import com.google.gson.Gson;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
 import spark.SparkBase;
@@ -25,35 +31,28 @@ public class ContactsServer {
         
         get("/contacts", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Returning contacts from the server...");
-            ArrayList<ContactData> contacts = new ArrayList();
-            
-            //return getAllContacts();
-            
-            ContactData c = new ContactData();
-            c.name = "Test";
-            
-            contacts.add(c);
-            ContactData c2 = new ContactData();
-            c2.name = "Test2";
-            
-            contacts.add(c2);
-            return contacts;
+            ArrayList<ContactInfo> contactList = getAllContacts();
+            return contactList;
         }, gson::toJson);
                 
         get("/login", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Login api...");
             
-            String user = req.queryParams("user");
             String password = req.queryParams("password");
             
-            LoggerFactory.getLogger("main").info("User " + user + " Password " + password);
+            LoggerFactory.getLogger("main").info("Password " + password);
             
-            doLogin(user,password);
-//            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = null;
+            try {
+                md = MessageDigest.getInstance("MD5");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ContactsServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-//            byte[] thedigest = md.digest(password.getBytes());
-            
-            return "SUCCESS"; // replace this with Result Object 
+            byte[] thedigest = md.digest(password.getBytes());
+            String passwordHash = createHexString(thedigest);
+            Result result = doLogin(passwordHash);
+            return result; // replace this with Result Object 
         }, gson::toJson);
         
         
@@ -65,24 +64,90 @@ public class ContactsServer {
         });
     }
 
-    private static ArrayList<ContactData> getAllContacts() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static ArrayList<ContactInfo> getAllContacts() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnectionHandler.getConnectionToDatabase();
+
+            pstmt = conn.prepareStatement("Select * from users");
+
+            rs = pstmt.executeQuery();
+            ArrayList<ContactInfo> contactList = new ArrayList<>();
+            while (rs.next()) {
+                ContactInfo user = new ContactInfo();
+                user.name = rs.getString("name");
+                user.cell = rs.getString("cell");
+                user.home = rs.getString("home");
+                user.email = rs.getString("email");
+                contactList.add(user);
+            }
+
+            return contactList;
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+
+        } finally {// always close connection/preparedstatment/statement/resultset here 
+            DBConnectionHandler.closeRS(rs);
+            DBConnectionHandler.closePreparedStatement(pstmt);
+            DBConnectionHandler.closeConnection(conn);
+        }
     }
     // mds hash
-    private static void doLogin(String user, String passwordhash) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static Result doLogin(String passwordHash) {
+        Result result = new Result();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            conn = DBConnectionHandler.getConnectionToDatabase();
+            pstmt = conn.prepareStatement("Select * from users where password = ?");
+            pstmt.setString(1, passwordHash);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                result.value = "SUCCESS";
+            } else {
+                result.value = "FAILURE";
+            }
+            
+        } catch (Exception e) {
+            
+            throw new RuntimeException(e);
+            
+        } finally {
+            DBConnectionHandler.closeRS(rs);
+            DBConnectionHandler.closePreparedStatement(pstmt);
+            DBConnectionHandler.closeConnection(conn);
+        }
+        return result;
     }
+
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static String createHexString(byte[] bytes) {
+    char[] hexChars = new char[bytes.length * 2];
+    for ( int j = 0; j < bytes.length; j++ ) {
+        int v = bytes[j] & 0xFF;
+        hexChars[j * 2] = hexArray[v >>> 4];
+        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+    }
+    return new String(hexChars);
+}
     
-    static class ContactData{
+    static class ContactInfo{
         public String name;
-        public String cellNumber;
-        public String homeNumber;
-        public String email;
-                
+        public String home;
+        public String cell;
+        public String email;       
     }
     
     static class Result{
-        public String result;
+        public String value;
     }
 
 }

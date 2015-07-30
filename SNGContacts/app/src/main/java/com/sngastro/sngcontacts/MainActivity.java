@@ -2,7 +2,7 @@ package com.sngastro.sngcontacts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -10,16 +10,19 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.google.resting.Resting;
-import com.google.resting.component.impl.ServiceResponse;
-
-import java.io.Console;
 import java.util.ArrayList;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
+    public static final String ENDPOINT = "http://192.168.1.253:8888";
+    ArrayList<ContactInfo> contactList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +36,29 @@ public class MainActivity extends ActionBarActivity {
         // display custom view and display name number and a call button
 
         final ListView listView = (ListView) findViewById(R.id.contactListView);
-        ArrayList<ContactInfo> contactList = new ArrayList<>();
+        contactList = new ArrayList<>();
 
-        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
-        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
-        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
+//        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
+//        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
+//        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
 
-        ServiceResponse response = Resting.get("http://192.168.1.145:8888/contacts");
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(ENDPOINT).build();
+        ContactHandler handler = restAdapter.create(ContactHandler.class);
+        handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
+            @Override
+            public void success(ArrayList<ContactInfo> contactInfoArrayList, Response response) {
+                contactList = contactInfoArrayList;
+            }
 
-        Log.i(TAG,response.getResponseString());
+            @Override
+            public void failure(RetrofitError retrofitError) {
+
+            }
+        });
 
         ListAdapter adapter = new ContactArrayAdapter(this, contactList);
         listView.setAdapter(adapter);
-         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
@@ -61,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        // getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
     }
