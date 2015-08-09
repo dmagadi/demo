@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
             @Override
             public void success(ArrayList<ContactInfo> contactInfoArrayList, Response response) {
-                contactList = contactInfoArrayList;
+                contactList.addAll(contactInfoArrayList);
             }
 
             @Override
