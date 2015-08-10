@@ -40,7 +40,7 @@ public class ContactsServer {
             
             String password = req.queryParams("password");
             
-            LoggerFactory.getLogger("main").info("Password " + password);
+            //LoggerFactory.getLogger("main").info("Password " + password);
             
             MessageDigest md = null;
             try {
@@ -51,6 +51,7 @@ public class ContactsServer {
             
             byte[] thedigest = md.digest(password.getBytes());
             String passwordHash = createHexString(thedigest);
+            LoggerFactory.getLogger("main").info("Password hash: " + passwordHash);
             Result result = doLogin(passwordHash);
             return result; // replace this with Result Object 
         }, gson::toJson);
