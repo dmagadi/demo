@@ -37,22 +37,22 @@ public class ContactsServer {
                 
         get("/login", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Login api...");
-            
-            String password = req.queryParams("password");
+            String user = req.queryParams("user");
+            String passwordHash  = req.queryParams("password");
             
             //LoggerFactory.getLogger("main").info("Password " + password);
             
-            MessageDigest md = null;
-            try {
-                md = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(ContactsServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            byte[] thedigest = md.digest(password.getBytes());
-            String passwordHash = createHexString(thedigest);
+//            MessageDigest md = null;
+//            try {
+//                md = MessageDigest.getInstance("MD5");
+//            } catch (NoSuchAlgorithmException ex) {
+//                Logger.getLogger(ContactsServer.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            
+//            byte[] thedigest = md.digest(password.getBytes());
+//            String passwordHash = createHexString(thedigest);
             LoggerFactory.getLogger("main").info("Password hash: " + passwordHash);
-            Result result = doLogin(passwordHash);
+            Result result = doLogin(user,passwordHash);
             return result; // replace this with Result Object 
         }, gson::toJson);
         
@@ -99,7 +99,7 @@ public class ContactsServer {
         }
     }
     // mds hash
-    private static Result doLogin(String passwordHash) {
+    private static Result doLogin(String user,String passwordHash) {
         Result result = new Result();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -108,8 +108,9 @@ public class ContactsServer {
         try {
             
             conn = DBConnectionHandler.getConnectionToDatabase();
-            pstmt = conn.prepareStatement("Select * from users where password = ?");
-            pstmt.setString(1, passwordHash);
+            pstmt = conn.prepareStatement("Select * from users where user = ? and password = ?");
+            pstmt.setString(1, user);
+            pstmt.setString(2, passwordHash);
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 result.value = "SUCCESS";

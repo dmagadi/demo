@@ -39,4 +39,17 @@
         android:enabled="true"
         android:onClick="onClick"
         android:textSize="16sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userField"
+        android:layout_alignBottom="@+id/passwordField"
+        android:layout_marginBottom="41dp"
+        android:layout_alignLeft="@+id/passwordField"
+        android:layout_alignStart="@+id/passwordField"
+        android:layout_alignRight="@+id/passwordField"
+        android:layout_alignEnd="@+id/passwordField"
+        android:editable="true"
+        android:hint="@string/userFieldHint" />
 </RelativeLayout>
