@@ -6,22 +6,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
+    String password = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        EditText passField = (EditText) findViewById(R.id.passwordField);
+        password = passField.getText().toString();
         Log.i(TAG, "onCreate");
     }
 
     public void onClick(View v) {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
+        if (doLogin(password)) {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }
+        else {
+            Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT);
+        }
         Log.i(TAG, "onClick");
+    }
+
+    private boolean doLogin(String password) {
+        Res
     }
 
     @Override

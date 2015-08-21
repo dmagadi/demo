@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.sngastro.sngcontacts.StartActivity"
-    android:onClick="onClick"
-    android:clickable="true">
+    android:clickable="false">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -13,4 +12,31 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/sngmalogo"
         android:scaleType="center" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordField"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:hint="@string/passHint"
+        android:password="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter"
+        android:id="@+id/button"
+        android:layout_below="@+id/passwordField"
+        android:layout_alignLeft="@+id/passwordField"
+        android:layout_alignStart="@+id/passwordField"
+        android:layout_alignRight="@+id/passwordField"
+        android:layout_alignEnd="@+id/passwordField"
+        android:clickable="true"
+        android:enabled="true"
+        android:onClick="onClick"
+        android:textSize="16sp" />
 </RelativeLayout>

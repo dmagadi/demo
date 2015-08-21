@@ -11,4 +11,5 @@
     <string name="DOBLabel">Birthday</string>
     <string name="callText">Call</string>
     <string name="title_activity_contact_view">ContactViewActivity</string>
+    <string name="passHint">Password</string>
 </resources>
