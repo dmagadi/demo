@@ -6,14 +6,11 @@
 package Server;
 
 import com.google.gson.Gson;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
 import spark.SparkBase;
@@ -70,28 +67,38 @@ public class ContactsServer {
         PreparedStatement getContacts = null;
         PreparedStatement getPhone = null;
         PreparedStatement getEmail = null;
-        ResultSet contacts = null;
-        ResultSet phone = null;
-        ResultSet email = null;
+        ResultSet contactsRS = null;
+        ResultSet phoneRS = null;
+        ResultSet emailRS = null;
 
         try {
             conn = DBConnectionHandler.getConnectionToDatabase();
 
-            getContacts = conn.prepareStatement("Select * from contacts");
+            getContacts = conn.prepareStatement("Select * from contact");
             getPhone = conn.prepareStatement("Select * from phone_numbers where contact_id=?");
-            getEmail = conn.prepareStatement("Select * from phone_numbers where contact_id=?");
+            getEmail = conn.prepareStatement("Select * from email where contact_id=?");
 
-            contacts = getContacts.executeQuery();
+            contactsRS = getContacts.executeQuery();
             ArrayList<ContactInfo> contactList = new ArrayList<>();
-            while (contacts.next()) {
+            while (contactsRS.next()) {
                 ContactInfo user = new ContactInfo();
-                getPhone.setInt(1, contacts.getInt("id"));
-                getEmail.setInt(1, contacts.getInt("id"));
-                phone = getPhone.executeQuery();
-                email = getEmail.executeQuery();
+                getPhone.setInt(1, contactsRS.getInt("id"));
+                getEmail.setInt(1, contactsRS.getInt("id"));
+                phoneRS = getPhone.executeQuery();
+                emailRS = getEmail.executeQuery();
+                while(phoneRS.next()) {
+                    PhoneNumber number = new PhoneNumber();
+                    number.number = phoneRS.getString("phone_number");
+                    number.type = phoneRS.getString("phone_type");
+                    user.phoneNumbers.add(number);
+                }
                 
-                
-                
+                while(emailRS.next()) {
+                    Email email = new Email();
+                    email.email = emailRS.getString("email");
+                    email.type = emailRS.getString("email_type");
+                    user.emails.add(email);
+                }
                 
                 contactList.add(user);
             }
@@ -103,8 +110,12 @@ public class ContactsServer {
             throw new RuntimeException(e);
 
         } finally {// always close connection/preparedstatment/statement/resultset here 
-            DBConnectionHandler.closeRS(rs);
-            DBConnectionHandler.closePreparedStatement(pstmt);
+            DBConnectionHandler.closeRS(emailRS);
+            DBConnectionHandler.closeRS(phoneRS);
+            DBConnectionHandler.closeRS(contactsRS);
+            DBConnectionHandler.closePreparedStatement(getContacts);
+            DBConnectionHandler.closePreparedStatement(getEmail);
+            DBConnectionHandler.closePreparedStatement(getPhone);
             DBConnectionHandler.closeConnection(conn);
         }
     }
@@ -142,13 +153,26 @@ public class ContactsServer {
     
     static class ContactInfo{
         public String name;
-        public String home;
-        public String cell;
-        public String email;       
+        public List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        public List<Email> emails = new ArrayList<>();
     }
     
     static class Result{
         public String value;
     }
-
+    
+    static class PhoneNumber {
+        
+        public String number;
+        public String type;
+        
+    }
+    
+    static class Email {
+        
+        public String email;
+        public String type;
+        
+    }
+    
 }
