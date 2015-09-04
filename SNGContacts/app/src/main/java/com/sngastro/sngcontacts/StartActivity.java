@@ -21,27 +21,43 @@ import java.util.Set;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
     String password = null;
     String user = null;
+    boolean loginSuccessful;
+    EditText passField;
+    EditText userField;
+
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static String createHexString(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        EditText passField = (EditText) findViewById(R.id.passwordField);
-        password = passField.getText().toString();
-        EditText userField = (EditText) findViewById(R.id.userField);
-        user = userField.getText().toString();
+        passField = (EditText) findViewById(R.id.passwordField);
+        userField = (EditText) findViewById(R.id.userField);
         Log.i(TAG, "onCreate");
     }
 
     public void onClick(View v) {
 
         MessageDigest md = null;
+        password = passField.getText().toString();
+        user = userField.getText().toString();
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException ex) {
@@ -52,29 +68,44 @@ public class StartActivity extends AppCompatActivity {
         String passwordHash = createHexString(thedigest);
 
 
-        if (doLogin(user, passwordHash)) {
+        if (login(user, passwordHash)) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-        }
-        else {
-            Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT);
-        }
+        } else Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
+
         Log.i(TAG, "onClick");
     }
 
-    private boolean doLogin(String user ,String password) {
+    private boolean login(String user, String password) {
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(MainActivity.ENDPOINT).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
 
         Map<String,String> params = new HashMap<String, String>() ;
 
         params.put("user",user);
-        params.put("password",password);
+        params.put("password", password);
 
+        handler.doLogin(params, new Callback<Result>() {
 
-        handler.doLogin(new Callback<Result>() {
+            @Override
+            public void success(Result result, Response response) {
+                if (result.value.equals("SUCCESS")) {
+                    loginSuccessful = true;
+                }
+            }
 
-        }) ;
+            @Override
+            public void failure(RetrofitError retrofitError) {
+
+            }
+
+        });
+        if (loginSuccessful) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -142,8 +173,7 @@ public class StartActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_start, menu);
         return true;
     }
-
-    class Result {
+        class Result {
         String value;
     }
 

@@ -67,22 +67,32 @@ public class ContactsServer {
 
     private static ArrayList<ContactInfo> getAllContacts() {
         Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement getContacts = null;
+        PreparedStatement getPhone = null;
+        PreparedStatement getEmail = null;
+        ResultSet contacts = null;
+        ResultSet phone = null;
+        ResultSet email = null;
 
         try {
             conn = DBConnectionHandler.getConnectionToDatabase();
 
-            pstmt = conn.prepareStatement("Select * from users");
+            getContacts = conn.prepareStatement("Select * from contacts");
+            getPhone = conn.prepareStatement("Select * from phone_numbers where contact_id=?");
+            getEmail = conn.prepareStatement("Select * from phone_numbers where contact_id=?");
 
-            rs = pstmt.executeQuery();
+            contacts = getContacts.executeQuery();
             ArrayList<ContactInfo> contactList = new ArrayList<>();
-            while (rs.next()) {
+            while (contacts.next()) {
                 ContactInfo user = new ContactInfo();
-                user.name = rs.getString("name");
-                user.cell = rs.getString("cell");
-                user.home = rs.getString("home");
-                user.email = rs.getString("email");
+                getPhone.setInt(1, contacts.getInt("id"));
+                getEmail.setInt(1, contacts.getInt("id"));
+                phone = getPhone.executeQuery();
+                email = getEmail.executeQuery();
+                
+                
+                
+                
                 contactList.add(user);
             }
 
@@ -108,7 +118,7 @@ public class ContactsServer {
         try {
             
             conn = DBConnectionHandler.getConnectionToDatabase();
-            pstmt = conn.prepareStatement("Select * from users where user = ? and password = ?");
+            pstmt = conn.prepareStatement("Select * from users where username = ? and password = ?");
             pstmt.setString(1, user);
             pstmt.setString(2, passwordHash);
             rs = pstmt.executeQuery();
@@ -129,17 +139,6 @@ public class ContactsServer {
         }
         return result;
     }
-
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    private static String createHexString(byte[] bytes) {
-    char[] hexChars = new char[bytes.length * 2];
-    for ( int j = 0; j < bytes.length; j++ ) {
-        int v = bytes[j] & 0xFF;
-        hexChars[j * 2] = hexArray[v >>> 4];
-        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-    }
-    return new String(hexChars);
-}
     
     static class ContactInfo{
         public String name;
