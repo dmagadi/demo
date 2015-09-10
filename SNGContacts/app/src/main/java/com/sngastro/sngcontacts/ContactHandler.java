@@ -1,5 +1,7 @@
 package com.sngastro.sngcontacts;
 
+import com.sngastro.sngcontacts.contact.ContactInfo;
+
 import java.util.ArrayList;
 import java.util.Map;
 

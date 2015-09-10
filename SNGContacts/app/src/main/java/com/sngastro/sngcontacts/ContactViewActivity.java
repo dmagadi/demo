@@ -1,19 +1,16 @@
 package com.sngastro.sngcontacts;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.sngastro.sngcontacts.adapter.PhoneNumberAdapter;
+import com.sngastro.sngcontacts.contact.ContactInfo;
+import com.sngastro.sngcontacts.contact.PhoneNumber;
 
 
 public class ContactViewActivity extends AppCompatActivity {
@@ -23,60 +20,16 @@ public class ContactViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_view);
         contactInfo = (ContactInfo) getIntent().getSerializableExtra("ContactInfo");
-        TextView nameView = (TextView) findViewById(R.id.name);
-        TextView cellView = (TextView) findViewById(R.id.cell);
-        TextView homeView = (TextView) findViewById(R.id.home);
-        TextView emailView = (TextView) findViewById(R.id.email);
-        nameView.setText(contactInfo.getName());
-        cellView.setText(contactInfo.getCell());
-        homeView.setText(contactInfo.getHome());
-        emailView.setText(contactInfo.getEmail());
-        Button cellCallButton = (Button) findViewById(R.id.cellCallButton);
+        TextView nameView = (TextView) findViewById(R.id.nameText);
+        nameView.setText(contactInfo.getFirstName() + " " + contactInfo.getLastName());
+        ArrayAdapter<PhoneNumber> adapter = new PhoneNumberAdapter(this, contactInfo.getPhoneNumbers());
+        ListView phoneView = (ListView) findViewById(R.id.phoneNumberListView);
+        phoneView.setAdapter(adapter);
 
-        cellCallButton.setOnClickListener(new Button.OnClickListener() {
-
-            public void onClick(View v) {
-                new AlertDialog.Builder(ContactViewActivity.this).setMessage("Call Number").
-                        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-
-                            }
-                        })
-                        .setPositiveButton("Call", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:1" + contactInfo.getCell()));
-                                startActivity(i);
-                            }
-                        }).show();
-
-
-            }
-        });
-        Button homeCallButton = (Button) findViewById(R.id.homeCallButton);
-        homeCallButton.setOnClickListener(new Button.OnClickListener() {
-
-            public void onClick(View v) {
-                new AlertDialog.Builder(ContactViewActivity.this).setMessage("Call Number").
-                        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-
-                            }
-                        })
-                        .setPositiveButton("Call", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel:1" + contactInfo.getHome()));
-                                startActivity(i);
-                            }
-                        }).show();
-            }
-        });
     }
 
     @Override
@@ -97,8 +50,9 @@ public class ContactViewActivity extends AppCompatActivity {
         }
     }
 
-	public void addContact(View v) {
-	
+/*
+    public void addContact(View v) {
+
         Intent i = new Intent(ContactsContract.Intents.Insert.ACTION);
         i.setType(ContactsContract.RawContacts.CONTENT_TYPE);
         i.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getName());
@@ -110,17 +64,7 @@ public class ContactViewActivity extends AppCompatActivity {
         .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME);
         startActivity(i);
 
-    }
-
-    class ScrollListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-
-
-
-            return true;
-        }
-    }
+}
+*/
 
 }

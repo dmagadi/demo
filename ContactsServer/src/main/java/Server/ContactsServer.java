@@ -74,14 +74,14 @@ public class ContactsServer {
         try {
             conn = DBConnectionHandler.getConnectionToDatabase();
 
-            getContacts = conn.prepareStatement("Select * from contact");
+            getContacts = conn.prepareStatement("Select * from contacts");
             getPhone = conn.prepareStatement("Select * from phone_numbers where contact_id=?");
             getEmail = conn.prepareStatement("Select * from email where contact_id=?");
 
             contactsRS = getContacts.executeQuery();
             ArrayList<ContactInfo> contactList = new ArrayList<>();
             while (contactsRS.next()) {
-                ContactInfo user = new ContactInfo();
+                ContactInfo contact = new ContactInfo();
                 getPhone.setInt(1, contactsRS.getInt("id"));
                 getEmail.setInt(1, contactsRS.getInt("id"));
                 phoneRS = getPhone.executeQuery();
@@ -90,17 +90,18 @@ public class ContactsServer {
                     PhoneNumber number = new PhoneNumber();
                     number.number = phoneRS.getString("phone_number");
                     number.type = phoneRS.getString("phone_type");
-                    user.phoneNumbers.add(number);
+                    contact.phoneNumbers.add(number);
                 }
                 
                 while(emailRS.next()) {
                     Email email = new Email();
                     email.email = emailRS.getString("email");
                     email.type = emailRS.getString("email_type");
-                    user.emails.add(email);
+                    contact.emails.add(email);
                 }
-                
-                contactList.add(user);
+                contact.firstName = contactsRS.getString("FirstName");
+                contact.lastName = contactsRS.getString("LastName");
+                contactList.add(contact);
             }
 
             return contactList;
@@ -152,9 +153,10 @@ public class ContactsServer {
     }
     
     static class ContactInfo{
-        public String name;
-        public List<PhoneNumber> phoneNumbers = new ArrayList<>();
-        public List<Email> emails = new ArrayList<>();
+        public String firstName;
+        public String lastName;
+        public ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
+        public ArrayList<Email> emails = new ArrayList<>();
     }
     
     static class Result{

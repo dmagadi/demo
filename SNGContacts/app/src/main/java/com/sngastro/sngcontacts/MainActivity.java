@@ -10,6 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.sngastro.sngcontacts.contact.ContactInfo;
+import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
+
 import java.util.ArrayList;
 
 import retrofit.Callback;

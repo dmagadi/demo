@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/name"
+        android:text="@string/nameText"
+        android:id="@+id/nameText"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -21,97 +21,68 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/cellLabel"
-        android:id="@+id/textView"
-        android:layout_below="@+id/name"
+        android:text="@string/phoneNumbersLabel"
+        android:id="@+id/phoneText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/nameText"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentRight="false"
         android:padding="4dp" />
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/cell"
-        android:layout_below="@+id/textView"
+        android:id="@+id/phoneNumberListView"
+        android:layout_below="@+id/phoneText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="4dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/homeLabel"
-        android:id="@+id/textView2"
         android:padding="4dp"
-        android:layout_below="@+id/cell"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp" />
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/home"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:padding="4dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/emailText"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/emailLabel"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/home"
+        android:text="@string/emailAddressesLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp"
-        android:padding="4dp" />
+        android:layout_below="@+id/phoneNumberListView"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentRight="false"
+        android:padding="4dp"/>
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/email"
-        android:layout_below="@+id/textView3"
+        android:id="@+id/emailListView"
+        android:layout_below="@+id/emailText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false" />
 
     <Button
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/callText"
-        android:id="@+id/cellCallButton"
-        android:clickable="true"
-        android:enabled="true"
-        android:padding="4dp"
-        android:background="#006600"
-        android:textColor="#FFFFFF"
-        android:layout_alignBottom="@+id/cell"
+        android:text="@string/addToContacts"
+        android:id="@+id/addToContactsButton"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="@string/callText"
-        android:id="@+id/homeCallButton"
-        android:clickable="true"
-        android:enabled="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="addContact"
         android:padding="4dp"
-        android:background="#006600"
         android:textColor="#FFFFFF"
-        android:layout_alignBottom="@+id/home"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:textSize="12sp"
+        android:background="#006400" />
 
 </RelativeLayout>
