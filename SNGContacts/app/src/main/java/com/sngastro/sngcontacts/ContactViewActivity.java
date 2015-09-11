@@ -12,6 +12,8 @@ import com.sngastro.sngcontacts.adapter.PhoneNumberAdapter;
 import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.contact.PhoneNumber;
 
+import java.util.List;
+
 
 public class ContactViewActivity extends AppCompatActivity {
 
@@ -23,7 +25,11 @@ public class ContactViewActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_view);
-        contactInfo = (ContactInfo) getIntent().getSerializableExtra("ContactInfo");
+        List<ContactInfo> contactInfos = (List) getIntent().getSerializableExtra("ContactInfo");
+
+         contactInfo = contactInfos.get(0);
+
+
         TextView nameView = (TextView) findViewById(R.id.nameText);
         nameView.setText(contactInfo.getFirstName() + " " + contactInfo.getLastName());
         ArrayAdapter<PhoneNumber> adapter = new PhoneNumberAdapter(this, contactInfo.getPhoneNumbers());

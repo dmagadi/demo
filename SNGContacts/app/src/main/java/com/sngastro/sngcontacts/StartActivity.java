@@ -68,15 +68,15 @@ public class StartActivity extends AppCompatActivity {
         String passwordHash = createHexString(thedigest);
 
 
-        if (login(user, passwordHash)) {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
-        } else Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
-
+        login(user, passwordHash);
         Log.i(TAG, "onClick");
     }
 
-    private boolean login(String user, String password) {
+    private void  showErrorMessage() {
+        Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
+    }
+
+    private void login(String user, String password) {
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(MainActivity.ENDPOINT).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
 
@@ -91,21 +91,25 @@ public class StartActivity extends AppCompatActivity {
             public void success(Result result, Response response) {
                 if (result.value.equals("SUCCESS")) {
                     loginSuccessful = true;
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                }else{
+                    showErrorMessage();
                 }
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
-
+                Log.i(TAG, "failure");
             }
 
         });
-        if (loginSuccessful) {
-            return true;
-        }
-        else {
-            return false;
-        }
+//        if (loginSuccessful) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
     }
 
     @Override

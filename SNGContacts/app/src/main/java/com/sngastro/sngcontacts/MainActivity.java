@@ -24,7 +24,7 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
-    public static final String ENDPOINT = "http://192.168.1.253:8888";
+    public static final String ENDPOINT = "http://192.168.1.145:8888";
     ArrayList<ContactInfo> contactList;
 
     @Override
@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
                 Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
-                i.putExtra("ContactInfo", contactInfo);
+
+                ArrayList<ContactInfo> list = new ArrayList<ContactInfo>();
+                list.add(contactInfo);
+                i.putExtra("ContactInfo", list);
                 startActivity(i);
             }
         });

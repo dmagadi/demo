@@ -1,9 +1,11 @@
 package com.sngastro.sngcontacts.contact;
 
+import java.io.Serializable;
+
 /**
  * Created by Aamir on 9/6/2015.
  */
-public class PhoneNumber {
+public class PhoneNumber implements Serializable {
 
     private String number;
     private String type;
