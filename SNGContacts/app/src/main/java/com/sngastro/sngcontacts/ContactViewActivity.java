@@ -8,8 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.sngastro.sngcontacts.adapter.EmailAdapter;
 import com.sngastro.sngcontacts.adapter.PhoneNumberAdapter;
 import com.sngastro.sngcontacts.contact.ContactInfo;
+import com.sngastro.sngcontacts.contact.Email;
 import com.sngastro.sngcontacts.contact.PhoneNumber;
 
 import java.util.List;
@@ -32,9 +34,12 @@ public class ContactViewActivity extends AppCompatActivity {
 
         TextView nameView = (TextView) findViewById(R.id.nameText);
         nameView.setText(contactInfo.getFirstName() + " " + contactInfo.getLastName());
-        ArrayAdapter<PhoneNumber> adapter = new PhoneNumberAdapter(this, contactInfo.getPhoneNumbers());
+        ArrayAdapter<PhoneNumber> phoneAdapter = new PhoneNumberAdapter(this, contactInfo.getPhoneNumbers());
         ListView phoneView = (ListView) findViewById(R.id.phoneNumberListView);
-        phoneView.setAdapter(adapter);
+        phoneView.setAdapter(phoneAdapter);
+        ArrayAdapter<Email> emailAdapter = new EmailAdapter(this, contactInfo.getEmails());
+        ListView emailView = (ListView) findViewById(R.id.emailListView);
+        emailView.setAdapter(emailAdapter);
 
     }
 

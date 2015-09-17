@@ -13,4 +13,6 @@
     <string name="phoneNumbersLabel">Phone Numbers</string>
     <string name="emailAddressesLabel">Email Addresses</string>
     <string name="addToContacts">Add to Contacts</string>
+    <string name="callText">Call Number</string>
+    <string name="emailBtnText">Email</string>
 </resources>

@@ -25,7 +25,7 @@ public class DBConnectionHandler {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/sng_db", "root", "");
+                    .getConnection("jdbc:mysql://localhost:3306/sng_db", "root", "12345");
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }

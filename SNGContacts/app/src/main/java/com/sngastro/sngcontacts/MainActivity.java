@@ -24,7 +24,7 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
-    public static final String ENDPOINT = "http://192.168.1.145:8888";
+    public static final String ENDPOINT = "http://192.168.1.253:8888";
     ArrayList<ContactInfo> contactList;
 
     @Override
