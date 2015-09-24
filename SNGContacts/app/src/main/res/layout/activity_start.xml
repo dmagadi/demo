@@ -11,7 +11,8 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/sngmalogo"
-        android:scaleType="center" />
+        android:scaleType="center"
+        android:layout_alignParentBottom="true" />
 
     <EditText
         android:layout_width="wrap_content"

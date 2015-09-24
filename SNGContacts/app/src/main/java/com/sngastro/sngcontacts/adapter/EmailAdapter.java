@@ -28,8 +28,10 @@ public class EmailAdapter extends ArrayAdapter<Email> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.email_list_item, parent, false);
         Email email = getItem(position);
+        TextView typeView = (TextView) view.findViewById(R.id.type);
+        typeView.setText(email.getType());
         TextView emailView = (TextView) view.findViewById(R.id.email);
-        emailView.setText(email.getEmail() + " [" + email.getType() + "]");
+        emailView.setText(email.getEmail());
         return view;
 
     }

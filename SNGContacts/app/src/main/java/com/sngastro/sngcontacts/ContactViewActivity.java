@@ -1,9 +1,12 @@
 package com.sngastro.sngcontacts;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,21 +64,58 @@ public class ContactViewActivity extends AppCompatActivity {
         }
     }
 
-/*
+
     public void addContact(View v) {
 
         Intent i = new Intent(ContactsContract.Intents.Insert.ACTION);
         i.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-        i.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getName());
-        i.putExtra(ContactsContract.Intents.Insert.PHONE, contactInfo.getCell())
-        .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
-        i.putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, contactInfo.getHome())
-        .putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_HOME);
-        i.putExtra(ContactsContract.Intents.Insert.EMAIL, contactInfo.getEmail())
-        .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME);
+        i.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getFirstName())
+        .putExtra(ContactsContract.Intents.Insert.NAME, ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+        i.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getLastName())
+        .putExtra(ContactsContract.Intents.Insert.NAME, ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME);
+        for (PhoneNumber number: contactInfo.getPhoneNumbers()) {
+            switch (number.getType()) {
+                case "HOME":
+                    i.putExtra(ContactsContract.Intents.Insert.PHONE, number.getNumber())
+                            .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_HOME);
+                    break;
+                case "WORK":
+                    i.putExtra(ContactsContract.Intents.Insert.PHONE, number.getNumber())
+                            .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK);
+                    break;
+                case "CELL":
+                    i.putExtra(ContactsContract.Intents.Insert.PHONE, number.getNumber())
+                            .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+                    break;
+                default:
+                    i.putExtra(ContactsContract.Intents.Insert.PHONE, number.getNumber())
+                            .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_OTHER);
+                    break;
+            }
+        }
+        for (Email email: contactInfo.getEmails()) {
+            switch (email.getType()) {
+                case "HOME":
+                    i.putExtra(ContactsContract.Intents.Insert.EMAIL, email.getEmail())
+                            .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME);
+                    break;
+                case "WORK":
+                    i.putExtra(ContactsContract.Intents.Insert.EMAIL, email.getEmail())
+                            .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
+                    break;
+                case "CELL":
+                    i.putExtra(ContactsContract.Intents.Insert.EMAIL, email.getEmail())
+                            .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_MOBILE);
+                    break;
+                default:
+                    i.putExtra(ContactsContract.Intents.Insert.EMAIL, email.getEmail())
+                            .putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_OTHER);
+                    break;
+            }
+        }
         startActivity(i);
 
-}
-*/
+    }
+
 
 }
