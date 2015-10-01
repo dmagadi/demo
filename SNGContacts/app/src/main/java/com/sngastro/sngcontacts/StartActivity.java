@@ -103,7 +103,7 @@ public class StartActivity extends AppCompatActivity {
                 Log.i(TAG, "failure");
             }
 
-        });
+            });
 //        if (loginSuccessful) {
 //            return true;
 //        }
