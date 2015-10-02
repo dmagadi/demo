@@ -73,7 +73,7 @@ public class ContactsServer {
         try {
             conn = DBConnectionHandler.getConnectionToDatabase();
 
-            getContacts = conn.prepareStatement("Select * from contacts");
+            getContacts = conn.prepareStatement("Select * from contacts order by LastName, FirstName");
             getPhone = conn.prepareStatement("Select * from phone_numbers where contact_id=?");
             getEmail = conn.prepareStatement("Select * from email where contact_id=?");
 

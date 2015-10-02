@@ -49,7 +49,7 @@ public class PhoneNumberAdapter extends ArrayAdapter<PhoneNumber> {
                         })
                         .setNegativeButton("Call", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(Intent.ACTION_CALL);
+                                Intent i = new Intent(Intent.ACTION_DIAL);
                                 i.setData(Uri.parse("tel:" + "1" + phoneNumber.getNumber()));
                                 view.getContext().startActivity(i);
                             }
