@@ -5,11 +5,16 @@
  */
 package data.helper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilterReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,11 +24,30 @@ import java.util.logging.Logger;
  */
 public class DBConnectionHandler {
 
+    public static Properties prop = null;
+    
+    
+    static{
+              String userHomeFolder = System.getProperty("user.home");
+
+        new File(userHomeFolder + "/addrecords").mkdirs();
+        String propertyFile = userHomeFolder + "/addrecords/addrecords.properties";
+   
+        try {
+            prop = new Properties();
+            
+            prop.load(new FileInputStream(new File(propertyFile)));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+    }
+    
     public static Connection getConnectionToDatabase() {
         
         String ip = "localhost:3306";
-        String user = "root";
-        String password = "12345";
+        String user = prop.getProperty("dbuser");
+        String password = "";
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
