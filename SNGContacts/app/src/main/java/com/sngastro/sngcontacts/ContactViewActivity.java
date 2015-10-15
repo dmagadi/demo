@@ -121,14 +121,14 @@ public class ContactViewActivity extends AppCompatActivity {
         ArrayList<ContentValues> data = new ArrayList<ContentValues>();
 
 
-        ContentValues row0 = new ContentValues();
-        row0.put(ContactsContract.Data.MIMETYPE, ContactsContract.Contacts.CONTENT_TYPE);
-
-        row0.put(ContactsContract.Intents.Insert.NAME ,"Godil,Aamir");
-        row0.put(ContactsContract.CommonDataKinds.Nickname.NAME, "Aamir,Godil");
-        row0.put(ContactsContract.CommonDataKinds.StructuredName.PHONETIC_NAME, "Aamir");
-
-        data.add(row0);
+//        ContentValues row0 = new ContentValues();
+//        row0.put(ContactsContract.Data.MIMETYPE, ContactsContract.Contacts.CONTENT_TYPE);
+//
+//        row0.put(ContactsContract.Intents.Insert.NAME ,"Godil,Aamir");
+//        row0.put(ContactsContract.CommonDataKinds.Nickname.NAME, "Aamir,Godil");
+//        row0.put(ContactsContract.CommonDataKinds.StructuredName.PHONETIC_NAME, "Aamir");
+//
+//        data.add(row0);
 
         ContentValues row1 = new ContentValues();
         row1.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE);
@@ -138,13 +138,15 @@ public class ContactViewActivity extends AppCompatActivity {
         ContentValues row2 = new ContentValues();
         row2.put(ContactsContract.Data.MIMETYPE, 	android.provider.ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
         row2.put(	android.provider.ContactsContract.CommonDataKinds.Email.TYPE, 	android.provider.ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM);
-        row2.put(	android.provider.ContactsContract.CommonDataKinds.Email.LABEL, "Green Bot");
-        row2.put(	android.provider.ContactsContract.CommonDataKinds.Email.ADDRESS, "android@android.com");
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.LABEL, "Green Bot");
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.ADDRESS, "android@android.com");
         data.add(row2);
 
         Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
         intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getFirstName() + " " + contactInfo.getLastName());
 
         startActivity(intent);
 

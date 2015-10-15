@@ -10,7 +10,7 @@
     <top>
         <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER">
             <children>
-                <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Management System" textAlignment="CENTER">
+                <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Contact Info" textAlignment="CENTER">
                     <font>
                         <Font size="22.0" />
                     </font>
