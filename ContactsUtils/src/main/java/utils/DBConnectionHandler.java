@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package data.helper;
+package utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,30 +24,13 @@ import java.util.logging.Logger;
  */
 public class DBConnectionHandler {
 
-    public static Properties prop = null;
     
-    
-    static{
-              String userHomeFolder = System.getProperty("user.home");
-
-        new File(userHomeFolder + "/addrecords").mkdirs();
-        String propertyFile = userHomeFolder + "/addrecords/addrecords.properties";
-   
-        try {
-            prop = new Properties();
-            
-            prop.load(new FileInputStream(new File(propertyFile)));
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        
-    }
     
     public static Connection getConnectionToDatabase() {
         
-        String ip = "localhost:3306";
-        String user = prop.getProperty("dbuser");
-        String password = "";
+        String ip = String.format("%s:%s", Config.getProperty("database", "localhost"), Config.getProperty("dbport", "3306"));
+        String user = Config.getProperty("dbuser", "root");
+        String password = Config.getProperty("dbpassword", "");
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");

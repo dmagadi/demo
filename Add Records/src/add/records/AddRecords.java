@@ -6,13 +6,8 @@
 package add.records;
 
 import add.records.gui.scenes.Accessor;
-import java.io.File;
-import java.io.FileOutputStream;
+import add.records.util.Config;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -27,52 +22,7 @@ import javafx.stage.WindowEvent;
  */
 public class AddRecords extends Application {
 
-    private static void handleProperties() {
-
-        String userHomeFolder = System.getProperty("user.home");
-
-        new File(userHomeFolder + "/addrecords").mkdirs();
-        String propertyFile = userHomeFolder + "/addrecords/addrecords.properties";
-        if (!new File(propertyFile).exists()) {
-            try {
-                //create file
-                new File(userHomeFolder + "/addrecords/addrecords.properties").createNewFile();
-
-                Properties prop = new Properties();
-                OutputStream output = null;
-
-                try {
-
-                    output = new FileOutputStream(propertyFile);
-
-                    // set the properties value
-                    prop.setProperty("database", "localhost");
-                    prop.setProperty("dbuser", "root");
-                    prop.setProperty("dbpassword", "");
-
-                    // save properties to project root folder
-                    prop.store(output, null);
-
-                } catch (IOException io) {
-                    throw new RuntimeException(io);
-                } finally {
-                    if (output != null) {
-                        try {
-                            output.close();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                }
-
-            } catch (IOException ex) {
-                Logger.getLogger(AddRecords.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-    }
+    
     Stage frame;
     
     
@@ -106,7 +56,7 @@ public class AddRecords extends Application {
      */
     public static void main(String[] args) {
 
-        handleProperties();
+        Config.initProperties("AddRecords");
         launch(args);
     }
 

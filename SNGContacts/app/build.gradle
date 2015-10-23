@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.sngastro.sngcontacts"
-        minSdkVersion 8
+        minSdkVersion 11
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -30,6 +30,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile files('A:/Git/demo/SNGContacts/libs/retrofit-1.9.0.jar')
-    compile files('A:/Git/demo/SNGContacts/libs/gson-2.3.1.jar')
+    compile files('/Users/dmagadi/projects/demo/SNGContacts/libs/gson-1.7.1.jar')
+    compile files('/Users/dmagadi/projects/demo/SNGContacts/libs/retrofit-1.9.0.jar')
 }

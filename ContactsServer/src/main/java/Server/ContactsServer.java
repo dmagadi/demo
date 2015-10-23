@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
 import spark.SparkBase;
+import utils.DBConnectionHandler;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ContactsServer {
 
     public static void main(String[] args) {
         SparkBase.port(8888);
-        
+       
         Gson gson = new Gson();
         
         get("/contacts", "application/json", (req, res) -> {
