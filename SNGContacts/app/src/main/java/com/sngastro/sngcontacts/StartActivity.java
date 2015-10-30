@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -20,8 +21,11 @@ import java.util.Set;
 
 
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.Client;
+import retrofit.client.Request;
 import retrofit.client.Response;
 
 public class StartActivity extends AppCompatActivity {
@@ -77,8 +81,16 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void login(String user, String password) {
+        `
+        Client client = new Ht
+
+
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(MainActivity.ENDPOINT).build();
+
+
         ContactHandler handler = restAdapter.create(ContactHandler.class);
+
+
 
         Map<String,String> params = new HashMap<String, String>() ;
 
@@ -100,6 +112,7 @@ public class StartActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError retrofitError) {
+
                 Log.i(TAG, "failure");
             }
 

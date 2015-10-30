@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
 import spark.SparkBase;
+import spark.webserver.SparkServer;
+import utils.Config;
 import utils.DBConnectionHandler;
 
 /**
@@ -22,7 +24,12 @@ import utils.DBConnectionHandler;
 public class ContactsServer {
 
     public static void main(String[] args) {
+        
+        Config.initProperties("ContactsServer");
+        
         SparkBase.port(8888);
+        
+        SparkBase.secure(System.getProperty("user.home")+ "/ContactsServer/keystore.jks", "password", null, null);
        
         Gson gson = new Gson();
         
