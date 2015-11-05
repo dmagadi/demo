@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.squareup.okhttp.OkHttpClient;
+
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,13 +22,17 @@ import java.util.Map;
 import java.util.Set;
 
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.security.cert.CertificateException;
+
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Client;
-import retrofit.client.Request;
-import retrofit.client.Response;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -81,12 +87,10 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void login(String user, String password) {
-        `
-        Client client = new Ht
 
+        OkHttpClient httpClient = getUnsafeOkHttpClient();
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(MainActivity.ENDPOINT).build();
-
+        Retrofit restAdapter = new Retrofit.Builder().baseUrl(MainActivity.ENDPOINT).client(httpClient).build();
 
         ContactHandler handler = restAdapter.create(ContactHandler.class);
 
@@ -100,19 +104,18 @@ public class StartActivity extends AppCompatActivity {
         handler.doLogin(params, new Callback<Result>() {
 
             @Override
-            public void success(Result result, Response response) {
-                if (result.value.equals("SUCCESS")) {
+            public void onResponse(Response<Result> response, Retrofit retrofit) {
+                if (response.body().value.equals("SUCCESS")) {
                     loginSuccessful = true;
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
-                }else{
+                } else {
                     showErrorMessage();
                 }
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
-
+            public void onFailure(Throwable t) {
                 Log.i(TAG, "failure");
             }
 
@@ -192,6 +195,47 @@ public class StartActivity extends AppCompatActivity {
     }
         class Result {
         String value;
+    }
+
+    private static OkHttpClient getUnsafeOkHttpClient() {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[] {
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                        }
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return null;
+                        }
+                    }
+            };
+
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+            OkHttpClient okHttpClient = new OkHttpClient();
+            okHttpClient.setSslSocketFactory(sslSocketFactory);
+            okHttpClient.setHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+
+            return okHttpClient;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

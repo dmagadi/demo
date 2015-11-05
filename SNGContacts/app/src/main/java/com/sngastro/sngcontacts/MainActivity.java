@@ -12,26 +12,26 @@ import android.widget.ListView;
 
 import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
-    public static final String ENDPOINT = "https://192.168.1.145:8888";
+
+    public static final String ENDPOINT = "https://192.168.1.253:8888";
+
     ArrayList<ContactInfo> contactList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // create a class ContactData with name, phone number
 
         // add some dummy contact data objects to array
@@ -44,17 +44,17 @@ public class MainActivity extends AppCompatActivity {
 //        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
 //        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
 //        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
-
-        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(ENDPOINT).build();
+        
+        Retrofit restAdapter = new Retrofit.Builder().baseUrl(ENDPOINT).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
         handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
             @Override
-            public void success(ArrayList<ContactInfo> contactInfoArrayList, Response response) {
-                contactList.addAll(contactInfoArrayList);
+            public void onResponse(Response<ArrayList<ContactInfo>> response, Retrofit retrofit) {
+                contactList.addAll(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
 
             }
         });

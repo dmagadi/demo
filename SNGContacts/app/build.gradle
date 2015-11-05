@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
     defaultConfig {
         applicationId "com.sngastro.sngcontacts"
         minSdkVersion 11
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -20,16 +19,17 @@ android {
             debuggable true
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+    }
+    productFlavors {
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile files('/Users/dmagadi/projects/demo/SNGContacts/libs/gson-1.7.1.jar')
-    compile files('/Users/dmagadi/projects/demo/SNGContacts/libs/retrofit-1.9.0.jar')
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
 }

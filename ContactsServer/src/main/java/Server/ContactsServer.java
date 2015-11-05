@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
 import spark.SparkBase;
-import spark.webserver.SparkServer;
 import utils.Config;
 import utils.DBConnectionHandler;
 
