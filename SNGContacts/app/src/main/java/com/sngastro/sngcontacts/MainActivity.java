@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://192.168.1.253:8888";
+    public static final String ENDPOINT = "https://192.168.1.145:8888";
 
     ArrayList<ContactInfo> contactList;
 
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 //        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
 //        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
 //        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
-        
-        Retrofit restAdapter = new Retrofit.Builder().baseUrl(ENDPOINT).build();
+        OkHttpClient client = StartActivity.getUnsafeOkHttpClient();
+        Retrofit restAdapter = new Retrofit.Builder().baseUrl(ENDPOINT).client(client).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
         handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
             @Override

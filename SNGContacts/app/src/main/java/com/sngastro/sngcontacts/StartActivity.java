@@ -197,7 +197,7 @@ public class StartActivity extends AppCompatActivity {
         String value;
     }
 
-    private static OkHttpClient getUnsafeOkHttpClient() {
+    static OkHttpClient getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
             final TrustManager[] trustAllCerts = new TrustManager[] {
@@ -208,6 +208,7 @@ public class StartActivity extends AppCompatActivity {
 
                         @Override
                         public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+
                         }
 
                         @Override
