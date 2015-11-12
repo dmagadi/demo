@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
 //        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
 //        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
 //        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
-        OkHttpClient client = StartActivity.getUnsafeOkHttpClient();
+        OkHttpClient client = new OkHttpClient();
+        
         Retrofit restAdapter = new Retrofit.Builder().baseUrl(ENDPOINT).client(client).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
         handler.readContacts(new Callback<ArrayList<ContactInfo>>() {

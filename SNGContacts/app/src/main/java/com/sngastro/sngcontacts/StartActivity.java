@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.IOException;
+import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -88,9 +89,12 @@ public class StartActivity extends AppCompatActivity {
 
     private void login(String user, String password) {
 
-        OkHttpClient httpClient = getUnsafeOkHttpClient();
+        OkHttpClient httpClient = new OkHttpClient();
 
-        Retrofit restAdapter = new Retrofit.Builder().baseUrl(MainActivity.ENDPOINT).client(httpClient).build();
+        httpClient.setSslSocketFactory(getSSLSocketFactory());
+        //httpClient.setHostnameVerifier();
+
+        Retrofit restAdapter = new Retrofit.Builder().client(httpClient).baseUrl(MainActivity.ENDPOINT).build();
 
         ContactHandler handler = restAdapter.create(ContactHandler.class);
 
@@ -197,43 +201,14 @@ public class StartActivity extends AppCompatActivity {
         String value;
     }
 
-    static OkHttpClient getUnsafeOkHttpClient() {
+    static SSLSocketFactory getSSLSocketFactory() {
         try {
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
-                    new X509TrustManager() {
-                        @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-                        }
 
-                        @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
 
-                        }
 
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return null;
-                        }
-                    }
-            };
 
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient.setSslSocketFactory(sslSocketFactory);
-            okHttpClient.setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-
-            return okHttpClient;
+            return null;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

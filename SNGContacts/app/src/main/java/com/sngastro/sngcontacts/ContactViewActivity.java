@@ -130,26 +130,73 @@ public class ContactViewActivity extends AppCompatActivity {
 //
 //        data.add(row0);
 
-        ContentValues row1 = new ContentValues();
+        /*ContentValues row1 = new ContentValues();
         row1.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE);
         row1.put(ContactsContract.CommonDataKinds.Organization.COMPANY, "Android2");
-        data.add(row1);
-
+        data.add(row1);*/
+        String home = null;
+        String work = null;
+        String cell = null;
+        String other = null;
+        for (Email email: contactInfo.getEmails()) {
+            if (email.getType().equalsIgnoreCase("HOME")) {
+                home = email.getEmail();
+            } else
+            if (email.getType().equalsIgnoreCase("CELL")) {
+                cell = email.getEmail();
+            } else
+            if (email.getType().equalsIgnoreCase("WORK")) {
+                work = email.getEmail();
+            } else {
+                other = email.getEmail();
+            }
+        }
         ContentValues row2 = new ContentValues();
-        row2.put(ContactsContract.Data.MIMETYPE, 	android.provider.ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
-        row2.put(	android.provider.ContactsContract.CommonDataKinds.Email.TYPE, 	android.provider.ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM);
-        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.LABEL, "Green Bot");
-        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.ADDRESS, "android@android.com");
+        row2.put(android.provider.ContactsContract.Data.MIMETYPE, android.provider.ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.TYPE, android.provider.ContactsContract.CommonDataKinds.Email.TYPE_HOME);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.LABEL, home);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.TYPE, android.provider.ContactsContract.CommonDataKinds.Email.TYPE_MOBILE);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.LABEL, cell);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.TYPE, android.provider.ContactsContract.CommonDataKinds.Email.TYPE_WORK);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.LABEL, work);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.TYPE, android.provider.ContactsContract.CommonDataKinds.Email.TYPE_OTHER);
+        row2.put(android.provider.ContactsContract.CommonDataKinds.Email.LABEL, other);
         data.add(row2);
 
-        Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
-        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+        home = null;
+        work = null;
+        cell = null;
+        other = null;
+        for (PhoneNumber number: contactInfo.getPhoneNumbers()) {
+            if (number.getType().equalsIgnoreCase("HOME")) {
+                home = number.getNumber();
+            } else
+            if (number.getType().equalsIgnoreCase("CELL")) {
+                cell = number.getNumber();
+            } else
+            if (number.getType().equalsIgnoreCase("WORK")) {
+                work = number.getNumber();
+            } else {
+                other = number.getNumber();
+            }
+        }
+        ContentValues row1 = new ContentValues();
+        row1.put(android.provider.ContactsContract.Data.MIMETYPE, android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.TYPE, android.provider.ContactsContract.CommonDataKinds.Phone.TYPE_HOME);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.LABEL, home);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.TYPE, android.provider.ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.LABEL, cell);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.TYPE, android.provider.ContactsContract.CommonDataKinds.Phone.TYPE_WORK);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.LABEL, work);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.TYPE, android.provider.ContactsContract.CommonDataKinds.Phone.TYPE_OTHER);
+        row1.put(android.provider.ContactsContract.CommonDataKinds.Phone.LABEL, other);
+        data.add(row1);
 
-        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getFirstName() + " " + contactInfo.getLastName());
-
+        Intent intent = new Intent(android.provider.ContactsContract.Intents.Insert.ACTION);
+        intent.setType(android.provider.ContactsContract.RawContacts.CONTENT_TYPE);
+        intent.putParcelableArrayListExtra(android.provider.ContactsContract.Intents.Insert.DATA, data);
+        intent.putExtra(android.provider.ContactsContract.Intents.Insert.NAME, contactInfo.getFirstName() + " " + contactInfo.getLastName());
         startActivity(intent);
-
 
     }
 
