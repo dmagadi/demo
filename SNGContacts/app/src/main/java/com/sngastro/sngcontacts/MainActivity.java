@@ -12,9 +12,21 @@ import android.widget.ListView;
 
 import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
+import com.sngastro.sngcontacts.contact.SelfCertUtils;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.security.cert.CertificateException;
+import javax.security.cert.X509Certificate;
+
 
 import retrofit.Callback;
 import retrofit.Response;
@@ -24,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://192.168.1.145:8888";
+    public static final String ENDPOINT = "http://192.168.1.145:8888";
 
     ArrayList<ContactInfo> contactList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 //        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
 //        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
 //        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = SelfCertUtils.configureClient(new OkHttpClient());
         
         Retrofit restAdapter = new Retrofit.Builder().baseUrl(ENDPOINT).client(client).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);

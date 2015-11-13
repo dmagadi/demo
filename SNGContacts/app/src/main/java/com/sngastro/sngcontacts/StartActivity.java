@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sngastro.sngcontacts.contact.SelfCertUtils;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.IOException;
@@ -89,10 +90,8 @@ public class StartActivity extends AppCompatActivity {
 
     private void login(String user, String password) {
 
-        OkHttpClient httpClient = new OkHttpClient();
+        OkHttpClient httpClient = SelfCertUtils.configureClient(new OkHttpClient());;
 
-        httpClient.setSslSocketFactory(getSSLSocketFactory());
-        //httpClient.setHostnameVerifier();
 
         Retrofit restAdapter = new Retrofit.Builder().client(httpClient).baseUrl(MainActivity.ENDPOINT).build();
 
@@ -201,17 +200,6 @@ public class StartActivity extends AppCompatActivity {
         String value;
     }
 
-    static SSLSocketFactory getSSLSocketFactory() {
-        try {
 
-
-
-
-
-            return null;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }
