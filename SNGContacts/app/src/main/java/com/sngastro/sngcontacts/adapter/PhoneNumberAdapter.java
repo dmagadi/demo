@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.sngastro.sngcontacts.ContactViewActivity;
 import com.sngastro.sngcontacts.R;
 import com.sngastro.sngcontacts.StartActivity;
 import com.sngastro.sngcontacts.contact.PhoneNumber;
@@ -63,7 +64,7 @@ public class PhoneNumberAdapter extends ArrayAdapter<PhoneNumber> {
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("tag", "callBtnClick");
+                Log.i(ContactViewActivity.TAG, "callBtnClick");
                 builder.show();
             }
         });

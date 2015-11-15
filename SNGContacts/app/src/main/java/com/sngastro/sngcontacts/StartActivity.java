@@ -2,7 +2,6 @@ package com.sngastro.sngcontacts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -13,28 +12,16 @@ import android.widget.Toast;
 import com.sngastro.sngcontacts.contact.SelfCertUtils;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.io.IOException;
-import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
 
 import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
+import retrofit.client.Response;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -46,9 +33,10 @@ public class StartActivity extends AppCompatActivity {
     EditText userField;
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
     private static String createHexString(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
@@ -73,7 +61,7 @@ public class StartActivity extends AppCompatActivity {
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException ex) {
-            Log.e(TAG,"Error while creating HASH",ex);
+            Log.e(TAG, "Error while creating HASH", ex);
         }
 
         byte[] thedigest = md.digest(password.getBytes());
@@ -84,45 +72,45 @@ public class StartActivity extends AppCompatActivity {
         Log.i(TAG, "onClick");
     }
 
-    private void  showErrorMessage() {
+    private void showErrorMessage() {
         Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
     }
 
     private void login(String user, String password) {
 
-        OkHttpClient httpClient = SelfCertUtils.configureClient(new OkHttpClient());;
+        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
 
-
-        Retrofit restAdapter = new Retrofit.Builder().client(httpClient).baseUrl(MainActivity.ENDPOINT).build();
+        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(MainActivity.ENDPOINT).build();
 
         ContactHandler handler = restAdapter.create(ContactHandler.class);
 
 
+        Map<String, String> params = new HashMap<String, String>();
 
-        Map<String,String> params = new HashMap<String, String>() ;
-
-        params.put("user",user);
+        params.put("user", user);
         params.put("password", password);
 
         handler.doLogin(params, new Callback<Result>() {
 
+
             @Override
-            public void onResponse(Response<Result> response, Retrofit retrofit) {
-                if (response.body().value.equals("SUCCESS")) {
+            public void success(Result result, Response response) {
+
+                if (result.value.equals("SUCCESS")) {
                     loginSuccessful = true;
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                 } else {
                     showErrorMessage();
                 }
+
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                Log.i(TAG, "failure");
+            public void failure(RetrofitError error) {
+                Log.i(TAG, "Failure");
             }
-
-            });
+        });
 //        if (loginSuccessful) {
 //            return true;
 //        }
@@ -196,10 +184,9 @@ public class StartActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_start, menu);
         return true;
     }
-        class Result {
+
+    class Result {
         String value;
     }
-
-
 
 }

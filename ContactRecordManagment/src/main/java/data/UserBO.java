@@ -13,17 +13,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+
 /**
- * 
+ *
  * @author Aamir
  */
 public class UserBO {
 
     int userID;
     int contactID;
-
+    
+    /**
+     * 
+     * @param userName
+     * @param password
+     * @return 
+     */
     public Boolean login(String userName, String password) {
-        
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -58,7 +64,16 @@ public class UserBO {
         return false;
 
     }
-
+    
+    /**
+     * 
+     * @param userName
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param adminValue
+     * @return 
+     */
     public Boolean addUser(String userName, String password, String firstName, String lastName, int adminValue) {
 
         Connection conn = null;
@@ -80,7 +95,7 @@ public class UserBO {
             rs = pstmt.executeQuery();
             rs.next();
             userID = rs.getInt("id");
-            
+
         } catch (Exception e) {
             userSuccessfullyAdded = false;
             throw new RuntimeException(e);
@@ -90,20 +105,28 @@ public class UserBO {
             DBConnectionHandler.closePreparedStatement(pstmt);
             DBConnectionHandler.closeConnection(conn);
         }
-        
-        return userSuccessfullyAdded;
-        
-    }
 
+        return userSuccessfullyAdded;
+
+    }
+    
+    /**
+     * 
+     * @param firstName
+     * @param lastName
+     * @param phoneNumbers
+     * @param emails
+     * @return 
+     */
     public Boolean addContact(String firstName, String lastName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Email> emails) {
-        
+
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Boolean contactSuccessfullyAdded = true;
-        
+
         try {
-            
+
             conn = DBConnectionHandler.getConnectionToDatabase();
             pstmt = conn.prepareStatement("INSERT INTO `sng_db`.`contacts` (`FirstName`, `createts`, `userid`, `LastName`) VALUES (?, now(), ?, ?);");
             pstmt.setString(1, firstName);
@@ -115,27 +138,27 @@ public class UserBO {
             rs = pstmt.executeQuery();
             rs.next();
             contactID = rs.getInt("id");
-            
+
             for (PhoneNumber phoneNumber : phoneNumbers) {
-                
+
                 pstmt = conn.prepareStatement("INSERT INTO `sng_db`.`phone_numbers` (`phone_number`, `phone_type`, `contact_id`) VALUES (?, ?, ?);");
                 pstmt.setString(1, phoneNumber.getNumber());
                 pstmt.setString(2, phoneNumber.getType());
                 pstmt.setInt(3, contactID);
                 pstmt.execute();
-                
+
             }
-            
+
             for (Email email : emails) {
-                
+
                 pstmt = conn.prepareStatement("INSERT INTO `sng_db`.`email` (`email`, `email_type`, `contact_id`) VALUES (?, ?, ?);");
                 pstmt.setString(1, email.getEmail());
                 pstmt.setString(2, email.getType());
                 pstmt.setInt(3, contactID);
                 pstmt.execute();
-                
+
             }
-            
+
         } catch (Exception e) {
             contactSuccessfullyAdded = false;
         } finally {
@@ -143,9 +166,9 @@ public class UserBO {
             DBConnectionHandler.closePreparedStatement(pstmt);
             DBConnectionHandler.closeConnection(conn);
         }
-        
+
         return contactSuccessfullyAdded;
-        
+
     }
 
 }

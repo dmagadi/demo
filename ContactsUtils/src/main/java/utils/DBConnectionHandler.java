@@ -5,16 +5,11 @@
  */
 package utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilterReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,10 +19,12 @@ import java.util.logging.Logger;
  */
 public class DBConnectionHandler {
 
-    
-    
+    /**
+     *
+     * @return
+     */
     public static Connection getConnectionToDatabase() {
-        
+
         String ip = String.format("%s:%s", Config.getProperty("database", "localhost"), Config.getProperty("dbport", "3306"));
         String user = Config.getProperty("dbuser", "root");
         String password = Config.getProperty("dbpassword", "");
@@ -44,6 +41,10 @@ public class DBConnectionHandler {
 
     }
 
+    /**
+     *
+     * @param conn
+     */
     public static void closeConnection(Connection conn) {
         if (conn != null) {
             try {
@@ -54,6 +55,10 @@ public class DBConnectionHandler {
         }
     }
 
+    /**
+     *
+     * @param pstmt
+     */
     public static void closePreparedStatement(PreparedStatement pstmt) {
         if (pstmt != null) {
             try {
@@ -64,6 +69,10 @@ public class DBConnectionHandler {
         }
     }
 
+    /**
+     *
+     * @param rs
+     */
     public static void closeRS(ResultSet rs) {
         if (rs != null) {
             try {
@@ -71,6 +80,7 @@ public class DBConnectionHandler {
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }  }
+        }
+    }
 
 }

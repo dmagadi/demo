@@ -10,36 +10,26 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
+import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.contact.SelfCertUtils;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
-import javax.security.cert.X509Certificate;
-
-
 import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "http://192.168.1.145:8888";
+    public static final String ENDPOINT = "https://192.168.1.253:8888";
 
     ArrayList<ContactInfo> contactList;
-
 
 
     @Override
@@ -58,20 +48,23 @@ public class MainActivity extends AppCompatActivity {
 //        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
 //        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
 //        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
-        OkHttpClient client = SelfCertUtils.configureClient(new OkHttpClient());
-        
-        Retrofit restAdapter = new Retrofit.Builder().baseUrl(ENDPOINT).client(client).build();
+
+        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ENDPOINT).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
         handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
+
             @Override
-            public void onResponse(Response<ArrayList<ContactInfo>> response, Retrofit retrofit) {
-                contactList.addAll(response.body());
+            public void success(ArrayList<ContactInfo> contactInfos, Response response) {
+                contactList.addAll(contactInfos);
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void failure(RetrofitError error) {
 
             }
+
         });
 
         ListAdapter adapter = new ContactArrayAdapter(this, contactList);
@@ -96,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         // getMenuInflater().inflate(R.menu.menu_main, menu);
-
+        Log.i(TAG, "onCreateOptionsMenu");
         return true;
     }
 

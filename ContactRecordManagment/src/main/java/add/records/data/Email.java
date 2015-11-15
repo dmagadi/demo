@@ -10,19 +10,28 @@ package add.records.data;
  * @author Aamir
  */
 public class Email {
-    
+
     public String email;
     public String type;
 
+    /**
+     *
+     * @param email
+     * @param type
+     */
     public Email(String email, String type) {
         this.email = email;
         this.type = type;
     }
-    
+
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
@@ -31,10 +40,12 @@ public class Email {
         return type;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
-    
-    
-    
+
 }

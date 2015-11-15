@@ -22,12 +22,13 @@ import javafx.stage.WindowEvent;
  */
 public class AddRecords extends Application {
 
-    
     Stage frame;
     
-    
-    
-
+    /**
+     * 
+     * @param primaryStage
+     * @throws IOException 
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         frame = primaryStage;
@@ -49,6 +50,7 @@ public class AddRecords extends Application {
     private void closeWindow() {
 
         frame.close();
+        
     }
 
     /**
@@ -58,6 +60,7 @@ public class AddRecords extends Application {
 
         Config.initProperties("AddRecords");
         launch(args);
+
     }
 
 }

@@ -35,6 +35,7 @@
         android:layout_alignParentRight="true"
         android:padding="8dp"
         android:src="@android:drawable/sym_action_call"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="false"
+        android:focusable="true" />
 
 </RelativeLayout>

@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -31,6 +30,7 @@ import javafx.scene.text.Text;
  * @author Aamir
  */
 public class AddUserScreenController implements Initializable {
+
     @FXML
     private PasswordField passInput;
     @FXML
@@ -74,17 +74,17 @@ public class AddUserScreenController implements Initializable {
     private ChoiceBox<String> phoneTypeMenu2;
     @FXML
     private ChoiceBox<String> phoneTypeMenu3;
-    
-    
+
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
     /**
-     * 
+     *
      * @param bytes
-     * @return 
+     * @return
      */
     private static String createHexString(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
@@ -94,6 +94,7 @@ public class AddUserScreenController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -106,11 +107,15 @@ public class AddUserScreenController implements Initializable {
         createEmailTypeMenu(emailTypeMenu);
         createEmailTypeMenu(emailTypeMenu2);
         createEmailTypeMenu(emailTypeMenu3);
-    }    
+    }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     private void onApplyButtonPressed(ActionEvent event) {
-        
+
         message1.setText("");
         message2.setText("");
         if (passInput.getText().isEmpty() || confirmPassInput.getText().isEmpty() || firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() || userInput.getText().isEmpty() || phoneNumberInput.getText().isEmpty() || emailInput.getText().isEmpty()) {
@@ -130,14 +135,14 @@ public class AddUserScreenController implements Initializable {
             } else {
                 adminValue = 0;
             }
-            
+
             MessageDigest md = null;
             try {
                 md = MessageDigest.getInstance("MD5");
             } catch (NoSuchAlgorithmException ex) {
-               
+
             }
-            
+
             ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
             phoneNumbers.add(new PhoneNumber(phoneNumberInput.getText(), phoneTypeMenu.getValue()));
             phoneNumbers.add(new PhoneNumber(phoneNumberInput2.getText(), phoneTypeMenu2.getValue()));
@@ -149,7 +154,7 @@ public class AddUserScreenController implements Initializable {
                 }
             }
             phoneNumbers.removeAll(blankNumbers);
-            
+
             ArrayList<Email> emails = new ArrayList<>();
             emails.add(new Email(emailInput.getText(), emailTypeMenu.getValue()));
             emails.add(new Email(emailInput2.getText(), emailTypeMenu2.getValue()));
@@ -161,16 +166,14 @@ public class AddUserScreenController implements Initializable {
                 }
             }
             emails.removeAll(blankEmails);
-            
+
             byte[] thedigest = md.digest(passInput.getText().getBytes());
             String passwordHash = createHexString(thedigest);
-            
+
             UserBO userBO = new UserBO();
             Boolean userAdded = userBO.addUser(userInput.getText(), passwordHash, firstNameInput.getText(), lastNameInput.getText(), adminValue);
             Boolean contactAdded = userBO.addContact(firstNameInput.getText(), lastNameInput.getText(), phoneNumbers, emails);
-            
-            
-            
+
             if (userAdded && contactAdded) {
                 message2.setText("User added");
                 message2.setFill(Color.rgb(0, 255, 0));
@@ -194,15 +197,22 @@ public class AddUserScreenController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param phoneTypeMenu
+     */
     private void createPhoneTypeMenu(ChoiceBox<String> phoneTypeMenu) {
         phoneTypeMenu.getItems().addAll("HOME", "WORK", "CELL", "OTHER");
         phoneTypeMenu.setValue("HOME");
     }
-    
+
+    /**
+     *
+     * @param emailTypeMenu
+     */
     private void createEmailTypeMenu(ChoiceBox<String> emailTypeMenu) {
         emailTypeMenu.getItems().addAll("HOME", "WORK", "OTHER");
         emailTypeMenu.setValue("HOME");
     }
 
-    
 }

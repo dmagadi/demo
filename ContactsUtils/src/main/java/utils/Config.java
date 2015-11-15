@@ -20,6 +20,10 @@ import java.util.logging.Logger;
  */
 public class Config {
 
+    /**
+     *
+     * @param appName
+     */
     public static void initProperties(String appName) {
 
         String userHomeFolder = System.getProperty("user.home");
@@ -66,13 +70,17 @@ public class Config {
             }
 
         }
-        
-            readPropFile(appName);
-        
+
+        readPropFile(appName);
+
     }
 
     public static Properties prop = null;
 
+    /**
+     *
+     * @param appName
+     */
     public static void readPropFile(String appName) {
         String userHomeFolder = System.getProperty("user.home");
 
@@ -88,9 +96,15 @@ public class Config {
         }
 
     }
-    
+
+    /**
+     *
+     * @param propertyName
+     * @param defaultValue
+     * @return
+     */
     public static String getProperty(String propertyName, String defaultValue) {
-        
+
         if (prop == null) {
             throw new RuntimeException("Please call init before calling getProperty()");
         }
@@ -98,7 +112,7 @@ public class Config {
             throw new RuntimeException("Property name cannot be null or empty.");
         }
         return prop.getProperty(propertyName, defaultValue);
-        
+
     }
 
 }

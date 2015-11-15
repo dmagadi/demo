@@ -15,7 +15,7 @@ import javax.net.ssl.X509TrustManager;
  */
 public class SelfCertUtils {
     @SuppressWarnings("null")
-    public static OkHttpClient  configureClient(final OkHttpClient client) {
+    public static OkHttpClient configureClient(final OkHttpClient client) {
 
         final TrustManager[] certs = new TrustManager[]{new X509TrustManager() {
 

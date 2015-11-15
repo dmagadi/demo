@@ -22,29 +22,32 @@ import utils.DBConnectionHandler;
  */
 public class ContactsServer {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        
+
         Config.initProperties("ContactsServer");
-        
+
         SparkBase.port(8888);
-        
-        SparkBase.secure(System.getProperty("user.home")+ "/ContactsServer/keystore.jks", "password", null, null);
-       
+
+        SparkBase.secure(System.getProperty("user.home") + "/ContactsServer/keystore.jks", "password", null, null);
+
         Gson gson = new Gson();
-        
+
         get("/contacts", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Returning contacts from the server...");
             ArrayList<ContactInfo> contactList = getAllContacts();
             return contactList;
         }, gson::toJson);
-                
+
         get("/login", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Login api...");
             String user = req.queryParams("user");
-            String passwordHash  = req.queryParams("password");
-            
+            String passwordHash = req.queryParams("password");
+
             //LoggerFactory.getLogger("main").info("Password " + password);
-            
 //            MessageDigest md = null;
 //            try {
 //                md = MessageDigest.getInstance("MD5");
@@ -55,15 +58,14 @@ public class ContactsServer {
 //            byte[] thedigest = md.digest(password.getBytes());
 //            String passwordHash = createHexString(thedigest);
             LoggerFactory.getLogger("main").info("Password hash: " + passwordHash);
-            Result result = doLogin(user,passwordHash);
+            Result result = doLogin(user, passwordHash);
             return result; // replace this with Result Object 
         }, gson::toJson);
-        
-        
+
         get("/stop", (request, response) -> {
             SparkBase.stop();
             LoggerFactory.getLogger("main").warn("Stopping the server...");
-            
+
             return "stopped";
         });
     }
@@ -92,14 +94,14 @@ public class ContactsServer {
                 getEmail.setInt(1, contactsRS.getInt("id"));
                 phoneRS = getPhone.executeQuery();
                 emailRS = getEmail.executeQuery();
-                while(phoneRS.next()) {
+                while (phoneRS.next()) {
                     PhoneNumber number = new PhoneNumber();
                     number.number = phoneRS.getString("phone_number");
                     number.type = phoneRS.getString("phone_type");
                     contact.phoneNumbers.add(number);
                 }
-                
-                while(emailRS.next()) {
+
+                while (emailRS.next()) {
                     Email email = new Email();
                     email.email = emailRS.getString("email");
                     email.type = emailRS.getString("email_type");
@@ -126,15 +128,22 @@ public class ContactsServer {
             DBConnectionHandler.closeConnection(conn);
         }
     }
+
     // mds hash
-    private static Result doLogin(String user,String passwordHash) {
+    /**
+     *
+     * @param user
+     * @param passwordHash
+     * @return
+     */
+    private static Result doLogin(String user, String passwordHash) {
         Result result = new Result();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
+
         try {
-            
+
             conn = DBConnectionHandler.getConnectionToDatabase();
             pstmt = conn.prepareStatement("Select * from users where username = ? and password = ?");
             pstmt.setString(1, user);
@@ -145,11 +154,11 @@ public class ContactsServer {
             } else {
                 result.value = "FAILURE";
             }
-            
+
         } catch (Exception e) {
-            
+
             throw new RuntimeException(e);
-            
+
         } finally {
             DBConnectionHandler.closeRS(rs);
             DBConnectionHandler.closePreparedStatement(pstmt);
@@ -157,30 +166,34 @@ public class ContactsServer {
         }
         return result;
     }
-    
-    static class ContactInfo{
+
+    static class ContactInfo {
+
         public String firstName;
         public String lastName;
         public ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
         public ArrayList<Email> emails = new ArrayList<>();
+
     }
-    
-    static class Result{
+
+    static class Result {
+
         public String value;
+
     }
-    
+
     static class PhoneNumber {
-        
+
         public String number;
         public String type;
-        
+
     }
-    
+
     static class Email {
-        
+
         public String email;
         public String type;
-        
+
     }
-    
+
 }
