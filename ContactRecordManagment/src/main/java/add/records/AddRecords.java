@@ -48,7 +48,7 @@ public class AddRecords extends Application {
     }
 
     private void closeWindow() {
-
+        
         frame.close();
         
     }
