@@ -91,7 +91,7 @@ public class LoginScreenController implements Initializable {
             Stage window = (Stage) userInput.getScene().getWindow();
             // Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
 
-            FXMLLoader loader = new FXMLLoader(new Accessor().getURL("AddUserScreenLayout.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddUserScreenLayout.fxml"));
 
             Scene mainScene = new Scene((Parent) loader.load(), 854, 480);
 

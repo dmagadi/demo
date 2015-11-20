@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>com.mycompany.contactrecordmanagment.MainApp</mainClass>
+        <mainClass>add.records.AddRecords</mainClass>
     </properties>
 
     <organization>
@@ -109,6 +109,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>ContactsUtils</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.36</version>
         </dependency>
     </dependencies>
 </project>

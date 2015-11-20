@@ -59,8 +59,6 @@ public class PhoneNumberAdapter extends ArrayAdapter<PhoneNumber> {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert);
 
-        //executes after clicking twice
-
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
