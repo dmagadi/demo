@@ -29,7 +29,7 @@ import javafx.scene.text.Text;
  *
  * @author Aamir
  */
-public class AddUserScreenController implements Initializable {
+public class AddRecordSceneController implements Initializable {
 
     @FXML
     private PasswordField passInput;

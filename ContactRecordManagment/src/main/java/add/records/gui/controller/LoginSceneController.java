@@ -5,7 +5,6 @@
  */
 package add.records.gui.controller;
 
-import add.records.gui.scenes.Accessor;
 import data.UserBO;
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author Aamir
  */
-public class LoginScreenController implements Initializable {
+public class LoginSceneController implements Initializable {
 
     @FXML
     private TextField userInput;
@@ -89,13 +88,12 @@ public class LoginScreenController implements Initializable {
         UserBO userBO = new UserBO();
         if (userBO.login(userInput.getText(), passwordHash)) {
             Stage window = (Stage) userInput.getScene().getWindow();
-            // Parent mainSceneLayout = FXMLLoader.load(new Accessor().getURL("MainScreenLayout.fxml"));
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddUserScreenLayout.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddRecordScene.fxml"));
 
             Scene mainScene = new Scene((Parent) loader.load(), 854, 480);
 
-            AddUserScreenController controller = loader.<AddUserScreenController>getController();
+            AddRecordSceneController controller = loader.<AddRecordSceneController>getController();
             window.setScene(mainScene);
         } else {
             passInput.setText("");

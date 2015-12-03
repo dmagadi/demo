@@ -47,16 +47,6 @@ public class ContactsServer {
             String user = req.queryParams("user");
             String passwordHash = req.queryParams("password");
 
-            //LoggerFactory.getLogger("main").info("Password " + password);
-//            MessageDigest md = null;
-//            try {
-//                md = MessageDigest.getInstance("MD5");
-//            } catch (NoSuchAlgorithmException ex) {
-//                Logger.getLogger(ContactsServer.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            
-//            byte[] thedigest = md.digest(password.getBytes());
-//            String passwordHash = createHexString(thedigest);
             LoggerFactory.getLogger("main").info("Password hash: " + passwordHash);
             Result result = doLogin(user, passwordHash);
             return result; // replace this with Result Object 
@@ -129,7 +119,6 @@ public class ContactsServer {
         }
     }
 
-    // mds hash
     /**
      *
      * @param user

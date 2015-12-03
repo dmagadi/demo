@@ -10,7 +10,7 @@
         android:id="@+id/imageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/sngmalogo"
+        android:src="@drawable/sngmalogo1"
         android:scaleType="center"
         android:layout_alignParentBottom="true" />
 

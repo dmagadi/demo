@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sngastro.sngcontacts.ContactViewActivity;
 import com.sngastro.sngcontacts.R;
@@ -41,7 +42,7 @@ public class PhoneNumberAdapter extends ArrayAdapter<PhoneNumber> {
         numberView.setText(phoneNumber.getNumber());
         ImageButton callBtn = (ImageButton) view.findViewById(R.id.callButton);
 
-        Context context = view.getContext();
+        final Context context = view.getContext();
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setMessage("Call " + phoneNumber.getNumber())
@@ -52,9 +53,15 @@ public class PhoneNumberAdapter extends ArrayAdapter<PhoneNumber> {
                 })
                 .setNegativeButton("Call", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(Intent.ACTION_DIAL);
-                        i.setData(Uri.parse("tel:" + "1" + phoneNumber.getNumber()));
-                        view.getContext().startActivity(i);
+
+                        try {
+                            Intent i = new Intent(Intent.ACTION_DIAL);
+                            i.setData(Uri.parse("tel:" + "1" + phoneNumber.getNumber()));
+                            view.getContext().startActivity(i);
+                        } catch (Throwable e) {
+                            Toast.makeText(context, "Unable to dial", Toast.LENGTH_SHORT);
+                        }
+
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert);

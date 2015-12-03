@@ -5,7 +5,6 @@
  */
 package add.records;
 
-import add.records.gui.scenes.Accessor;
 import utils.Config;
 import java.io.IOException;
 import javafx.application.Application;
@@ -41,7 +40,7 @@ public class AddRecords extends Application {
             }
         }
         );
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginScreenLayout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"));
         Scene loginScene = new Scene(root, 854, 480);
         frame.setScene(loginScene);
         frame.show();

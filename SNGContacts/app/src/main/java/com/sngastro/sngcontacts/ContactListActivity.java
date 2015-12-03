@@ -23,11 +23,11 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class ContactListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://192.168.1.253:8888";
+    public static final String ENDPOINT = "https://sngcontactinfo.ddns.net:8888";
 
     ArrayList<ContactInfo> contactList;
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_contact_list);
         // create a class ContactData with name, phone number
 
         // add some dummy contact data objects to array
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                Log.i(TAG, "failure");
             }
 
         });
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        Log.i(TAG, "onCreate");
+        Log.i(TAG, "onListActivityCreate");
 
     }
 

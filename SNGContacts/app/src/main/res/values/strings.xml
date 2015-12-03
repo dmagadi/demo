@@ -15,4 +15,5 @@
     <string name="addToContacts">Add to Contacts</string>
     <string name="callText">Call</string>
     <string name="emailBtnText">Email</string>
+    <string name="addContactTxt">Add To Contacts</string>
 </resources>

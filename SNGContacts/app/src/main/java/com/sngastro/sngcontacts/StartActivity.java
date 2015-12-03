@@ -80,7 +80,7 @@ public class StartActivity extends AppCompatActivity {
 
         OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(MainActivity.ENDPOINT).build();
+        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ContactListActivity.ENDPOINT).build();
 
         ContactHandler handler = restAdapter.create(ContactHandler.class);
 
@@ -98,7 +98,7 @@ public class StartActivity extends AppCompatActivity {
 
                 if (result.value.equals("SUCCESS")) {
                     loginSuccessful = true;
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
                     startActivity(i);
                 } else {
                     showErrorMessage();
@@ -111,12 +111,7 @@ public class StartActivity extends AppCompatActivity {
                 Log.i(TAG, "Failure");
             }
         });
-//        if (loginSuccessful) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
+
     }
 
     @Override

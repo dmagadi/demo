@@ -1,6 +1,7 @@
 package com.sngastro.sngcontacts.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactInfo> {
         ContactInfo contactInfo = getItem(position);
         TextView textView = (TextView) view.findViewById(R.id.itemTextView);
         textView.setText(contactInfo.getFirstName() + " " + contactInfo.getLastName());
+        Log.i("name", contactInfo.getFirstName() + " " + contactInfo.getLastName());
         return view;
 
     }

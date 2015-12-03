@@ -15,11 +15,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add To Contacts"
+        android:text="@string/addContactTxt"
         android:id="@+id/addToContactsBtn"
         android:onClick="addContact"
         android:background="#006400"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:focusable="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,13 +43,14 @@
         android:id="@+id/phoneText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/nameText"
         android:layout_alignParentBottom="false"
         android:layout_alignParentTop="false"
         android:layout_alignWithParentIfMissing="false"
         android:layout_alignParentRight="false"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:phoneNumber="false" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -71,7 +73,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/phoneNumberListView"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="15dp"
         android:layout_alignParentBottom="false"
         android:layout_alignParentTop="false"
         android:layout_alignWithParentIfMissing="false"
