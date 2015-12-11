@@ -3,7 +3,6 @@
     package="com.sngastro.sngcontacts" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".ContactListActivity"
             android:label="SNG Contacts"></activity>
         <activity
             android:name=".ContactViewActivity"

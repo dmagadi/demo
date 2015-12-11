@@ -29,7 +29,6 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactInfo> {
         ContactInfo contactInfo = getItem(position);
         TextView textView = (TextView) view.findViewById(R.id.itemTextView);
         textView.setText(contactInfo.getFirstName() + " " + contactInfo.getLastName());
-        Log.i("name", contactInfo.getFirstName() + " " + contactInfo.getLastName());
         return view;
 
     }
