@@ -27,10 +27,12 @@ public class ContactListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://sngcontactinfo.ddns.net:8888";
+    public static final String ENDPOINT = "https://192.168.1.145:8888";
 
     ArrayList<ContactInfo> contactList;
 
+
+    private ListAdapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,11 @@ public class ContactListActivity extends AppCompatActivity {
 
         OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
 
+        adapter = new ContactArrayAdapter(this, contactList);
+
+
+
+
         RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ENDPOINT).build();
         ContactHandler handler = restAdapter.create(ContactHandler.class);
         handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
@@ -58,6 +65,23 @@ public class ContactListActivity extends AppCompatActivity {
             @Override
             public void success(ArrayList<ContactInfo> contactInfos, Response response) {
                 contactList.addAll(contactInfos);
+
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
+                        Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
+
+                        ArrayList<ContactInfo> list = new ArrayList<ContactInfo>();
+                        list.add(contactInfo);
+                        i.putExtra("ContactInfo", list);
+                        startActivity(i);
+                    }
+                });
+
+
+
             }
 
             @Override
@@ -67,20 +91,7 @@ public class ContactListActivity extends AppCompatActivity {
 
         });
 
-        ListAdapter adapter = new ContactArrayAdapter(this, contactList);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
-                Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
 
-                ArrayList<ContactInfo> list = new ArrayList<ContactInfo>();
-                list.add(contactInfo);
-                i.putExtra("ContactInfo", list);
-                startActivity(i);
-            }
-        });
         Log.i(TAG, "onListActivityCreate");
 
     }
