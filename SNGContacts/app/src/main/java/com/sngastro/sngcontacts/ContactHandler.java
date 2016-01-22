@@ -18,5 +18,5 @@ public interface ContactHandler {
     public void readContacts(Callback<ArrayList<ContactInfo>> response);
 
     @GET("/login")
-    public void doLogin(@QueryMap Map<String, String> options,Callback<StartActivity.Result> response);
+    public void doLogin(@QueryMap Map<String, String> options,Callback<LoginActivity.Result> response);
 }
