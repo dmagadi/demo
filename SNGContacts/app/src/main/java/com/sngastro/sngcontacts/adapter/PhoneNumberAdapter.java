@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.sngastro.sngcontacts.ContactViewActivity;
 import com.sngastro.sngcontacts.R;
-import com.sngastro.sngcontacts.StartActivity;
 import com.sngastro.sngcontacts.contact.PhoneNumber;
 
 import java.util.ArrayList;

@@ -27,7 +27,7 @@ public class ContactListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://192.168.1.145:8888";
+    public static final String ENDPOINT = "https://sngcontactinfo.duckdns.org:8888";
 
     ArrayList<ContactInfo> contactList;
 

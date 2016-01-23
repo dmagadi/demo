@@ -26,6 +26,7 @@ public class ContactsServer {
      *
      * @param args
      */
+    
     public static void main(String[] args) {
 
         Config.initProperties("ContactsServer");
