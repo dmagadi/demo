@@ -27,7 +27,7 @@ public class ContactListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://sngcontactinfo.duckdns.org:8888";
+    public static final String ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
 
     ArrayList<ContactInfo> contactList;
 
@@ -38,7 +38,7 @@ public class ContactListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
-        // create a class ContactData with name, phone number
+        // create a class ContactData with46 name, phone number
 
         // add some dummy contact data objects to array
 

@@ -26,12 +26,12 @@ public class ContactsServer {
      *
      * @param args
      */
-    
+    static boolean login = false;
     public static void main(String[] args) {
 
         Config.initProperties("ContactsServer");
-
-        SparkBase.port(8888);
+        
+        SparkBase.port(Integer.parseInt(Config.getProperty("apiport", "8888")));
 
         SparkBase.secure(System.getProperty("user.home") + "/ContactsServer/keystore.jks", "password", null, null);
 
@@ -39,7 +39,11 @@ public class ContactsServer {
 
         get("/contacts", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Returning contacts from the server...");
-            ArrayList<ContactInfo> contactList = getAllContacts();
+            ArrayList<ContactInfo> contactList = null;
+            if (login) {
+                contactList = getAllContacts();
+            }
+            login = false;
             return contactList;
         }, gson::toJson);
 
@@ -48,16 +52,30 @@ public class ContactsServer {
             String user = req.queryParams("user");
             String passwordHash = req.queryParams("password");
 
-            LoggerFactory.getLogger("main").info("Password hash: " + passwordHash);
+            //LoggerFactory.getLogger("main").info("Password hash: " + passwordHash);
             Result result = doLogin(user, passwordHash);
+            if (result.value.equals("SUCCESS")) {
+                login = true;
+            }
             return result; // replace this with Result Object 
         }, gson::toJson);
 
         get("/stop", (request, response) -> {
-            SparkBase.stop();
-            LoggerFactory.getLogger("main").warn("Stopping the server...");
-
-            return "stopped";
+            
+            String stop = "null";
+            
+            if (login) {
+                
+                stop = "stopped";
+                SparkBase.stop();
+                LoggerFactory.getLogger("main").warn("Stopping the server...");
+                
+            } else {
+                stop = "not stopped";
+            }
+            
+            return stop;
+            
         });
     }
 
