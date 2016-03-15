@@ -159,4 +159,8 @@ public class ContactListActivity extends AppCompatActivity {
         Log.i(TAG, "onRestoreInstanceState");
     }
 
+    public void onLogoutClick(View v) {
+        finish();
+    }
+
 }
