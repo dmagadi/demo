@@ -16,6 +16,7 @@ import com.sngastro.sngcontacts.contact.SelfCertUtils;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -27,12 +28,12 @@ public class ContactListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
-    public static final String ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
-
     ArrayList<ContactInfo> contactList;
 
 
     private ListAdapter adapter = null;
+    ListView listView;
+    int fail = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,52 +45,10 @@ public class ContactListActivity extends AppCompatActivity {
 
         // display custom view and display name number and a call button
 
-        final ListView listView = (ListView) findViewById(R.id.contactListView);
+        listView = (ListView) findViewById(R.id.contactListView);
         contactList = new ArrayList<>();
 
-//        contactList.add(new ContactInfo("Aamir Godil", "(916)783-5816", "cellNumber", "godil.aamir1@gmail.com"));
-//        contactList.add(new ContactInfo("Aslam Godil", "(916)783-5816", "(530)263-2478", "aslamgodilmd@yahoo.com"));
-//        contactList.add(new ContactInfo("Faraaz Godil", "(916)783-5816", "cellNumber", "emailAddress"));
-
-        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
-
-        adapter = new ContactArrayAdapter(this, contactList);
-
-
-
-
-        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ENDPOINT).build();
-        ContactHandler handler = restAdapter.create(ContactHandler.class);
-        handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
-
-            @Override
-            public void success(ArrayList<ContactInfo> contactInfos, Response response) {
-                contactList.addAll(contactInfos);
-
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
-                        Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
-
-                        ArrayList<ContactInfo> list = new ArrayList<ContactInfo>();
-                        list.add(contactInfo);
-                        i.putExtra("ContactInfo", list);
-                        startActivity(i);
-                    }
-                });
-
-
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.i(TAG, "failure");
-            }
-
-        });
+        displayList();
 
 
         Log.i(TAG, "onListActivityCreate");
@@ -161,6 +120,59 @@ public class ContactListActivity extends AppCompatActivity {
 
     public void onLogoutClick(View v) {
         finish();
+    }
+
+    private void displayList() {
+        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
+        if (fail == 1) {
+            okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        }
+        adapter = new ContactArrayAdapter(this, contactList);
+
+
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(LoginActivity.ENDPOINT).build();
+        LoginActivity.ENDPOINT = "https://192.168.3.114:61120";
+        ContactHandler handler = restAdapter.create(ContactHandler.class);
+        handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
+
+            @Override
+            public void success(ArrayList<ContactInfo> contactInfos, Response response) {
+                contactList.addAll(contactInfos);
+
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
+                        Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
+
+                        ArrayList<ContactInfo> list = new ArrayList<ContactInfo>();
+                        list.add(contactInfo);
+                        i.putExtra("ContactInfo", list);
+                        startActivity(i);
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i(TAG, "failure");
+                fail++;
+                if (fail >= 2) {
+
+                } else {
+                    LoginActivity.ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
+                    displayList();
+                }
+
+            }
+
+        });
     }
 
 }

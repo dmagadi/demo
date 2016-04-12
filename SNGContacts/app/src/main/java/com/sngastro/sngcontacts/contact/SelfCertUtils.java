@@ -3,6 +3,7 @@ package com.sngastro.sngcontacts.contact;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -56,7 +57,7 @@ public class SelfCertUtils {
             client.setSslSocketFactory(ctx.getSocketFactory());
         } catch (final Exception e) {
         }
-
+        client.setConnectTimeout(3, TimeUnit.SECONDS);
         return client;
     }
 

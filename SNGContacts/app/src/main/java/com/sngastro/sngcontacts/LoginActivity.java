@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -31,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
     boolean loginSuccessful;
     EditText passField;
     EditText userField;
+    int fail = 0;
+    String passwordHash;
+    Button btn;
+    protected static String ENDPOINT = "https://192.168.3.114:61120";
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
@@ -50,11 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         userField = (EditText) findViewById(R.id.userField);
         passField = (EditText) findViewById(R.id.passwordField);
+        btn = (Button) findViewById(R.id.button);
         Log.i(TAG, "onCreate");
     }
 
     public void onClick(View v) {
-
+        btn.setEnabled(false);
         MessageDigest md = null;
         password = passField.getText().toString();
         user = userField.getText().toString();
@@ -65,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         byte[] thedigest = md.digest(password.getBytes());
-        String passwordHash = createHexString(thedigest);
+        passwordHash = createHexString(thedigest);
 
 
         login(user, passwordHash);
@@ -76,14 +83,17 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
     }
 
-    private void login(String user, String password) {
+    private void login(final String user, String password) {
 
         OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
+        if (fail == 1) {
+            okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        }
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ContactListActivity.ENDPOINT).build();
+        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ENDPOINT).build();
 
         ContactHandler handler = restAdapter.create(ContactHandler.class);
-
+        ENDPOINT = "https://192.168.3.114:61120";
 
         Map<String, String> params = new HashMap<String, String>();
 
@@ -95,10 +105,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void success(Result result, Response response) {
-
+                btn.setEnabled(true);
+                passField.setText("");
                 if (result.value.equals("SUCCESS")) {
                     loginSuccessful = true;
-                    passField.setText("");
                     Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
                     startActivity(i);
                 } else {
@@ -109,8 +119,16 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                passField.setText("");
+
                 Log.i(TAG, "Failure");
+                fail++;
+                if (fail >= 2) {
+                    passField.setText("");
+                    btn.setEnabled(true);
+                } else {
+                    ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
+                    login(user, passwordHash);
+                }
             }
         });
 
