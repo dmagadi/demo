@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.sngastro.sngcontacts.contact.SelfCertUtils;
+import com.sngastro.sngcontacts.httpclient.ClientHandler;
+import com.sngastro.sngcontacts.httpclient.SelfCertUtils;
+import com.sngastro.sngcontacts.httpclient.ContactHandler;
+import com.sngastro.sngcontacts.httpclient.Result;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.security.MessageDigest;
@@ -30,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "tag";
     String password = null;
     String user = null;
-    boolean loginSuccessful;
     EditText passField;
     EditText userField;
     int fail = 0;
@@ -75,23 +77,40 @@ public class LoginActivity extends AppCompatActivity {
         passwordHash = createHexString(thedigest);
 
 
-        login(user, passwordHash);
+        Boolean login = ClientHandler.login(user, passwordHash);
+        btn.setEnabled(true);
+        passField.setText("");
+
+        try {
+            if (login) {
+                Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
+                startActivity(i);
+            } else {
+                showIncorrectLoginMessage();
+            }
+        } catch (Exception e) {
+            showErrorMessage();
+        }
+
         Log.i(TAG, "onClick");
     }
 
-    private void showErrorMessage() {
+    private void showIncorrectLoginMessage() {
         Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
     }
 
-    private void login(final String user, String password) {
+    private void showErrorMessage() {
+        Toast.makeText(this, "Unable to connect", Toast.LENGTH_SHORT).show();
+    }
 
-        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
+/*    private void login(final String user, String password) {
+
+        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient(), 6);
         if (fail == 1) {
-            okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+            okHttpClient.setConnectTimeout(15, TimeUnit.SECONDS);
         }
 
         RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(ENDPOINT).build();
-
         ContactHandler handler = restAdapter.create(ContactHandler.class);
         ENDPOINT = "https://192.168.3.114:61120";
 
@@ -108,11 +127,10 @@ public class LoginActivity extends AppCompatActivity {
                 btn.setEnabled(true);
                 passField.setText("");
                 if (result.value.equals("SUCCESS")) {
-                    loginSuccessful = true;
                     Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
                     startActivity(i);
                 } else {
-                    showErrorMessage();
+                    showIncorrectLoginMessage();
                 }
 
             }
@@ -132,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -198,10 +216,6 @@ public class LoginActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_start, menu);
         return true;
-    }
-
-    class Result {
-        String value;
     }
 
 }

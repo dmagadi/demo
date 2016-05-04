@@ -12,7 +12,8 @@ import android.widget.ListView;
 
 import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
 import com.sngastro.sngcontacts.contact.ContactInfo;
-import com.sngastro.sngcontacts.contact.SelfCertUtils;
+import com.sngastro.sngcontacts.httpclient.SelfCertUtils;
+import com.sngastro.sngcontacts.httpclient.ContactHandler;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class ContactListActivity extends AppCompatActivity {
     }
 
     private void displayList() {
-        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient());
+        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient(), 6);
         if (fail == 1) {
             okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
         }

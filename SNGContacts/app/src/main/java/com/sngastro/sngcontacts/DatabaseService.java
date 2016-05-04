@@ -10,16 +10,17 @@ import android.util.Log;
  * Created by dmagadi on 4/12/16.
  */
 public class DatabaseService {
+    String TAG = "**********************************************************************************************";
     SQLLiteDBHandler dbhandler = null;
 
-    public DatabaseService(Context context){
+    public DatabaseService(Context context) {
 
         dbhandler = new SQLLiteDBHandler(context);
 
     }
 
 
-    public void createSetting(String name, String value){
+    public void createSetting(String name, String value) {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("value", value);
@@ -28,17 +29,15 @@ public class DatabaseService {
 
     }
 
-    public String getSetting(String name){
-        Cursor cursor = handler.getReadableDatabase().rawQuery("select * from SETTING where name = '" + name + "'",null,null);
-        String value ="";
+    public String getSetting(String name) {
+        Cursor cursor = dbhandler.getReadableDatabase().rawQuery("select * from SETTING where name = ?", new String[]{name});
+        String value = "";
 
-        while(!cursor.isLast()) {
+        while (cursor.moveToNext()) {
 
-            cursor.moveToNext();
+            value = cursor.getString(cursor.getColumnIndex("value"));
 
-            value = cursor.getString(1);
-
-            Log.d(TAG, "********************************************************************************************** " + value);
+            Log.d(TAG, value);
 
 
         }
@@ -46,4 +45,9 @@ public class DatabaseService {
         return value;
 
     }
+
+    public void updateSetting(String name, String value) {
+        dbhandler.getWritableDatabase().rawQuery("UPDATE SETTING SET value = ? WHERE name = ?", new String[]{value, name});
+    }
+
 }

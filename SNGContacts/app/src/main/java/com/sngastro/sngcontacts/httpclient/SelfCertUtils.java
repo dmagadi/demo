@@ -1,4 +1,4 @@
-package com.sngastro.sngcontacts.contact;
+package com.sngastro.sngcontacts.httpclient;
 
 import com.squareup.okhttp.OkHttpClient;
 
@@ -16,7 +16,7 @@ import javax.net.ssl.X509TrustManager;
  */
 public class SelfCertUtils {
     @SuppressWarnings("null")
-    public static OkHttpClient configureClient(final OkHttpClient client) {
+    public static OkHttpClient configureClient(final OkHttpClient client, int timeout) {
 
         final TrustManager[] certs = new TrustManager[]{new X509TrustManager() {
 
@@ -57,7 +57,7 @@ public class SelfCertUtils {
             client.setSslSocketFactory(ctx.getSocketFactory());
         } catch (final Exception e) {
         }
-        client.setConnectTimeout(3, TimeUnit.SECONDS);
+        client.setConnectTimeout(timeout, TimeUnit.SECONDS);
         return client;
     }
 

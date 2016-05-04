@@ -20,25 +20,29 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
     public void testCreateSqlLite() {
 
-        Log.d(TAG, "**********************************************************************************************" );
+        Log.d(TAG, "**********************************************************************************************");
 
         try {
             SQLLiteDBHandler handler = new SQLLiteDBHandler(getContext());
             Log.d(TAG, "********************************************************************************************** " + handler.getReadableDatabase().getVersion());
             ContentValues values = new ContentValues();
             values.put("name", "Aslam");
-            values.put("value", "Aamir - Value");
+            values.put("value", "val1");
+
+            ContentValues values2 = new ContentValues();
+            values2.put("name", "Aamir");
+            values2.put("value", "val2");
 
             handler.getWritableDatabase().insert("SETTING", "", values);
+            handler.getWritableDatabase().insert("SETTING", "", values2);
 
-            Cursor cursor = handler.getReadableDatabase().rawQuery("select * from SETTING",null,null);
+            Cursor cursor = handler.getReadableDatabase().rawQuery("select * from SETTING where name = ?", new String[] {"Aamir"});
 
 
-            while(!cursor.isLast()) {
+            while(cursor.moveToNext()) {
 
-                cursor.moveToNext();
 
-                String name = cursor.getString(0);
+                String name = cursor.getString(1);
 
                 Log.d(TAG, "********************************************************************************************** " + name);
             }
@@ -50,6 +54,10 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
 
 
+    }
+
+    public void testDropDatabase() {
+        getContext().deleteDatabase("SNGContactsDB");
     }
 
 }

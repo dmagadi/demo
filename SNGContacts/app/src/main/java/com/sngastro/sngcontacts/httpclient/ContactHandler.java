@@ -1,4 +1,4 @@
-package com.sngastro.sngcontacts;
+package com.sngastro.sngcontacts.httpclient;
 
 import com.sngastro.sngcontacts.contact.ContactInfo;
 
@@ -18,5 +18,5 @@ public interface ContactHandler {
     public void readContacts(Callback<ArrayList<ContactInfo>> response);
 
     @GET("/login")
-    public void doLogin(@QueryMap Map<String, String> options,Callback<LoginActivity.Result> response);
+    public void doLogin(@QueryMap Map<String, String> options,Callback<Result> response);
 }
