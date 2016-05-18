@@ -18,4 +18,13 @@ public class Email implements Serializable {
     public String getType() {
         return type;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

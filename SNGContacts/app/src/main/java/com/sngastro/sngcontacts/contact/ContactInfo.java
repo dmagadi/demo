@@ -33,4 +33,20 @@ public class ContactInfo implements Serializable {
         return emails;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumbers(ArrayList<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    public void setEmails(ArrayList<Email> emails) {
+        this.emails = emails;
+    }
+
 }

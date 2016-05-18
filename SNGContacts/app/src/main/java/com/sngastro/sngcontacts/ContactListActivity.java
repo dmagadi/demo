@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
 import com.sngastro.sngcontacts.contact.ContactInfo;
+import com.sngastro.sngcontacts.httpclient.ClientHandler;
 import com.sngastro.sngcontacts.httpclient.SelfCertUtils;
 import com.sngastro.sngcontacts.httpclient.ContactHandler;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,10 +32,12 @@ public class ContactListActivity extends AppCompatActivity {
 
     ArrayList<ContactInfo> contactList;
 
+    ClientHandler clientHandler;
+
 
     private ListAdapter adapter = null;
     ListView listView;
-    int fail = 0;
+    //int fail = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,23 @@ public class ContactListActivity extends AppCompatActivity {
         // display custom view and display name number and a call button
 
         listView = (ListView) findViewById(R.id.contactListView);
-        contactList = new ArrayList<>();
+        Bundle extras = getIntent().getExtras();
+        clientHandler = (ClientHandler) extras.getSerializable("ClientHandler");
+        contactList = (ArrayList<ContactInfo>) extras.get("ContactInfoList");
+        adapter = new ContactArrayAdapter(this, contactList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
+                Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
 
-        displayList();
-
+                ArrayList<ContactInfo> list = new ArrayList<>();
+                list.add(contactInfo);
+                i.putExtra("ContactInfo", list);
+                startActivity(i);
+            }
+        });
 
         Log.i(TAG, "onListActivityCreate");
 
@@ -123,7 +139,7 @@ public class ContactListActivity extends AppCompatActivity {
         finish();
     }
 
-    private void displayList() {
+/*    private void displayList() {
         OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient(), 6);
         if (fail == 1) {
             okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
@@ -149,7 +165,7 @@ public class ContactListActivity extends AppCompatActivity {
                         ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
                         Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
 
-                        ArrayList<ContactInfo> list = new ArrayList<ContactInfo>();
+                        ArrayList<ContactInfo> list = new ArrayList<>();
                         list.add(contactInfo);
                         i.putExtra("ContactInfo", list);
                         startActivity(i);
@@ -174,6 +190,6 @@ public class ContactListActivity extends AppCompatActivity {
             }
 
         });
-    }
+    }*/
 
 }

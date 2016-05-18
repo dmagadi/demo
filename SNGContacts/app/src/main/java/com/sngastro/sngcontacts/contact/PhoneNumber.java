@@ -18,4 +18,12 @@ public class PhoneNumber implements Serializable {
         return type;
     }
 
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

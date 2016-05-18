@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.httpclient.ClientHandler;
+import com.sngastro.sngcontacts.httpclient.IGetContacts;
+import com.sngastro.sngcontacts.httpclient.ILogin;
 import com.sngastro.sngcontacts.httpclient.SelfCertUtils;
 import com.sngastro.sngcontacts.httpclient.ContactHandler;
 import com.sngastro.sngcontacts.httpclient.Result;
@@ -18,6 +21,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -35,10 +39,12 @@ public class LoginActivity extends AppCompatActivity {
     String user = null;
     EditText passField;
     EditText userField;
-    int fail = 0;
+    //int fail = 0;
     String passwordHash;
     Button btn;
-    protected static String ENDPOINT = "https://192.168.3.114:61120";
+    //protected static String ENDPOINT = "https://192.168.3.114:61120";
+
+    ClientHandler clientHandler;
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
@@ -59,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         userField = (EditText) findViewById(R.id.userField);
         passField = (EditText) findViewById(R.id.passwordField);
         btn = (Button) findViewById(R.id.button);
+        clientHandler = new ClientHandler();
         Log.i(TAG, "onCreate");
     }
 
@@ -77,20 +84,38 @@ public class LoginActivity extends AppCompatActivity {
         passwordHash = createHexString(thedigest);
 
 
-        Boolean login = ClientHandler.login(user, passwordHash);
-        btn.setEnabled(true);
-        passField.setText("");
+        clientHandler.login(user, passwordHash, new ILogin() {
+            @Override
+            public void onSuccessfulLoginAttempt(Boolean loginSuccessful) {
+                passField.setText("");
+                btn.setEnabled(true);
+                if (loginSuccessful) {
+                    clientHandler.getContactsFromServer(new IGetContacts() {
+                        @Override
+                        public void successfulGetContacts(ArrayList<ContactInfo> contactInfoArrayList) {
+                            Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
+                            i.putExtra("ContactInfoList", contactInfoArrayList);
+                            i.putExtra("ClientHandler", clientHandler);
+                            startActivity(i);
+                        }
 
-        try {
-            if (login) {
-                Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
-                startActivity(i);
-            } else {
-                showIncorrectLoginMessage();
+                        @Override
+                        public void failedToGetContacts() {
+                            showErrorMessage();
+                        }
+                    });
+                } else {
+                    showIncorrectLoginMessage();
+                }
             }
-        } catch (Exception e) {
-            showErrorMessage();
-        }
+
+            @Override
+            public void onFailedLoginAttempt() {
+                passField.setText("");
+                btn.setEnabled(true);
+                showErrorMessage();
+            }
+        });
 
         Log.i(TAG, "onClick");
     }
