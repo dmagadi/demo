@@ -82,7 +82,7 @@ public class DatabaseService {
             phoneNumberCursor.close();
             contactInfo.setPhoneNumbers(phoneNumbers);
             ArrayList<Email> emails = new ArrayList<>();
-            emailCursor = dbhandler.getReadableDatabase().rawQuery("SELECT * from", new String[]{String.valueOf(id)});
+            emailCursor = dbhandler.getReadableDatabase().rawQuery("SELECT * from EMAIL WHERE contact_id = ?", new String[]{String.valueOf(id)});
             while (emailCursor.moveToNext()) {
                 Email email = new Email();
                 email.setEmail(emailCursor.getString(emailCursor.getColumnIndex("email")));
@@ -97,6 +97,18 @@ public class DatabaseService {
         cursor.close();
 
         return contactInfoArrayList;
+
+    }
+
+    public void setContactInfos(ArrayList<ContactInfo> contactInfos) {
+
+        dbhandler.getWritableDatabase().execSQL("PRAGMA foreign_keys = OFF;");
+        dbhandler.getWritableDatabase().execSQL("DELETE * FROM PHONE_NUMBERS;");
+        dbhandler.getWritableDatabase().execSQL("DELETE * FROM EMAIL;");
+        dbhandler.getWritableDatabase().execSQL("DELETE * FROM CONTACT_INFO;");
+        dbhandler.getWritableDatabase().execSQL("PRAGMA foreign_keys = ON;");
+
+        
 
     }
 
