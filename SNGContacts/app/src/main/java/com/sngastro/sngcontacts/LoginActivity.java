@@ -94,13 +94,15 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void successfulGetContacts(ArrayList<ContactInfo> contactInfoArrayList) {
                             Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
+
                             i.putExtra("ContactInfoList", contactInfoArrayList);
-                            i.putExtra("ClientHandler", clientHandler);
+
                             startActivity(i);
                         }
 
                         @Override
                         public void failedToGetContacts() {
+                            Log.d(TAG, "failedToGetContacts()");
                             showErrorMessage();
                         }
                     });
@@ -113,6 +115,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailedLoginAttempt() {
                 passField.setText("");
                 btn.setEnabled(true);
+                Log.d(TAG, "onFailedLoginAttempt()");
+
                 showErrorMessage();
             }
         });

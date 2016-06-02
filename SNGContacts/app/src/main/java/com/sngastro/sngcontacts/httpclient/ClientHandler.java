@@ -1,6 +1,8 @@
 package com.sngastro.sngcontacts.httpclient;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.squareup.okhttp.OkHttpClient;
@@ -37,7 +39,7 @@ public class ClientHandler implements Serializable {
     private void createClient(String endpoint, int timeout) {
 
         client = SelfCertUtils.configureClient(new OkHttpClient(), timeout);
-        restAdapter = new RestAdapter.Builder().setClient(new OkClient(client)).setEndpoint(INTERNAL_ENDPOINT).build();
+        restAdapter = new RestAdapter.Builder().setClient(new OkClient(client)).setEndpoint(endpoint).build();
         handler = restAdapter.create(ContactHandler.class);
 
     }
