@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sngastro.sngcontacts.ContactViewActivity;
+import com.sngastro.sngcontacts.activity.ContactViewActivity;
 import com.sngastro.sngcontacts.R;
 import com.sngastro.sngcontacts.contact.PhoneNumber;
 

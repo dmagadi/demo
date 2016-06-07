@@ -21,11 +21,11 @@ import retrofit.client.Response;
 /**
  * Created by Aamir on 5/15/2016.
  */
-public class ClientHandler implements Serializable {
+public class ClientHandler {
 
     private int fail = 0;
-    private String INTERNAL_ENDPOINT = "https://192.168.3.114:61120";
-    private String EXTERNAL_ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
+    private static String INTERNAL_ENDPOINT = "https://192.168.3.114:61120";
+    private static String EXTERNAL_ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
     private OkHttpClient client;
     private RestAdapter restAdapter;
     private ContactHandler handler;
@@ -54,14 +54,14 @@ public class ClientHandler implements Serializable {
         handler.doLogin(params, new Callback<Result>() {
             @Override
             public void success(Result result, Response response) {
-                loginInterface.onSuccessfulLoginAttempt(result.value.equalsIgnoreCase("SUCCESS"));
+                loginInterface.onLoginAttempt(Boolean.valueOf(result.value.equalsIgnoreCase("SUCCESS")));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 fail++;
                 if (fail >= 2) {
-                    loginInterface.onFailedLoginAttempt();
+                    loginInterface.onLoginAttempt(null);
                 } else {
                     createClient(EXTERNAL_ENDPOINT, 15);
                     login(user, passwordhash, loginInterface);

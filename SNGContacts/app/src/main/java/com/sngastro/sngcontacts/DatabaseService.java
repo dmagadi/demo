@@ -10,14 +10,15 @@ import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.contact.Email;
 import com.sngastro.sngcontacts.contact.PhoneNumber;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by dmagadi on 4/12/16.
  */
 public class DatabaseService {
-    String TAG = "**********************************************************************************************";
-    SQLLiteDBHandler dbhandler = null;
+    private String TAG = "**********************************************************************************************";
+    private SQLLiteDBHandler dbhandler = null;
 
     public DatabaseService(Context context) {
 
@@ -63,7 +64,7 @@ public class DatabaseService {
 
         Cursor cursor;
 
-        cursor = dbhandler.getReadableDatabase().rawQuery("SELECT * FROM CONTACT_INFO", null);
+        cursor = dbhandler.getReadableDatabase().rawQuery("SELECT * FROM CONTACT_INFO ORDER BY LastName, FirstName", null);
         Cursor phoneNumberCursor;
         Cursor emailCursor;
         while (cursor.moveToNext()) {
@@ -103,12 +104,36 @@ public class DatabaseService {
     public void setContactInfos(ArrayList<ContactInfo> contactInfos) {
 
         dbhandler.getWritableDatabase().execSQL("PRAGMA foreign_keys = OFF;");
-        dbhandler.getWritableDatabase().execSQL("DELETE * FROM PHONE_NUMBERS;");
-        dbhandler.getWritableDatabase().execSQL("DELETE * FROM EMAIL;");
-        dbhandler.getWritableDatabase().execSQL("DELETE * FROM CONTACT_INFO;");
+        if (dbhandler.getReadableDatabase().rawQuery("SELECT * FROM PHONE_NUMBERS;", null).moveToNext()) {
+            dbhandler.getWritableDatabase().execSQL("DELETE FROM PHONE_NUMBERS;");
+        }
+        if (dbhandler.getReadableDatabase().rawQuery("SELECT * FROM EMAIL;", null).moveToNext()) {
+            dbhandler.getWritableDatabase().execSQL("DELETE FROM EMAIL;");
+        }
+        if (dbhandler.getReadableDatabase().rawQuery("SELECT * FROM CONTACT_INFO;", null).moveToNext()) {
+            dbhandler.getWritableDatabase().execSQL("DELETE FROM CONTACT_INFO;");
+        }
         dbhandler.getWritableDatabase().execSQL("PRAGMA foreign_keys = ON;");
-
-        
+        for (ContactInfo i: contactInfos) {
+            ContentValues values = new ContentValues();
+            values.put("FirstName", i.getFirstName());
+            values.put("LastName", i.getLastName());
+            long id = dbhandler.getWritableDatabase().insert("CONTACT_INFO", "", values);
+            for (PhoneNumber n: i.getPhoneNumbers()) {
+                ContentValues values1 = new ContentValues();
+                values1.put("phone_number", n.getNumber());
+                values1.put("phone_type", n.getType());
+                values1.put("contact_id", id);
+                dbhandler.getWritableDatabase().insert("PHONE_NUMBERS", "", values1);
+            }
+            for (Email e: i.getEmails()) {
+                ContentValues values2 = new ContentValues();
+                values2.put("email", e.getEmail());
+                values2.put("email_type", e.getType());
+                values2.put("contact_id", id);
+                dbhandler.getWritableDatabase().insert("EMAIL", "", values2);
+            }
+        }
 
     }
 

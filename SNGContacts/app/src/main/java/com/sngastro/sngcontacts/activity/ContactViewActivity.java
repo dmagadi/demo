@@ -1,4 +1,4 @@
-package com.sngastro.sngcontacts;
+package com.sngastro.sngcontacts.activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.sngastro.sngcontacts.R;
 import com.sngastro.sngcontacts.adapter.EmailAdapter;
 import com.sngastro.sngcontacts.adapter.PhoneNumberAdapter;
 import com.sngastro.sngcontacts.contact.ContactInfo;

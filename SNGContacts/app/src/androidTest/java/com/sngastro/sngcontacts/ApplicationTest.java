@@ -15,9 +15,17 @@ import java.util.concurrent.ExecutionException;
 public class ApplicationTest extends ApplicationTestCase<Application> {
     String TAG = "ApplicationTest";
     public ApplicationTest() {
-
         super(Application.class);
     }
+
+    public void testAddRecord() {
+        SQLLiteDBHandler handler = new SQLLiteDBHandler(getContext());
+        ContentValues values = new ContentValues();
+        values.put("FirstName", "Aamir");
+        values.put("LastName", "Godil");
+        handler.getWritableDatabase().insert("CONTACT_INFO", "", values);
+    }
+
     public void testCreateSqlLite() {
 
         Log.d(TAG, "**********************************************************************************************");

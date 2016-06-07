@@ -5,8 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
-
+import java.io.Serializable;
 /**
  * Created by dmagadi on 3/29/16.
  */
@@ -21,11 +20,11 @@ public class SQLLiteDBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_SETTING = "create table if not exists SETTING " +
             "(name text primary key not null, value text not null);";
     private static final String CREATE_TABLE_CONTACT_INFO = "CREATE TABLE IF NOT EXISTS CONTACT_INFO " +
-            "(contact_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, FirstName text NOT NULL, LastName text NOT NULL);";
+            "(contact_id INTEGER PRIMARY KEY NOT NULL, FirstName text NOT NULL, LastName text NOT NULL);";
     public static final String CREATE_TABLE_PHONE_NUMBERS = "CREATE TABLE IF NOT EXISTS PHONE_NUMBERS " +
-            "(id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, phone_number text NOT NULL, phone_type text NOT NULL, contact_id int(11) NOT NULL, FOREIGN KEY (contact_id) REFERENCES CONTACT_INFO(contact_id));";
+            "(id INTEGER PRIMARY KEY NOT NULL, phone_number text NOT NULL, phone_type text NOT NULL, contact_id INTEGER NOT NULL, FOREIGN KEY (contact_id) REFERENCES CONTACT_INFO(contact_id));";
     public static final String CREATE_TABLE_EMAIL = "CREATE TABLE IF NOT EXISTS EMAIL " +
-            "(id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, email text NOT NULL, email_type text NOT NULL, contact_id int(11) NOT NULL, FOREIGN KEY (contact_id) REFERENCES CONTACT_INFO(contact_id));";
+            "(id INTEGER PRIMARY KEY NOT NULL, email text NOT NULL, email_type text NOT NULL, contact_id INTEGER NOT NULL, FOREIGN KEY (contact_id) REFERENCES CONTACT_INFO(contact_id));";
 
     public SQLLiteDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

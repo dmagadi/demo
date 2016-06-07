@@ -1,4 +1,4 @@
-package com.sngastro.sngcontacts;
+package com.sngastro.sngcontacts.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,30 +10,26 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.sngastro.sngcontacts.DatabaseService;
+import com.sngastro.sngcontacts.R;
+import com.sngastro.sngcontacts.SNGContactInfoApplication;
 import com.sngastro.sngcontacts.adapter.ContactArrayAdapter;
 import com.sngastro.sngcontacts.contact.ContactInfo;
 import com.sngastro.sngcontacts.httpclient.ClientHandler;
-import com.sngastro.sngcontacts.httpclient.SelfCertUtils;
-import com.sngastro.sngcontacts.httpclient.ContactHandler;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.OkClient;
-import retrofit.client.Response;
 
 public class ContactListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
 
+    SNGContactInfoApplication application;
+
     ArrayList<ContactInfo> contactList;
 
-    ClientHandler clientHandler;
+    ClientHandler handler;
 
+    DatabaseService service;
 
     private ListAdapter adapter = null;
     ListView listView;
@@ -51,7 +47,9 @@ public class ContactListActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.contactListView);
         Bundle extras = getIntent().getExtras();
-        clientHandler = (ClientHandler) extras.getSerializable("ClientHandler");
+        application = (SNGContactInfoApplication) getApplication();
+        handler = application.getClientHandler();
+        service = application.getDatabaseService();
         contactList = (ArrayList<ContactInfo>) extras.get("ContactInfoList");
         adapter = new ContactArrayAdapter(this, contactList);
         listView.setAdapter(adapter);
@@ -59,12 +57,13 @@ public class ContactListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
-                Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
+                Intent i = new Intent(ContactListActivity.this.getApplicationContext(), ContactViewActivity.class);
 
                 ArrayList<ContactInfo> list = new ArrayList<>();
                 list.add(contactInfo);
                 i.putExtra("ContactInfo", list);
-                startActivity(i);
+                ContactListActivity.this.startActivity(i);
+
             }
         });
 

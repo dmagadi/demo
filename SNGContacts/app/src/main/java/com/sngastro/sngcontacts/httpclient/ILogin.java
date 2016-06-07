@@ -5,8 +5,6 @@ package com.sngastro.sngcontacts.httpclient;
  */
 public interface ILogin {
 
-    void onSuccessfulLoginAttempt(Boolean loginSuccessful);
-
-    void onFailedLoginAttempt();
+    void onLoginAttempt(Boolean loginSuccessful);
 
 }
