@@ -63,7 +63,7 @@ public class ClientHandler {
                 if (fail >= 2) {
                     loginInterface.onLoginAttempt(null);
                 } else {
-                    createClient(EXTERNAL_ENDPOINT, 15);
+                    createClient(EXTERNAL_ENDPOINT, 20);
                     login(user, passwordhash, loginInterface);
                 }
             }
