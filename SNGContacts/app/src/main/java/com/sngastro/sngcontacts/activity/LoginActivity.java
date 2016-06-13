@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sngastro.sngcontacts.DatabaseService;
 import com.sngastro.sngcontacts.R;
 import com.sngastro.sngcontacts.SNGContactInfoApplication;
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     startListActivity(service.getContactInfos());
                 } else {
                     if (loginSuccessful) {
+
                         handler.getContactsFromServer(new IGetContacts() {
                             @Override
                             public void successfulGetContacts(ArrayList<ContactInfo> contactInfoArrayList) {
@@ -112,8 +115,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startListActivity(ArrayList<ContactInfo> contactInfoArrayList) {
         Intent i = new Intent(getApplicationContext(), ContactListActivity.class);
-
-        i.putExtra("ContactInfoList", contactInfoArrayList);
 
         startActivity(i);
     }
