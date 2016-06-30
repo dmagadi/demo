@@ -1,5 +1,6 @@
 package com.sngastro.sngcontacts;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.sngastro.sngcontacts.httpclient.ClientHandler;

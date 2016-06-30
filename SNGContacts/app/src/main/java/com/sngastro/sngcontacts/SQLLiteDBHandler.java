@@ -1,5 +1,6 @@
 package com.sngastro.sngcontacts;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,7 +15,7 @@ public class SQLLiteDBHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "SNGContactsDB";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database creation sql statement
     private static final String CREATE_TABLE_SETTING = "create table if not exists SETTING " +
@@ -34,6 +35,9 @@ public class SQLLiteDBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SETTING);
+        if (!database.rawQuery("select * from SETTING where name = jwt", null).moveToNext()) {
+            createSetting("jwt", "");
+        }
         database.execSQL(CREATE_TABLE_CONTACT_INFO);
         database.execSQL(CREATE_TABLE_PHONE_NUMBERS);
         database.execSQL(CREATE_TABLE_EMAIL);
@@ -51,5 +55,12 @@ public class SQLLiteDBHandler extends SQLiteOpenHelper {
         onCreate(database);
     }
 
+    private void createSetting(String name, String value) {
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("value", value);
+        // check duplicate and update
+        getWritableDatabase().insert("SETTING", "", values);
+    }
 
 }

@@ -26,16 +26,6 @@ public class DatabaseService {
 
     }
 
-
-    public void createSetting(String name, String value) {
-        ContentValues values = new ContentValues();
-        values.put("name", name);
-        values.put("value", value);
-        // check duplicate and update
-        dbhandler.getWritableDatabase().insert("SETTING", "", values);
-
-    }
-
     public String getSetting(String name) {
         Cursor cursor = dbhandler.getReadableDatabase().rawQuery("select * from SETTING where name = ?", new String[]{name});
         String value = "";

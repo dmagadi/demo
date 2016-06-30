@@ -28,11 +28,11 @@ public class ContactsServer {
      */
     static boolean login = false;
     public static void main(String[] args) {
-
+        
         Config.initProperties("ContactsServer");
         
         SparkBase.port(Integer.parseInt(Config.getProperty("apiport", "8888")));
-
+        
         SparkBase.secure(System.getProperty("user.home") + "/ContactsServer/keystore.jks", "password", null, null);
 
         Gson gson = new Gson();
@@ -56,6 +56,7 @@ public class ContactsServer {
             Result result = doLogin(user, passwordHash);
             if (result.value.equals("SUCCESS")) {
                 login = true;
+                
             }
             return result; // replace this with Result Object 
         }, gson::toJson);
