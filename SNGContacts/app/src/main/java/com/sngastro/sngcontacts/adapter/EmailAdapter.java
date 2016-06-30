@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sngastro.sngcontacts.R;
 import com.sngastro.sngcontacts.contact.Email;
@@ -39,9 +40,10 @@ public class EmailAdapter extends ArrayAdapter<Email> {
         copyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*ClipboardManager clipboard = (ClipboardManager)   getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Copied", email.getEmail());
-                clipboard.setPrimaryClip(clip);*/
+                ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Label", email.getEmail());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(v.getContext().getApplicationContext(), "Email copied to clipboard", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

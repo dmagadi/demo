@@ -2,6 +2,7 @@ package com.sngastro.sngcontacts.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.WorkerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -46,23 +47,22 @@ public class ContactListActivity extends AppCompatActivity {
         // display custom view and display name number and a call button
 
         listView = (ListView) findViewById(R.id.contactListView);
-        Bundle extras = getIntent().getExtras();
         application = (SNGContactInfoApplication) getApplication();
         handler = application.getClientHandler();
         service = application.getDatabaseService();
-        contactList = (ArrayList<ContactInfo>) extras.get("ContactInfoList");
+        contactList = service.getContactInfos();
         adapter = new ContactArrayAdapter(this, contactList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
-                Intent i = new Intent(ContactListActivity.this.getApplicationContext(), ContactViewActivity.class);
+                Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
 
                 ArrayList<ContactInfo> list = new ArrayList<>();
                 list.add(contactInfo);
                 i.putExtra("ContactInfo", list);
-                ContactListActivity.this.startActivity(i);
+                startActivity(i);
 
             }
         });
@@ -138,57 +138,6 @@ public class ContactListActivity extends AppCompatActivity {
         finish();
     }
 
-/*    private void displayList() {
-        OkHttpClient okHttpClient = SelfCertUtils.configureClient(new OkHttpClient(), 6);
-        if (fail == 1) {
-            okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
-        }
-        adapter = new ContactArrayAdapter(this, contactList);
 
-
-
-
-        RestAdapter restAdapter = new RestAdapter.Builder().setClient(new OkClient(okHttpClient)).setEndpoint(LoginActivity.ENDPOINT).build();
-        LoginActivity.ENDPOINT = "https://192.168.3.114:61120";
-        ContactHandler handler = restAdapter.create(ContactHandler.class);
-        handler.readContacts(new Callback<ArrayList<ContactInfo>>() {
-
-            @Override
-            public void success(ArrayList<ContactInfo> contactInfos, Response response) {
-                contactList.addAll(contactInfos);
-
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ContactInfo contactInfo = (ContactInfo) listView.getItemAtPosition(position);
-                        Intent i = new Intent(getApplicationContext(), ContactViewActivity.class);
-
-                        ArrayList<ContactInfo> list = new ArrayList<>();
-                        list.add(contactInfo);
-                        i.putExtra("ContactInfo", list);
-                        startActivity(i);
-                    }
-                });
-
-
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.i(TAG, "failure");
-                fail++;
-                if (fail >= 2) {
-
-                } else {
-                    LoginActivity.ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
-                    displayList();
-                }
-
-            }
-
-        });
-    }*/
 
 }
