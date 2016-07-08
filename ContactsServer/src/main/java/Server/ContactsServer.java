@@ -10,7 +10,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.xml.ws.WebServiceException;
+import org.pac4j.core.context.WebContext;
+import org.pac4j.core.profile.CommonProfile;
+import org.pac4j.core.profile.ProfileManager;
+import org.pac4j.core.profile.UserProfile;
+import org.pac4j.jwt.profile.JwtGenerator;
+import org.pac4j.sparkjava.CallbackRoute;
+import org.pac4j.sparkjava.RequiresAuthenticationFilter;
 import org.slf4j.LoggerFactory;
+import spark.Route;
+import static spark.Spark.before;
 import static spark.Spark.get;
 import spark.SparkBase;
 import utils.Config;
@@ -27,6 +39,10 @@ public class ContactsServer {
      * @param args
      */
     static boolean login = false;
+    
+    private final static String JWT_SALT = "12345678901234567890123456789012";
+
+    
     public static void main(String[] args) {
         
         Config.initProperties("ContactsServer");
@@ -34,15 +50,22 @@ public class ContactsServer {
         SparkBase.port(Integer.parseInt(Config.getProperty("apiport", "8888")));
         
         SparkBase.secure(System.getProperty("user.home") + "/ContactsServer/keystore.jks", "password", null, null);
-
+        
+        final org.pac4j.core.config.Config config = new SNGConfigFactory(JWT_SALT).build();
+        
+        final Route callback = new CallbackRoute(config);
+        
+        
+        before("/contacts", new RequiresAuthenticationFilter(config, "ParameterClient", "excludedPath"));
+        
+        
         Gson gson = new Gson();
 
         get("/contacts", "application/json", (req, res) -> {
             LoggerFactory.getLogger("main").info("Returning contacts from the server...");
             ArrayList<ContactInfo> contactList = null;
-            if (login) {
+            
                 contactList = getAllContacts();
-            }
             login = false;
             return contactList;
         }, gson::toJson);
@@ -61,25 +84,29 @@ public class ContactsServer {
             return result; // replace this with Result Object 
         }, gson::toJson);
 
-        get("/stop", (request, response) -> {
-            
-            String stop = "null";
-            
-            if (login) {
-                
-                stop = "stopped";
-                SparkBase.stop();
-                LoggerFactory.getLogger("main").warn("Stopping the server...");
-                
-            } else {
-                stop = "not stopped";
-            }
-            
-            return stop;
-            
-        });
+//        get("/stop", (request, response) -> {
+//            
+//            String stop = "null";
+//            
+//            if (login) {
+//                
+//                stop = "stopped";
+//                SparkBase.stop();
+//                LoggerFactory.getLogger("main").warn("Stopping the server...");
+//                
+//            } else {
+//                stop = "not stopped";
+//            }
+//            
+//            return stop;
+//            
+//        });
     }
 
+    
+    
+    
+    
     private static ArrayList<ContactInfo> getAllContacts() {
         Connection conn = null;
         PreparedStatement getContacts = null;
@@ -150,7 +177,9 @@ public class ContactsServer {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
+        if((user == null || user.isEmpty())  || (passwordHash == null || passwordHash.isEmpty()) ){
+            throw new WebServiceException("User and Password cannot be empty");
+        }
         try {
 
             conn = DBConnectionHandler.getConnectionToDatabase();
@@ -160,6 +189,7 @@ public class ContactsServer {
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 result.value = "SUCCESS";
+                result.token = generateToken(user, "Admin");
             } else {
                 result.value = "FAILURE";
             }
@@ -175,6 +205,22 @@ public class ContactsServer {
         }
         return result;
     }
+  
+    
+  
+    public static String  generateToken(String username, String permission){
+        final JwtGenerator generator = new JwtGenerator(JWT_SALT);
+        String token = "";
+        UserProfile userProfile = new UserProfile();
+        userProfile.setId(username);
+        userProfile.addPermission(permission);
+        userProfile.addAttribute("Expiry", new Date());
+        //userProfile.setRemembered(true);
+        
+        return generator.generate(userProfile);
+        
+    }
+    
 
     static class ContactInfo {
 
@@ -188,6 +234,7 @@ public class ContactsServer {
     static class Result {
 
         public String value;
+        public String token;
 
     }
 
