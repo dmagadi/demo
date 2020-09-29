@@ -24,7 +24,7 @@ import retrofit.client.Response;
 public class ClientHandler {
 
     private int fail = 0;
-    private static String INTERNAL_ENDPOINT = "https://192.168.3.114:61120";
+    //private static String INTERNAL_ENDPOINT = "https://internalip:61120";
     private static String EXTERNAL_ENDPOINT = "https://sngcontactinfo.duckdns.org:61120";
     private OkHttpClient client;
     private RestAdapter restAdapter;
@@ -32,7 +32,7 @@ public class ClientHandler {
 
     public ClientHandler() {
 
-        createClient(INTERNAL_ENDPOINT, 4);
+        createClient(EXTERNAL_ENDPOINT, 4);
 
     }
 
@@ -63,7 +63,7 @@ public class ClientHandler {
                 if (fail >= 2) {
                     loginInterface.onLoginAttempt(null);
                 } else {
-                    createClient(EXTERNAL_ENDPOINT, 20);
+                    createClient(INTERNAL_ENDPOINT, 20);
                     login(user, passwordhash, loginInterface);
                 }
             }
